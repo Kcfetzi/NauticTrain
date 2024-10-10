@@ -1,0 +1,32 @@
+Stephan:
+	- NPCs verhalten
+	- Schiffcontroller
+	- Fragen
+	- Schiffphysik (Beschleunigung und bremsen, Drehkreis)
+
+
+Martin:
+	- 3D (Brücke, Terrain, andere Schiffe, Tonnen, Leuchttürme)
+	- Radar
+	- ECDIS
+	- Peilung, Fernglas
+	- event. Eingabemaske für Kurs und Geschwindigkeit
+	- Schiffphysik (visuelles - schaukeln usw.)
+
+
+Abhängigkeiten:
+
+	Setzen:	
+		- Momentane Richtung, momentane Geschwindigkeit, momentane Position
+
+	Zugriff:
+		- Zugriff auf alle Tonnen, Schiffe, Leuchttürme
+		- ECDIS (Schiff mit 5 Eckpunkten) Pixel unter den Eckpunkten (Farben)
+		- Bei Eigenschiff, Zugriff auf Eingaben
+	
+Erste Schritte:
+	- ECDIS ähnliche Karte
+	- Verkehrsteilnehmer
+	- Popup für Messages und Eingabe
+	- Schiffseingabe für Bewegung
+	

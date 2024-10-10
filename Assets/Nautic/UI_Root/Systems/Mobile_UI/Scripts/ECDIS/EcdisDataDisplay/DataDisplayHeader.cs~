@@ -1,0 +1,16 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+
+public class DataDisplayHeader : MonoBehaviour
+{
+    [SerializeField] private TMP_Text m_Date;
+    [SerializeField] private TMP_Text m_Time;
+
+    private void Update()
+    {
+        m_Date.text = System.DateTime.Now.ToShortDateString();
+    }
+}

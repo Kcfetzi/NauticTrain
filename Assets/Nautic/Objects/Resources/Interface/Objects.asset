@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7749a9586045354b98357bc7d7dc86b, type: 3}
+  m_Name: Objects
+  m_EditorClassIdentifier: 
+  SceneName: Objects
+  Author: Martin Zedler
+  CreationDate: 
+  ContactEmail: 
+  RootFolder: {fileID: 102900000, guid: b782c9b7b7b52524e8ef4e073aed0aa0, type: 3}
+  Notes: 
+  IsActive: 0
+  _mineSweeper: {fileID: 3161650912272036115, guid: 7f3b7fd0b951a434b8b52a19e41ae933, type: 3}
+  _cargo: {fileID: 3161650912272036115, guid: 07fd7ee17fdc057498df2a3e52b689a2, type: 3}
+  _ton: {fileID: 3161650912272036115, guid: c50fb16323ac3304aa2e555f64fe15d9, type: 3}
+  _point: {fileID: 3161650912272036115, guid: 9d26368ee6d852a4db097c7293d0f10c, type: 3}

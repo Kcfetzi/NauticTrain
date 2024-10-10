@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3b656d4eaf6e264aa30777bc8a0cc54, type: 3}
+  m_Name: Mobile_Messina
+  m_EditorClassIdentifier: 
+  SceneName: Mobile_Messina
+  Author: Martin Zedler
+  CreationDate: 
+  ContactEmail: 
+  RootFolder: {fileID: 102900000, guid: afe876c8496e64647ba185efb986500c, type: 3}
+  Notes: 
+  IsActive: 0
