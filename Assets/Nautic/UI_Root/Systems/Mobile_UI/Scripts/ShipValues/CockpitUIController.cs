@@ -1,5 +1,4 @@
 using System;
-using MPUIKIT;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,8 +15,8 @@ public class CockpitUIController : MonoBehaviour
     [Header("ControllPanelCanvas")] 
     [SerializeField] private RectTransform _panel;
     [SerializeField] private RectTransform _rect;
-    
-    [SerializeField] private Slider _ruderSlider;
+
+    [SerializeField] private RuderKnob _ruderKnob;
     [SerializeField] private Slider _thrustSlider;
     
     [SerializeField] private TMP_Text _ruderText;
@@ -40,7 +39,6 @@ public class CockpitUIController : MonoBehaviour
     
     private void Awake()
     {
-        _ruderSlider.onValueChanged.AddListener(AddToWantedRuderValue);
         _thrustSlider.onValueChanged.AddListener(AddToWantedThrust);
     }
 
@@ -56,12 +54,12 @@ public class CockpitUIController : MonoBehaviour
         {
             _ruderImage.localRotation = Quaternion.Euler(new Vector3(0, 0, _displayedData.RuderValue));
             
-            _ruderSlider.SetValueWithoutNotify(_displayedData.RuderValue);
+            _ruderKnob.SetRotation(_displayedData.RuderValue);
             _thrustSlider.SetValueWithoutNotify(_displayedData.ThrustValue);
             
             _ruderText.text = _displayedData.RuderValue + " \u00B0";
-            _wantedThrustText.text = _displayedData.ThrustValue + " KN";
-            _thrustText.text = _displayedData.ThrustValue + " KN";
+            _wantedThrustText.text = _displayedData.ThrustValue.ToString();
+            _thrustText.text = _displayedData.ThrustValue.ToString();
             _wantedTrust = _displayedData.ThrustValue;
         } else 
         {
@@ -73,7 +71,7 @@ public class CockpitUIController : MonoBehaviour
                     _displayedData.WantedCourse = _wantedCourse;
                 } else
                 {
-                    _displayedData.RuderValue = _ruderSlider.value;
+                    _displayedData.RuderValue = _ruderKnob.Rotation;
                 }
                 _setCourse = false;
                 _displayedData.UserInteract = false;
@@ -86,14 +84,12 @@ public class CockpitUIController : MonoBehaviour
     {
         if (!obj)
         {
-            _ruderSlider.enabled = false;
             _thrustSlider.enabled = false;
             _thrustChanger.SetActive(false);
             return;
         }
 
         _thrustSlider.enabled = true;
-        _ruderSlider.enabled = true;
         _thrustChanger.SetActive(true);
         
         _displayedData = obj.Data;
@@ -101,7 +97,7 @@ public class CockpitUIController : MonoBehaviour
         _thrustSlider.value = _displayedData.ThrustValue;
         _thrustText.text = _displayedData.ThrustValue + " KN";
         
-        _ruderSlider.value = _displayedData.RuderValue;
+        _ruderKnob.SetRotation(_displayedData.RuderValue);
         _ruderImage.localRotation = Quaternion.Euler(new Vector3(0, 0, _displayedData.RuderValue));
         _ruderText.text = _displayedData.RuderValue + " \u00B0";
     }
@@ -119,7 +115,7 @@ public class CockpitUIController : MonoBehaviour
          _wantedThrustText.text = _wantedTrust + " KN";
     }
 
-    private void AddToWantedRuderValue(float amount)
+    public void SetWantedRuder(float amount)
     {
         if (!_displayedData.UserInteract)
         {
