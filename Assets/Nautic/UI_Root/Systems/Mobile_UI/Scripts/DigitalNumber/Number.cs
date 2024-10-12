@@ -2,16 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using MPUIKIT;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Number : MonoBehaviour
 {
-    [SerializeField] private MPImage _top;
-    [SerializeField] private MPImage _topLeft;
-    [SerializeField] private MPImage _topRight;
-    [SerializeField] private MPImage _mid;
-    [SerializeField] private MPImage _botLeft;
-    [SerializeField] private MPImage _botRight;
-    [SerializeField] private MPImage _bot;
+    [SerializeField] private Image _top;
+    [SerializeField] private Image _topLeft;
+    [SerializeField] private Image _topRight;
+    [SerializeField] private Image _mid;
+    [SerializeField] private Image _botLeft;
+    [SerializeField] private Image _botRight;
+    [SerializeField] private Image _bot;
 
 
     public void ShowNumber(int number)
@@ -23,13 +24,5 @@ public class Number : MonoBehaviour
         _botLeft.enabled = number != 1 && number != 3 && number != 4 && number != 5 && number != 7 && number != 9;
         _botRight.enabled = number != 2;
         _bot.enabled = number != 1 && number != 4 && number != 7;
-    }
-
-    private int testNumber = 0;
-    public void TestShowNumber()
-    {
-        ShowNumber(testNumber++);
-        if (testNumber / 10 > 0)
-            testNumber = ((testNumber) % 10);
     }
 }
