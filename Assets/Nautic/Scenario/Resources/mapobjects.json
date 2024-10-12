@@ -1,0 +1,169 @@
+[
+  {
+    "Type":1,
+    "TonName":"VTC Messina South",
+    "Lon":15.59672,
+    "Lat":38.14903
+  },
+  {
+    "Type":1,
+    "TonName":"",
+    "Lon":15.60067,
+    "Lat":38.17428
+  },
+  {
+    "Type":1,
+    "TonName":"",
+    "Lon":15.60402,
+    "Lat":38.19725
+  },
+  {
+    "Type":1,
+    "TonName":"VTC Messina Centre",
+    "Lon":15.60667,
+    "Lat":38.21143
+  },
+  {
+    "Type":1,
+    "TonName":"",
+    "Lon":15.60930,
+    "Lat":38.22515
+  },
+  {
+    "Type":1,
+    "TonName":"",
+    "Lon":15.61100,
+    "Lat":38.23637
+  },
+  {
+    "Type":1,
+    "TonName":"",
+    "Lon":15.64542,
+    "Lat":38.24938
+  },
+  {
+    "Type":1,
+    "TonName":"",
+    "Lon":15.68075,
+    "Lat":38.26278
+  }
+,
+  {
+    "Type":1,
+    "TonName":"VTC Messina North",
+    "Lon":15.68818,
+    "Lat":38.27747
+  }
+,
+  {
+    "Type":1,
+    "TonName":"Messina 1",
+    "Lon":15.66420,
+    "Lat":38.28398
+  }
+,
+  {
+    "Type":1,
+    "TonName":"Messina 3",
+    "Lon":15.66422,
+    "Lat":38.26567
+  },
+  {
+    "Type":1,
+    "TonName":"Messina 5",
+    "Lon":15.63162,
+    "Lat":38.25410
+  },
+  {
+    "Type":1,
+    "TonName":"Messina 7",
+    "Lon":15.68075,
+    "Lat":38.26278
+  },
+  {
+    "Type":1,
+    "TonName":"Messina 9",
+    "Lon":15.59253,
+    "Lat":38.21902
+  },
+  {
+    "Type":1,
+    "TonName":"Messina 11",
+    "Lon":15.58498,
+    "Lat":38.19737
+  },
+  {
+    "Type":1,
+    "TonName":"Messina 13",
+    "Lon":15.57993,
+    "Lat":38.18067
+  },
+  {
+    "Type":1,
+    "TonName":"Messina 15",
+    "Lon":15.56778,
+    "Lat":38.16483
+  },
+  {
+    "Type":1,
+    "TonName":"Messina 17",
+    "Lon":15.55562,
+    "Lat":38.14900
+  },
+  {
+    "Type":1,
+    "TonName":"Messina 2",
+    "Lon":15.71328,
+    "Lat":38.27070
+  },
+  {
+    "Type":1,
+    "TonName":"Messina 4",
+    "Lon":15.70003,
+    "Lat":38.25805
+  },
+  {
+    "Type":1,
+    "TonName":"Messina 6",
+    "Lon":15.66188,
+    "Lat":38.24478
+  },
+  {
+    "Type":1,
+    "TonName":"Messina 8",
+    "Lon":15.62417,
+    "Lat":38.23067
+  },
+  {
+    "Type": 1,
+    "TonName": "Messina 10",
+    "Lon": 15.62417,
+    "Lat": 38.21015
+  },
+  {
+    "Type": 1,
+    "TonName": "Messina 12",
+    "Lon": 15.62417,
+    "Lat": 38.21015
+  },
+  {
+    "Type": 1,
+    "TonName": "Messina 14",
+    "Lon": 15.62417,
+    "Lat": 38.19590
+  },
+  {
+    "Type": 1,
+    "TonName": "Messina 16",
+    "Lon": 15.63167,
+    "Lat": 38.16483
+  },
+  {
+    "Type": 1,
+    "TonName": "Messina 18",
+    "Lon": 15.63817,
+    "Lat": 38.14900
+  }
+
+
+]

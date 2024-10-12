@@ -236,6 +236,7 @@ MonoBehaviour:
   _lightController: {fileID: 0}
   _soundController: {fileID: 0}
   _rotationsObject: {fileID: 9097423321579894227}
+  _renderer: {fileID: 0}
   Data: {fileID: 0}
 --- !u!114 &4351805835936615493
 MonoBehaviour:
@@ -406,7 +407,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 10
+  m_Priority: 0
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}

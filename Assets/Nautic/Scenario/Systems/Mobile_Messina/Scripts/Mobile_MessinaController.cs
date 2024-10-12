@@ -22,6 +22,7 @@ public class Mobile_MessinaController : MonoBehaviour
     
     [SerializeField] private WaterGrid _waterGrid;
 
+    [SerializeField] private ObjectPlacer _objectPlacer;
     void Awake()
     {
         // Get own interface and subscribe
@@ -69,11 +70,13 @@ public class Mobile_MessinaController : MonoBehaviour
 
         if (SceneLoader.Instance.PresetFullyLoaded)
         {
+            _objectPlacer.Init();
             PopupManager.Instance.ShowCommanderPopup("Beispieltext bla bla! \n" +
                                                      "Klicken, um Szenario Messina zu starten!", true, _aiInterface.Init_Szenario);
         }
         else
         {
+            _objectPlacer.Init();
             SceneLoader.Instance.OnActivePresetFullyLoaded += () => PopupManager.Instance.ShowCommanderPopup("Beispieltext bla bla! \n" +
                 "Klicken, um Szenario Messina zu starten!", true, _aiInterface.Init_Szenario);
         }
