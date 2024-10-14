@@ -19,14 +19,14 @@ public class CourseChanger : MonoBehaviour
         if (course < 100)
             if (course < 10)
             {
-                _courseText.text = "00" + course;
+                _courseText.text = "00" + course + "\u00B0";
             }
             else
             {
-                _courseText.text = "0" + course;
+                _courseText.text = "0" + course + "\u00B0";
             }
         else 
-            _courseText.text = course.ToString();
+            _courseText.text = course.ToString() + "\u00B0";
     }
     
     public void SetWantedCourse(int course)

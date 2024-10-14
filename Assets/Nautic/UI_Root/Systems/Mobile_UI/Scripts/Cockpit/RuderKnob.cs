@@ -51,7 +51,8 @@ public class RuderKnob : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
 
     public void SetRotation(float rotation)
     {
-        _rotationVector.z = rotation;
+        _rotationVector.z = Mathf.Round((105f / 50f) * rotation);
         _ruderHandleImage.rotation = Quaternion.Euler(_rotationVector);
+        _rotationText.text = Mathf.Abs(Rotation) + "\u00B0";
     }
 }

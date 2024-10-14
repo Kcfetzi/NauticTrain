@@ -3,6 +3,7 @@ using Groupup;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Mobile_UIController : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Mobile_UIController : MonoBehaviour
     [SerializeField] private CockpitUIController _cockpitUIController;
     [SerializeField] private GameObject _controllPanel;
     [SerializeField] private Diopter _diopterView;
+    [SerializeField] private UINavigationController _navigationMenu;
     [SerializeField] private CockpitController _cockpitController;
     
     [SerializeField] private Camera _overlayCamera;
@@ -101,26 +103,53 @@ public class Mobile_UIController : MonoBehaviour
     }
     
     
-    public void ToggleRadar()
+    public void ActivateRadar(bool closeUI)
     {
-        _radar.gameObject.SetActive(!_radar.gameObject.activeSelf);
-        _mainCamera.enabled = !_radar.gameObject.activeSelf;
-        _overlayCamera.enabled = !_radar.gameObject.activeSelf;
+        _navigationMenu.gameObject.SetActive(!closeUI);
+        _radar.gameObject.SetActive(!closeUI);
+        _diopterView.SetActive(false);
+        _ecdis.gameObject.SetActive(false);
+        _controllPanel.SetActive(closeUI);
+        _cockpitController.SetActive(closeUI);
+        _mainCamera.enabled = closeUI;
+        _overlayCamera.enabled = closeUI;
+        
+        // set checkbox in navigationmenu to radar
+        if (!closeUI)
+            _navigationMenu.SetToRadar();
     }
 
     // only temp till inputcontroller available
-    public void ToggleEcdis()
+    public void ActivateEcdis(bool closeUI)
     {
-        _ecdis.gameObject.SetActive(!_ecdis.gameObject.activeSelf);
-        _mainCamera.enabled = !_ecdis.gameObject.activeSelf;
-        _overlayCamera.enabled = !_ecdis.gameObject.activeSelf;
+        _navigationMenu.gameObject.SetActive(!closeUI);
+        _ecdis.gameObject.SetActive(!closeUI);
+        _diopterView.SetActive(false);
+        _radar.gameObject.SetActive(false);
+        _controllPanel.SetActive(closeUI);
+        _cockpitController.SetActive(closeUI);
+        _mainCamera.enabled = closeUI;
+        _overlayCamera.enabled = closeUI;
+        
+        // set checkbox in navigationmenu to radar
+        if (!closeUI)
+            _navigationMenu.SetToEcdis();
     }
 
-    public void ToggleDiopter()
+    public void ActivateDiopter(bool closeUI)
     {
-        _controllPanel.SetActive(!_controllPanel.activeSelf);
-        _diopterView.SetActive(!_controllPanel.activeSelf);
-        _cockpitController.SetActive(_controllPanel.activeSelf);
+        _navigationMenu.gameObject.SetActive(!closeUI);
+        _diopterView.SetActive(!closeUI);
+        _ecdis.gameObject.SetActive(false);
+        _radar.gameObject.SetActive(false);
+        _controllPanel.SetActive(closeUI);
+        _cockpitController.SetActive(closeUI);
+        _mainCamera.enabled = true;
+        _overlayCamera.enabled = closeUI;
+        
+        // set checkbox in navigationmenu to radar
+        if (!closeUI)
+            _navigationMenu.SetToDiopter();
     }
 
     public void ToggleLightsSignals()
