@@ -46,7 +46,7 @@ public class Radar : MonoBehaviour
     private NauticObject _targetObject;
     private List<RadarSymbol> _activeObjects = new List<RadarSymbol>();
     
-    private float _mapPixelPerKm;
+    private float _mapPixelPerSm;
     public float _radarRangeRadius;
 
     public float Scale => _map.localScale.x;
@@ -72,7 +72,7 @@ public class Radar : MonoBehaviour
         _UIInterface.OnRegisterNauticObject += RegisterNauticObject;
         
         // how many pixel does a km have on scale 1
-        _mapPixelPerKm = mapRect.width / (terrainSize.x * (float)ResourceManager.GetInterface<ScenarioInterface>().UnityXInMeters * 0.001f);
+        _mapPixelPerSm = mapRect.width / ((terrainSize.x * (float)ResourceManager.GetInterface<ScenarioInterface>().UnityXInMeters * 0.001f) * 0.53996f);
     }
 
     private void OnEnable()
@@ -147,8 +147,8 @@ public class Radar : MonoBehaviour
         _12_scale.SetActive(radius == 12f);
         
         _radarRangeRadius = radius;
-        float radarPixelPerSm =  _radarMapTransform.rect.width / _radarRangeRadius;
-        _map.localScale = new Vector3( radarPixelPerSm / _mapPixelPerKm , radarPixelPerSm / _mapPixelPerKm, 1);
+        float radarPixelPerSm =  _radarMapTransform.rect.width / _radarRangeRadius * 0.53996f;
+        _map.localScale = new Vector3( radarPixelPerSm / _mapPixelPerSm , radarPixelPerSm / _mapPixelPerSm, 1);
         _radarImage.localScale = _map.localScale;
         
         _rings.SetRings(radius, radarPixelPerSm);

@@ -16,7 +16,7 @@ public class RadarRings : MonoBehaviour
             Destroy(child.gameObject);
         }
         
-        for (float i = 0.5f; i <= radius; i += 0.5f)
+        for (float i = 0.5f; i < radius; i += 0.5f)
         {
             MPImage img = Instantiate(_ring, transform);
             Circle circle = new Circle();
