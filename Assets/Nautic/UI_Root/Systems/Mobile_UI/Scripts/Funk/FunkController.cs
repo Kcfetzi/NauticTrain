@@ -34,7 +34,7 @@ public class FunkController : MonoBehaviour
         if (_funkMessages.Count == 0)
             return;
         
-        FunkMessage funkMsg = Instantiate(_radioMessagePrefab, _ownTransform.position + new Vector3(_ownTransform.rect.x, 0, 0), Quaternion.identity, _funkHolder);
+        FunkMessage funkMsg = Instantiate(_radioMessagePrefab, _funkHolder.position, Quaternion.identity, _funkHolder);
         funkMsg.Init(_funkMessages[0], SpawnNextMessage);
         _funkMessages.RemoveAt(0);
     }

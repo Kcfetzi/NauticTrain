@@ -39,14 +39,20 @@ public class Diopter : MonoBehaviour
             if (RectTransformUtility.RectangleContainsScreenPoint(_clickZone, Input.mousePosition))
                 _focusObject = _selectedObject.CameraController.RaycastIntoSzene(Input.mousePosition);
         }
-        
+    }
+
+    public void LateUpdate()
+    {
         if (_focusObject)
         {
             Vector3 directionToTarget = _focusObject.RotationObject.position - _selectedObject.RotationObject.position;
             float angle = Vector3.SignedAngle(_selectedObject.RotationObject.forward, directionToTarget, Vector3.up);
-            _courseText.text = Mathf.Abs(angle).ToString("F1") + (angle > 0 ? "SB" : "BB");
-            
+
             Vector3 direction = _focusObject.transform.position - _selectedObject.transform.position;
+            _courseText.text = Mathf.Abs(angle).ToString("F1") + (angle > 0 ? "SB" : "BB");
+
+            _ruderKnob.SetRotation(direction.y);
+            
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             _selectedObject.CameraController.SetRotation(targetRotation);
             
@@ -58,7 +64,7 @@ public class Diopter : MonoBehaviour
 
                 // Setze die Position und Größe des UI-Rechtecks
                 Vector2 size = minScreenPoint - maxScreenPoint;
-                _marker.sizeDelta = new Vector2(Mathf.Abs(size.x) * 2, Mathf.Abs(size.y) * 2);
+                _marker.sizeDelta = new Vector2(Mathf.Abs(size.x), Mathf.Abs(size.y));
 
                 // Position des Rechtecks auf die Mitte setzen
                 _marker.position = new Vector3(minScreenPoint.x - size.x / 2, minScreenPoint.y - size.y / 2, 0);
@@ -69,8 +75,8 @@ public class Diopter : MonoBehaviour
             _marker.sizeDelta = Vector3.zero;
         }
     }
-    
-    
+
+
     public void SetSelectedNauticObject(NauticObject obj)
     {
         _selectedObject = obj;
@@ -99,7 +105,7 @@ public class Diopter : MonoBehaviour
 
     private void Rotate(int rotation)
     {
-        _selectedObject.CameraController.SetRotation(Quaternion.Euler(new Vector3(0, -rotation, 0)));
+        _selectedObject.CameraController.SetLocalRotationRotation(Quaternion.Euler(new Vector3(0, -rotation, 0)));
         _courseText.text = Mathf.Abs(rotation).ToString("F1") + (rotation > 0 ? "SB" : "BB");
     }
 

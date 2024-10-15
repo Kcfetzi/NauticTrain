@@ -31,6 +31,11 @@ public class CameraController : MonoBehaviour
         _cockpitCamera.m_Lens.FieldOfView = level;
     }
 
+    public void SetLocalRotationRotation(Quaternion rotation)
+    {
+        _cockpitCamera.transform.localRotation = rotation;
+    }
+
     public void SetRotation(Quaternion rotation)
     {
         _cockpitCamera.transform.rotation = rotation;

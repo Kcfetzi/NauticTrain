@@ -177,7 +177,7 @@ public class Mobile_UIController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            _uiinterface.SetFunkMessage("Eine sehr lange Testmessage");
+            _uiinterface.SetFunkMessage("Eine sehr lange Testmessage\n über zwei Zeilen");
         }
         
     }
