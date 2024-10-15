@@ -1,4 +1,7 @@
-
+using System.Collections;
+using System.Collections.Generic;
+using Sirenix.OdinInspector.Editor.Drawers;
+using UnityEngine;
 
 public class CCPA
 {
@@ -56,3 +59,15 @@ public class CCPA
     
     
 }
+public class CPAComparer : IComparer<CCPA> 
+{
+               public int Compare(CCPA CPA1, CCPA CPA2)
+               {
+                   if (CPA1._entry_zeit < CPA2._entry_zeit) return -1;
+                   if (CPA1._entry_zeit > CPA2._entry_zeit) return 1;
+                   if (CPA1._cpa_zeit < CPA2._cpa_zeit) return -1;
+                   return 1;
+               }
+}
+           //list.Sort(1, 2, new IntComparer());
+          

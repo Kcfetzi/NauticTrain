@@ -22,9 +22,9 @@ public static class AIglobal
     
     public static double lon_to_m ; 
     public static double lat_to_m ;
-    public const bool bsuppressmapoutput=true;
+    public const bool bsuppressmapoutput=false;
     public const bool bsuppressMsgBox=true;
-    public const double deletetrackoptionsafter = 45;
+    public const double deletetrackoptionsafter = 20;
     public const int reactionsteps = 60;
     public const int ES_reactionsteps = 0;
     public const double sim_duration=3600;//in Sekunden
