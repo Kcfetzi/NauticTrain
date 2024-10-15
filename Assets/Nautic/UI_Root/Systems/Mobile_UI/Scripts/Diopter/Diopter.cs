@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,7 +7,7 @@ using UnityEngine.UI;
 public class Diopter : MonoBehaviour
 {
     [SerializeField] private Slider _zoomSlider;
-    [SerializeField] private Slider _rotatorSlider;
+    [SerializeField] private RuderKnob _ruderKnob;
 
     [SerializeField] private RectTransform _marker;
     [SerializeField] private TMP_Text _courseText;
@@ -26,15 +27,13 @@ public class Diopter : MonoBehaviour
         _mainCamera = Camera.main;
     }
 
+    private void Start()
+    {
+        _ruderKnob.Init(Rotate);
+    }
+
     private void Update()
     {
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            if (RectTransformUtility.RectangleContainsScreenPoint(_clickZone, touch.position))
-                _focusObject = _selectedObject.CameraController.RaycastIntoSzene(touch.position);
-        }
-        
         if (Input.GetMouseButtonDown(0))
         {
             if (RectTransformUtility.RectangleContainsScreenPoint(_clickZone, Input.mousePosition))
@@ -43,7 +42,6 @@ public class Diopter : MonoBehaviour
         
         if (_focusObject)
         {
-            _rotatorSlider.enabled = false;
             Vector3 directionToTarget = _focusObject.RotationObject.position - _selectedObject.RotationObject.position;
             float angle = Vector3.SignedAngle(_selectedObject.RotationObject.forward, directionToTarget, Vector3.up);
             _courseText.text = Mathf.Abs(angle).ToString("F1") + (angle > 0 ? "SB" : "BB");
@@ -69,7 +67,6 @@ public class Diopter : MonoBehaviour
         else
         {
             _marker.sizeDelta = Vector3.zero;
-            _rotatorSlider.enabled = true;
         }
     }
     
@@ -77,11 +74,7 @@ public class Diopter : MonoBehaviour
     public void SetSelectedNauticObject(NauticObject obj)
     {
         _selectedObject = obj;
-        
-        Rotate(obj.transform.rotation.y);
-        
         _zoomSlider.onValueChanged.AddListener(Zoom);
-        _rotatorSlider.onValueChanged.AddListener(Rotate);
     }
 
     public void SetActive(bool active)
@@ -89,13 +82,13 @@ public class Diopter : MonoBehaviour
         gameObject.SetActive(active);
         if (active)
         {
+            Rotate(Mathf.RoundToInt(_ruderKnob.Rotation));
             _selectedObject.CameraController.SetZoom(Mathf.RoundToInt(_zoomSlider.value));
-            _selectedObject.CameraController.SetRotation(Quaternion.Euler(new Vector3(0, Mathf.RoundToInt(_rotatorSlider.value), 0)));
         }
         else
         {
             _selectedObject.CameraController.SetZoom(60);
-            _selectedObject.CameraController.SetRotation(_selectedObject.transform.rotation);
+            Rotate(0);
         }
     }
 
@@ -104,9 +97,9 @@ public class Diopter : MonoBehaviour
         _selectedObject.CameraController.SetZoom(Mathf.RoundToInt(level));
     }
 
-    private void Rotate(float rotation)
+    private void Rotate(int rotation)
     {
-        _selectedObject.CameraController.SetRotation(Quaternion.Euler(new Vector3(0, Mathf.RoundToInt(rotation + _selectedObject.RotationObject.eulerAngles.y ), 0)));
+        _selectedObject.CameraController.SetRotation(Quaternion.Euler(new Vector3(0, -rotation, 0)));
         _courseText.text = Mathf.Abs(rotation).ToString("F1") + (rotation > 0 ? "SB" : "BB");
     }
 

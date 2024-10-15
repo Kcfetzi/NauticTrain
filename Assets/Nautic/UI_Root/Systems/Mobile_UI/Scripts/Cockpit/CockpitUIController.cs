@@ -30,7 +30,13 @@ public class CockpitUIController : MonoBehaviour
 
     // bool to determine if course is hardset or ruder is used
     private bool _setCourse;
-    
+
+
+    private void Start()
+    {
+        _ruderKnob.Init(SetWantedRuder);
+    }
+
     private void Update()
     {
         if (!_displayedData)
@@ -47,7 +53,7 @@ public class CockpitUIController : MonoBehaviour
             // left top panel with ruder display
             _ruderDisplayImage.localRotation = Quaternion.Euler(new Vector3(0, 0, _displayedData.RuderValue));
             
-            _ruderKnob.SetRotation(_displayedData.RuderValue);
+            //_ruderKnob.SetRotation(_displayedData.RuderValue);
             _thrustSlider.SetThrust(_displayedData.ThrustValue);
         } else 
         {
