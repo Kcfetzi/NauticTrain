@@ -12,6 +12,8 @@ public class CTrack            //-----------------------------------------Klasse
        private List<Symbol> ListeSymbols = new List<Symbol>();
        private PolyLine PL;   
        public int itmp = 0;
+       public double expiry_time = AIglobal.sim_duration;
+       public bool displayed = false;
        public CShipPhysicalData SPD(int i)
        {
            try
@@ -94,7 +96,14 @@ public class CTrack            //-----------------------------------------Klasse
                                lSPD.RemoveAt(ld2.Count-1);
                            }
                        }
-                       ld2.Add(new double2(SPD.lat,SPD.lon)); 
+                       ld2.Add(new double2(SPD.lat,SPD.lon));
+                       //Symbol S = new Symbol();
+                       
+                       //S.NauticObject.Data.Debug1 = name;
+                       //S.NauticObject.Data.Debug2 = "R:" + SPD.Ruderlage + "/F:" + SPD.Fahrstufe.ToString("0.00") + "/KdW:" + SPD.KdW.ToString("0.00") + "/FdW:" + (SPD.FdW / AIConst.kn).ToString("0.00") + "kn";
+                       //NauticObject NO = AIMap.Punkt(SPD.lat, SPD.lon, 2, col ?? Color.cyan);
+                       //NO.Data.Debug2 = "R:" + SPD.Ruderlage + "/F:" + SPD.Fahrstufe.ToString("0.00") + "/KdW:" + SPD.KdW.ToString("0.00") + "/FdW:" + (SPD.FdW / AIConst.kn).ToString("0.00") + "kn";
+                       //ListeSymbols.Add(S);
                        lSPD.Add(SPD);
                        oldSPD = SPD;
                    }
@@ -111,6 +120,9 @@ public class CTrack            //-----------------------------------------Klasse
            {
                
            }
+
+           
+           
            if (linesinsteadofpoints) PL=AIMap.Polylinie(ld2, 2, col ?? Color.cyan,name,ListeSymbols,lSPD);
        }
 
@@ -141,6 +153,7 @@ public class CTrack            //-----------------------------------------Klasse
        {
            CTrack NTrack=new CTrack();
            NTrack.name = name;
+           NTrack.expiry_time = expiry_time;
            foreach(CShipPhysicalData SPD in ListeSPD) NTrack.ListeSPD.Add(SPD.Copy());
            return NTrack;
        }

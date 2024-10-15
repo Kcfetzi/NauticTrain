@@ -9,6 +9,7 @@ public static class AIMap
 {
     public static UI_RootInterface m_channel_ui;
     
+    
     public static PolyLine Linie(double lat1, double lon1,double lat2, double lon2,double strength, Color color)
     {
         if (AIglobal.bsuppressmapoutput) return null;
@@ -35,16 +36,20 @@ public static class AIMap
             double3 UnityPosition = AIglobal.m_channel_map.WorldToUnityPoint(pt);
             iSymbol=OI.SpawnObjectUnityPos(NauticType.Point, new Vector3((float) UnityPosition.x,(float) UnityPosition.y,(float) UnityPosition.z ),Vector3.zero).Symbol;
             LS?.Add(iSymbol);
-            iSymbol.NauticObject.Data.ObjectName = bezeichner;
+            string txt = bezeichner;
+            if (txt.Contains("||")) txt = txt.Split("||")[0];
+            iSymbol.NauticObject.Data.ObjectName = txt;
             iSymbol.NauticObject.Data.EcdisColor = color;
             iSymbol.NauticObject.Data.EcdisSize=2*(float) strength;
 
             if (ListSPD != null)
             {
                 iSPD = ListSPD[i];
-                iSymbol.NauticObject.Data.m_Velocity.x =(float) iSPD.Ruderlage;
-                iSymbol.NauticObject.Data.m_Velocity.y =(float) iSPD.Fahrstufe;
-                iSymbol.NauticObject.Data.m_Velocity.z =(float) iSPD.FdW;
+               
+                iSymbol.NauticObject.Data.Debug1 = bezeichner.Replace("/", "\n");
+                iSymbol.NauticObject.Data.Debug2="R:" + iSPD.Ruderlage + "/F:" + iSPD.Fahrstufe.ToString("0.0") + "/KdW:" 
+                                                 + iSPD.KdW.ToString("0.00") + "/FdW:" + (iSPD.FdW / AIConst.kn).ToString("0.0");
+                
             }
 
             i++;
@@ -57,12 +62,13 @@ public static class AIMap
         return Polyline2;
     }
     
-    public static NauticObject Punkt(double lat1, double lon1,double strength, Color color)
+    public static NauticObject Punkt(double lat1, double lon1,double strength, Color color, string description="")
     {
         if (AIglobal.bsuppressmapoutput) return null;
         NauticObject Pt=AIglobal.m_ObjSpawnerSO.SpawnObjectLatLon(NauticType.Point, new double2(lat1,lon1), Vector3.zero);
         Pt.Data.EcdisSize = (float) strength;
         Pt.Data.EcdisColor = color;
+        Pt.Data.Debug1 = "\n\n"+description;
         return Pt;
     }
    

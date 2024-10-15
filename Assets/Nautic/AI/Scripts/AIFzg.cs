@@ -1208,7 +1208,7 @@ public class CFzg
            string regel = msgregel[aFzg.ich];
            
            //selber oder Gegner gestoppt
-           if (Math.Abs(mSPD.FdW)<1*kn  || Math.Abs(aSPD.FdW)<1*kn) {return krit_Entf_ortsfest; }
+           if (Math.Abs(mSPD.FdW)<1.0*kn  || Math.Abs(aSPD.FdW)<1.0*kn) {return krit_Entf_ortsfest; }
            
            //(Regel 13) Überholen
            if (regel=="13+")  {return krit_Entf_ueberholen; }
@@ -1277,7 +1277,7 @@ public class CFzg
        //macht eine Gesamtbewertung vom Track inklsuive Arebewertung für den letzten Abschnitt
        public double Bewertung_Track_Ende(CTrack iTrack, int gegnerindex,int indexManoeverbeginn, double tManoeverende)
        {
-
+           string msg="";
            double penalty = 0d;
            
            if (tManoeverende <= AIglobal.sim_duration)
@@ -1289,9 +1289,11 @@ public class CFzg
                {
                    double delta_t =iTrack.gesamtzeit()- Track.gesamtzeit();
                    penalty += (delta_t / 60d) * AIConst.penalty_verlorene_Minute;
+                   msg += "\nMin verloren"+(delta_t / 60d).ToString("0.0");
                          
                    double delta_wegstrecke = iTrack.wegstrecke(0,AIConst.check_steps)-Track.wegstrecke(0,AIConst.check_steps);
                    penalty += (delta_wegstrecke / sm) * AIConst.penalty_zusaetzliche_sm; 
+                   msg += "\nsm mehr"+(delta_wegstrecke / sm).ToString("0.0");
                }
                else
                {
@@ -1299,6 +1301,7 @@ public class CFzg
                    if (iTrack.ListeSPD[^1].FdW > 0)
                    {
                        penalty +=  ((dist/sm) / (iTrack.ListeSPD[^1].FdW/60d)) * AIConst.penalty_verlorene_Minute;
+                       msg += "\nMin verloren"+((dist/sm) / (iTrack.ListeSPD[^1].FdW/60d)).ToString("0.0");
                    }
                }
 
@@ -1317,6 +1320,8 @@ public class CFzg
            //Auswertung KritischeSituationen
            int g = 0;
            double mindist = 2 * sm;
+
+           msg += "\nCPAs";
            
            for (g = 0; g < AIglobal.Fahrzeuge.Count; g++)
            {
@@ -1337,10 +1342,13 @@ public class CFzg
                            double tmp2= AIMath.Wert_Ermitteln("i", KS._cpa_dist, new List<double> { tmp, 0 }, new List<double> { 0, 1 });
                            tmp2 *= tmp2;
                            penalty +=AIConst.penalty_Gegner_krit_Entf+ tmp2*(AIConst.penalty_Gegner_Nahbereich-AIConst.penalty_Gegner_krit_Entf);
+                           
+                           msg += "\n!"+Gegner.name+(KS._cpa_dist).ToString("N0")+"m/"+KS._cpa_zeit.ToString("N0")+"s";
                        }
                        else
                        {
                            penalty += AIConst.penalty_Andere_krit_Entf;
+                           msg += "\n"+Gegner.name+(KS._cpa_dist).ToString("N0")+"m/"+KS._cpa_zeit.ToString("N0")+"s";
                        }
                    }
 
@@ -1348,7 +1356,7 @@ public class CFzg
 
            }
 
-           iTrack.name += "||" + mindist.ToString("0.0");
+           iTrack.name += "||" + msg; //mindist.ToString("0.0");
            
            return -penalty;
 
@@ -1411,7 +1419,7 @@ public class CFzg
            }
           
            foreach(CFzg Fzg in AIglobal.Fahrzeuge) 
-               if (Fzg.istManuell==false && Fzg.name!="Eigenschiff")   Fzg.update_meine_listKritischeSituationen();
+               if (Fzg.istManuell==false)   Fzg.update_meine_listKritischeSituationen();
        }
 
        
@@ -1452,9 +1460,9 @@ public class CFzg
            {msg_regel="Letztes Manoever";}    
            
            //Regel Weyer:"In der Praxis gilt immer, dass ein aufgestopptes Fahrzeug aufgestoppt liegen bleibt und der umgebende Verkehr erforderlichenfalls ausweicht
-           if (Math.Abs(mSPD.FdW)<1d) 
+           if (Math.Abs(mSPD.FdW)<1.0*kn) 
              {msg_regel="Eigenschiff ohne Fahrt (Weyer)"; return false; }
-           if (Math.Abs(aSPD.FdW)<1d) 
+           if (Math.Abs(aSPD.FdW)<1.0*kn ) 
              {msg_regel="Gegner ohne Fahrt (Weyer)"; return true; }
            
            /*Regel 10
@@ -1647,7 +1655,8 @@ public class CFzg
            //Opt_Tracks.Clear();
            int plan_counter = Plan.counter;                 //beide Plan-Variablen merken, weil die das Durchberechnen 
            double plan_warte_bis = Plan.warte_bis;//der Optionen verwendet und danach zurückgesetzt werden
-           
+
+           double curr_time = iTrack.SPD(index_iTrack).timestamp;
            CShipPhysicalData iSPD = iTrack.SPD(index_iTrack+AIglobal.reactionsteps);
            double kurs = iSPD.KdW;
            double gegnerkurs = Gegner.Track.SPD(index_iTrack+AIglobal.reactionsteps).KdW;
@@ -1657,8 +1666,9 @@ public class CFzg
            int indexManoeverstart =  index_iTrack + AIglobal.reactionsteps;
            double max_bew = Bewertung_Track_Ende(Track, Gegner.ich, indexManoeverstart, AIglobal.sim_duration+1);
            CTrack max_Track=Track.copy();
-           string msgstart = "§" + manoeverregel + ":" + name + "-" + Gegner.name;
-           max_Track.name = "[*]"+msgstart +"#*"+max_bew.ToString("0.00")+"|";
+           max_Track.expiry_time = curr_time + AIglobal.deletetrackoptionsafter;
+           string msgstart = "§" + manoeverregel + ":" + name + "-" + Gegner.name+"/";
+           max_Track.name = "[*]"+msgstart +"#orig *"+max_bew.ToString("0.00")+"|";
            Opt_Tracks.Add(max_Track);
            
            double t_aufTrack = 0;
@@ -1691,6 +1701,9 @@ public class CFzg
                                                       
                nTrack.name += "*" + bew.ToString("0.00");
                nTrack.itmp = index_iTrack;
+               nTrack.expiry_time = curr_time + AIglobal.deletetrackoptionsafter;
+               
+                   
                                                      
                Opt_Tracks.Add(nTrack.copy());
                
@@ -1829,6 +1842,7 @@ public class CFzg
            Track_setzen:
             iTrack = max_Track;
             max_Track.name = "!" + max_Track.name;
+            max_Track.expiry_time=3600;
             Opt_Tracks.Add(max_Track);
             string zeitangabe = "zeit("+zaehler+"):=" + (DateTime.Now - ti).Milliseconds.ToString();
             //Debug.Log("Zeit für AUsweichmanöver in ms  "+zeitangabe);
@@ -1899,12 +1913,12 @@ public class CFzg
                            case AIConst.drehen_stb_bis_gegner_peilung:
                                nSPD.Ruderlage = 10;
                                Manoever_peile_Gegner_min(drehen_parameter, Gegner, index_iTrack, nSPD, nTrack); 
-                               msgdrehen= "/STBgp" + drehen_parameter + "°";
+                               msgdrehen= "/stb^gp" + drehen_parameter + "°";
                                break;
                            case AIConst.drehen_bb_bis_gegner_peilung:
                                nSPD.Ruderlage = -10;
                                Manoever_peile_Gegner_min(drehen_parameter, Gegner, index_iTrack, nSPD, nTrack); 
-                               msgdrehen= "/BBgp" + drehen_parameter + "°";
+                               msgdrehen= "/bb^gp" + drehen_parameter + "°";
                                break;
                            
                        }
@@ -1929,11 +1943,11 @@ public class CFzg
                                        break;
                                    case AIConst.entfernen_bis_gegner_peilung:
                                        Manoever_peile_Gegner_min(entfernen_parameter, Gegner, index_iTrack, nSPD, nTrack);
-                                       msgentfernen= "/Egp" + entfernen_parameter + "°";
+                                       msgentfernen= "/E^gp" + entfernen_parameter + "°";
                                        break;
                                    case AIConst.entfernen_bis_gegner_Abstand:
                                        Manoever_am_Gegner_vorbei(entfernen_parameter, Gegner, index_iTrack, nSPD, nTrack);
-                                       msgentfernen= "/Egd" + entfernen_parameter + "m";
+                                       msgentfernen= "/E^gd" + entfernen_parameter + "m";
                                        break;
                                    case AIConst.entfernen_bis_track_Abstand:
                                        //todo
@@ -1957,23 +1971,23 @@ public class CFzg
                                {
                                    case AIConst.parallel_eigener_kurs:
                                        Manoever_Ruderlage_drehe_auf_Kurs(std_ruderlage, kurs, nSPD, nTrack);
-                                       msgparallelkurs= "/Pe";
+                                       msgparallelkurs= "/Pe^";
                                        break;
                                    case AIConst.parallel_gegner_kurs:
                                        Manoever_Ruderlage_drehe_auf_Kurs(std_ruderlage, gegnerkurs, nSPD, nTrack);
-                                       msgparallelkurs= "/Pg";
+                                       msgparallelkurs= "/Pg^";
                                        break;
                                    case AIConst.parallel_gegner_kurs180:
                                        Manoever_Ruderlage_drehe_auf_Kurs(std_ruderlage, AIMath.norm(gegnerkurs + 180, 360), nSPD, nTrack);
-                                       msgparallelkurs= "/Pg180-";
+                                       msgparallelkurs= "/Pg180-^";
                                        break;
                                    case AIConst.parallel_gegner_kurs90:
                                        Manoever_Ruderlage_drehe_auf_Kurs(std_ruderlage, AIMath.norm(gegnerkurs + 90, 360), nSPD, nTrack);
-                                       msgparallelkurs= "/Pg90-";
+                                       msgparallelkurs= "/Pg90-^";
                                        break;
                                    case AIConst.parallel_gegner_kurs270:
                                        Manoever_Ruderlage_drehe_auf_Kurs(std_ruderlage, AIMath.norm(gegnerkurs + 270, 360), nSPD, nTrack);
-                                       msgparallelkurs= "/Pg270-";
+                                       msgparallelkurs= "/Pg270-^";
                                        break;
                                }
                                int iparallelkurs = nTrack.ListeSPD.Count;//also 1 weiter
@@ -2026,12 +2040,12 @@ public class CFzg
                                        nSPD = nTrack.ListeSPD[^1].Copy(); nSPD.Ruderlage = 0; nSPD.Winkelv = 0;
                                       
                                        zaehler++;
-                                       if (zaehler == 65 || zaehler==65)
+                                       if (zaehler == 41 || zaehler==41)
                                        {
                                        }
                                        
                                        index_ende_rueckkehr =verfolge_Plan(Plan, nSPD, ref t_aufTrack, winkel_zurueck, nTrack); //Rest des GTracks
-                                       msg +="->"+ winkel_zurueck+"°";
+                                       msg +="/}"+ winkel_zurueck+"°";
 
                                        nTrack.name = "[" + zaehler + "]" + msgstart+"#" + msgfahrtstufe + msgdrehen + msgentfernen + msgparallelkurs + msgparallel + "}" + winkel_zurueck + "°";
                                        Plan.counter = plan_counter;
@@ -2045,7 +2059,7 @@ public class CFzg
                                        
                                        nTrack.name += "*" + bew.ToString("0.00");
                                        nTrack.itmp = index_iTrack;
-                                      
+                                       nTrack.expiry_time = curr_time + AIglobal.deletetrackoptionsafter;
                                        
                                    
                                        Opt_Tracks.Add(nTrack.copy());
@@ -2078,14 +2092,51 @@ public class CFzg
 
        double tloeschen=-1d;
        private bool bschonangezeigt = false;
+       
        public void display_OptionenAusweichmanoever()
        {
            
            if (busy_tAusweichmanoever) return;
            if (Opt_Tracks.Count == 0) return;
            CTrack bestTrack=null;
+           double tt = Time.timeSinceLevelLoad;
+           List<CTrack> todelete = new List<CTrack>();
+           bool schonangezeigt = false;
+           
+           foreach (CTrack nTrack in Opt_Tracks)
+           {
+               if (nTrack.expiry_time < tt)
+               {
+                   todelete.Add(nTrack);
+                   if (nTrack.displayed) nTrack.Map_Entferne();
+               }
+               else
+               {
+                   if (nTrack.displayed == false)
+                   {
+                       nTrack.Map_Anzeige(30, nTrack.name.Substring(0, 1) == "!"?Color.yellow:Color.grey, nTrack.itmp, true);
+                       nTrack.displayed=true;
+                       if (sortedlistKritischeSituationen.Count>0 && schonangezeigt==false)
+                       {
+                           schonangezeigt = true;
+                           CCPA nextCPA = sortedlistKritischeSituationen[0];
+                           string msgCPA = "CPA " + name + " vs " + nextCPA.gegnername +
+                                           "\ndist:" + (nextCPA._cpa_dist / sm).ToString("0.00") + "sm" +
+                                           "\nkrit Entf:" + (nextCPA._krit_dist / sm).ToString("0.00") + "sm" +
+                                           "\nZeit:" + (nextCPA._cpa_zeit).ToString("0") + "s";
+                           AIMap.Punkt(nextCPA.cpa_SPD1.lat, nextCPA.cpa_SPD1.lon, 4, Color.green,msgCPA);
+                           AIMap.Punkt(nextCPA.cpa_SPD2.lat, nextCPA.cpa_SPD2.lon, 4, Color.green,msgCPA);
+                       }
+                   }
+               }
+           }
+           foreach (CTrack nTrack in todelete)  Opt_Tracks.Remove(nTrack);
+                  
            
            
+           
+           
+           /*
            if (Time.timeSinceLevelLoad > tloeschen && tloeschen>0)
            {
                foreach (CTrack nTrack in Opt_Tracks)
@@ -2105,8 +2156,13 @@ public class CFzg
            {
                if (sortedlistKritischeSituationen.Count>0)
                {
-                   AIMap.Punkt(sortedlistKritischeSituationen[0].cpa_SPD1.lat, sortedlistKritischeSituationen[0].cpa_SPD1.lon, 4, Color.green);
-                   AIMap.Punkt(sortedlistKritischeSituationen[0].cpa_SPD2.lat, sortedlistKritischeSituationen[0].cpa_SPD2.lon, 4, Color.green);
+                   CCPA nextCPA = sortedlistKritischeSituationen[0];
+                   string msgCPA = "CPA " + name + " vs " + nextCPA.gegnername +
+                                   "\ndist:" + (nextCPA._cpa_dist / sm).ToString("0.00") + "sm" +
+                                   "\nkrit Entf:" + (nextCPA._krit_dist / sm).ToString("0.00") + "sm" +
+                                   "\nZeit:" + (nextCPA._cpa_zeit).ToString("0") + "s";
+                   AIMap.Punkt(nextCPA.cpa_SPD1.lat, nextCPA.cpa_SPD1.lon, 4, Color.green,msgCPA);
+                   AIMap.Punkt(nextCPA.cpa_SPD2.lat, nextCPA.cpa_SPD2.lon, 4, Color.green,msgCPA);
                }
                
                
@@ -2135,7 +2191,7 @@ public class CFzg
                bestTrack?.Map_Anzeige(30, Color.yellow,bestTrack.itmp,true);//oben 
 
                bschonangezeigt = true;
-           }
+           }*/
            
        }
        
@@ -2259,10 +2315,12 @@ public class CFzg
            
            if (sortedlistKritischeSituationen.Count > 1)
            {
-               sortedlistKritischeSituationen.Sort((CCPA slKS1, CCPA slKS2) => slKS1._entry_zeit.CompareTo(slKS2._entry_zeit));
+               //sortedlistKritischeSituationen.Sort((CCPA slKS1, CCPA slKS2) => slKS1._entry_zeit.CompareTo(slKS2._entry_zeit));
+               sortedlistKritischeSituationen.Sort(new CPAComparer());
            }
+
            
-           
+          
 
        }
 
@@ -2297,35 +2355,32 @@ public class CFzg
            bool bmuss_kurshalten = false;
            bool bamausweichen = false;
            int Fzgcount = AIglobal.Fahrzeuge.Count;
-           for (int g = 0; g < Fzgcount; g++) if (this.bausweichpflichtig[g]) {bmuss_ausweichen = true;break;}
-           for (int g = 0; g < Fzgcount; g++) if (this.bkurshaltepflichtig[g]) {bmuss_kurshalten = true;break;}
+           //for (int g = 0; g < Fzgcount; g++) if (this.bausweichpflichtig[g]) {bmuss_ausweichen = true;break;}
+           //for (int g = 0; g < Fzgcount; g++) if (this.bkurshaltepflichtig[g]) {bmuss_kurshalten = true;break;}
            //for (int g = 0; g < Fzgcount; g++) if (this.bam_ausweichen[g]) {bamausweichen = true;break;}
               //auswweichmanoever_ingang
            for (int g = 0; g < Fzgcount; g++) if (this.ausweichmanoever_ingang[g]>0) {bamausweichen = true;break;}
            
            
            //this.ObjSC.Data.m_Color = bmuss_ausweichen ? Color.red : (bmuss_kurshalten ? Color.blue : Color.black);//ausweichpflichtig,Kurshaltepflichtig/weder noch
-           this.ObjSC.Data.EcdisColor = Color.red;
+           //this.ObjSC.Data.m_Color = Color.red;
            this.ObjSC.Data.ObjectName = name;
-           if (bamausweichen)  this.ObjSC.Data.ObjectName += " weicht_aus";
-           if (bmuss_kurshalten)  this.ObjSC.Data.ObjectName += " kurshaltepflichtig";
-           this.ObjSC.Data.EcdisColor = bmuss_ausweichen ? Color.red : (bmuss_kurshalten ? Color.blue : Color.black);//ausweichpflichtig,Kurshaltepflichtig/weder noch
-
-           this.ObjSC.Data.ObjectName = name;
-           if (bamausweichen)  this.ObjSC.Data.ObjectName += " weicht_aus";
-           if (bmuss_kurshalten)  this.ObjSC.Data.ObjectName += " kurshaltepflichtig";
+           //if (bamausweichen)  this.ObjSC.Data.m_ObjectName += " weicht_aus";
+           //if (bmuss_kurshalten)  this.ObjSC.Data.m_ObjectName += " kurshaltepflichtig";
           
            
-           this.ObjSC.Data.Position=new Position(iSPD.lat,iSPD.lon);                //Position
-           this.ObjSC.Data.m_Direction = (float) iSPD.KdW; //bearing
+           //this.ObjSC.Data.m_Position=new Position(iSPD.lat,iSPD.lon);                //Position
+          /// this.ObjSC.Data.m_Direction = (float)90;          // (float) iSPD.KdW; //bearing
+           
            if (istManuell && this.ObjSC.Data.UserInteract==false)
            {
-               ObjSC.Data.RuderValue = (float) iSPD.Ruderlage;
-               ObjSC.Data.ActualCourse = (float) inputkursvorgabe_alt;
-               ObjSC.Data.ThrustValue = (float)iSPD.Fahrstufe;
+               //ObjSC.Data.m_RuderValue = (float) iSPD.Ruderlage;
+               //ObjSC.Data.ActualCourse = (float)iSPD.KdW;//                   (float) inputkursvorgabe_alt;
+               //ObjSC.Data.m_ThrustValue = (float)iSPD.Fahrstufe;
+               
            }
            
-           ObjSC.Data.Debug2 = "R:" + iSPD.Ruderlage + "/F:" + iSPD.Fahrstufe.ToString("0.00")+ "/KdW:" + iSPD.KdW.ToString("0.00")+ "/FdW:" + iSPD.FdW.ToString("0.00");
+           ObjSC.Data.Debug2 = "R:" + iSPD.Ruderlage + "/F:" + iSPD.Fahrstufe.ToString("0.00")+ "/KdW:" + iSPD.KdW.ToString("0.00")+ "/FdW:" + (iSPD.FdW/kn).ToString("0.00")+"kn";
            
            //this.ObjSC.Data.m_Velocity.x =(float) iSPD.Ruderlage;
            //this.ObjSC.Data.m_Velocity.y =(float) iSPD.Fahrstufe;
@@ -2447,6 +2502,9 @@ public class CFzg
 
                // -> Notwendigkeit eines Ausweichmanövers mit allen anderen Verkehrsteilnehmern eruieren
                //
+               if (name == "FzgBlau")
+               {
+               }
 
                foreach (CCPA KritischeSituation in sortedlistKritischeSituationen)
                {
@@ -2548,26 +2606,28 @@ public class CFzg
                        if (name == "Fzg5")
                        {
                        }
-
-                       msg += name + (bausweichpflichtig[g] ? " muss " : " wird ") + Gegner.name +
-                              " ausweichen," +
-                              (bausweichpflichtig[g] ? "(Regel " + msgregel[g] + ")" : "") + ", dist = " +
-                              (int)dist + " Step=" + i + "\n";
-
-                       msg = "\n ["+itime+"]\n";
                        if (ausweichmanoever_ingang[g] == faktor_LetztesManoever) msg="Letztes Manöver";
                        if (ausweichmanoever_ingang[g] == faktor_Korrektur) msg="Korrekturmanöver";
                        if (ausweichmanoever_ingang[g] == 1.0d) msg = "Ausweichmanöver";
-                       msg += " vs " + Gegner.name;
-                       if (bausweichpflichtig[g]) msg += " ,ausweichpfl.,"; else msg+=" ,nicht ausweichpfl.,";
+
+                       msg += name + (bausweichpflichtig[g] ? " muss " : " wird ") + Gegner.name +
+                              " ausweichen," +
+                              (bausweichpflichtig[g] ? "(§" + msgregel[g] + ")" : "") + ", dist = " +
+                              (int)dist;
+
+                       msg += "\n ["+itime+"]\n";
+                       
+                       //msg += " vs " + Gegner.name+"\n";
+                       //if (bausweichpflichtig[g]) msg += " ,ausweichpfl.,"; else msg+=" ,nicht ausweichpfl.,";
                        msg +=" §"+ msgregel[g];
-                       ObjSC.Data.Debug1 += msg;
+                       ObjSC.Data.Debug1 += msg+"\n";
                        //NEUBERCHNEN DES TRACKS
                        //der TRack ist eine Lösung für alle Gegner, andere Lösungen müssen erstmal nicht mehr berechnet werden in diesem Schritt
                        AIglobal.reset_timescale = true;
+                       Opt_Tracks.Remove(iTrack);
                        tausweichen_bis[g] = tAusweichmanoever(msgmanoever[g], ref iTrack, i, Gegner); //!!! UPDATE iTrack , liefert den Zeitpunkt, wenn zurück auf Planroute !!!
                        //t_aufTrack[g]= Zeit wann ich beim ausweichen gegenüber Gegner g wieder auf Plan-Track bin
-                       iTrack.name = "!" + iTrack.name;
+                       
                        //iTrack.Map_Anzeige(30, Color.yellow, 0, true);
                        try
                        {
@@ -2643,7 +2703,7 @@ public class CFzg
                        if (ag == g) continue;
                        CFzg aGegner = AIglobal.Fahrzeuge[ag];
                        if (aGegner == this) continue;
-                       if (aGegner.istManuell || aGegner.name=="Eigenschiff") continue;
+                       if (aGegner.istManuell) continue;
                        aGegner.bam_ausweichen[ich] = false; //damit müssen andere neu ihre Ausweichpflicht mir gegenüber prüfen 
                                
                        aGegner.tausweichen_bis[ich] = -1;
@@ -2677,6 +2737,15 @@ public class CFzg
        public void ES_simulate_track_update()
        {
            if (AIglobal.m_ObjSpawnerSO.SelectedObject == null) AIglobal.m_ObjSpawnerSO.SelectNauticObject(ObjSC); //ist noch nicht so weit
+           if (Track.ListeSPD.Count == 0)
+           {
+               ObjSC.Data.RuderValue   =(float) firstSPD.Ruderlage;
+               ObjSC.Data.ThrustValue  =(float) firstSPD.Fahrstufe;
+               ObjSC.Data.ActualCourse   =(float) firstSPD.KdW;
+               ObjSC.Data.ActualVelocity =(float) firstSPD.FdW;
+               ObjSC.Data.WantedCourse   =(float) firstSPD.KdW;
+           } 
+           
            double inputruderlage = (double) AIglobal.m_ObjSpawnerSO.SelectedObject.Data.RuderValue;
            double inputfahrtstufe = (double) AIglobal.m_ObjSpawnerSO.SelectedObject.Data.ThrustValue;
            double inputkursvorgabe = (double) AIglobal.m_ObjSpawnerSO.SelectedObject.Data.WantedCourse;

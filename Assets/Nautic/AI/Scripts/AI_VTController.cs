@@ -105,7 +105,7 @@ public class AI_VTController : MonoBehaviour
                    Szenario_Faehren();
                    break;
                case "7":
-                   Szenario_Faehren();
+                   Szenario_Nacht();
                    break;
                case "8":
                    Szenario_Custom();
@@ -483,7 +483,7 @@ public class AI_VTController : MonoBehaviour
        CFzg prepare_FzgGruen()
        {
            CFzg ff=new CFzg("FzgGruen",false,new CShipPhysicalData(38.2110755073805, 15.6171110246025,15,0,15*kn,010,0),
-                            AIConst.cSchiffstyp_Containerschiff);
+                       0     /*AIConst.cSchiffstyp_Containerschiff*/);
           
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2110755073805, 15.6171110246025,0,15*kn,-1,0));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2372230900626, 15.6268354148979,0,15*kn,-1,0));
@@ -533,6 +533,98 @@ public class AI_VTController : MonoBehaviour
    }
 
 
+   private void Szenario_Nacht()
+   {
+       CFzg prepare_FzgRot()
+       {
+           CFzg ff=new CFzg("FzgRot",false,new CShipPhysicalData(38.2193148302931, 15.6198973498782,2,0,1.5*kn,260,0));
+          
+           ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2193148302931, 15.6198973498782,0,1.5*kn,-1,0));
+           ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2131187917741, 15.5829748523015,0,1.5*kn,-1,0));
+           ff.Plan.name = ff.name+"(Plan)";
+           ff.Entf_Ausweichen = 0.25*sm;
+           ff.krit_Entf_entgegen =  0.1*sm;;
+           ff.krit_Entf_kreuz = 0.2 * sm;
+           ff.krit_Entf_ueberholen = 0.1 * sm;
+           return ff;
+       }
+       
+       CFzg prepare_FzgGelb()
+       {
+           CFzg ff=new CFzg("FzgGelb",false,new CShipPhysicalData(38.2243974826134, 15.6067251754921,3,0,2*kn,090,0));
+           
+           ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2243974826134, 15.6067251754921,0,2*kn,-1,0));
+           ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2236123720098, 15.6286026960802,0,2*kn,-1,0));
+           ff.Plan.name = ff.name+"(Plan)";
+           ff.istManoevrierbeh = true;
+           ff.Entf_Ausweichen = 0.25*sm;;
+           ff.krit_Entf_entgegen =  0.15*sm;;
+           ff.krit_Entf_kreuz = 0.2 * sm;
+           ff.krit_Entf_ueberholen = 0.1 * sm;
+           return ff;
+       }
+       
+       CFzg prepare_FzgGruen()
+       {
+           CFzg ff=new CFzg("FzgGruen",false,new CShipPhysicalData(38.2246219751248, 15.5984882398927,18,0,18*kn,135,0),
+                       0     /*AIConst.cSchiffstyp_Containerschiff*/);
+          
+           ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2246219751248, 15.5984882398927,0,18*kn,-1,0));
+           ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2098706991449, 15.6202937135065,0,18*kn,-1,0));
+           ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.1800974833952, 15.6184743905567,0,18*kn,-1,0));
+           ff.Plan.name = ff.name+"(Plan)";
+           ff.Entf_Ausweichen = 0.5*sm;
+           ff.krit_Entf_kreuz = 0.25 * sm;
+          
+           return ff;
+       }
+       
+       CFzg prepare_FzgBlau()
+       {
+           CFzg ff=new CFzg("FzgBlau", false,new CShipPhysicalData(38.2117543414636, 15.6102241487948,7,0,7*kn,010,0));
+           ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2117543414636, 15.6102241487948,0,8*kn,-1,0));
+           ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2329295238562, 15.614991292011,0,8*kn,-1,0));
+           ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2431664884421, 15.6402665580082,0,8*kn,-1,0));
+           ff.Plan.name = ff.name+"(Plan)";
+           ff.Entf_Ausweichen = 1*sm;
+           ff.krit_Entf_kreuz = 0.5 * sm;
+           return ff;
+       }
+      
+       double t = 0, t_aufTrack=0;   
+       
+       CFzg frot = prepare_FzgRot();frot.Setze_auf_Karte();    
+       frot.Plan.Map_Anzeige(Color.magenta,true);
+       frot.verfolge_Plan(frot.Plan, frot.firstSPD.Copy(), ref t_aufTrack,30,frot.Track);
+       frot.Plan.counter = 0;
+       
+       CFzg fgelb = prepare_FzgGelb();fgelb.Setze_auf_Karte();    
+       fgelb.Plan.Map_Anzeige(Color.magenta,true);
+       fgelb.verfolge_Plan(fgelb.Plan, fgelb.firstSPD.Copy(), ref t_aufTrack,30,fgelb.Track);
+       fgelb.Plan.counter = 0;
+       
+       CFzg fgruen = prepare_FzgGruen();fgruen.Setze_auf_Karte();    
+       fgruen.Plan.Map_Anzeige(Color.magenta,true);
+       fgruen.verfolge_Plan(fgruen.Plan, fgruen.firstSPD.Copy(), ref t_aufTrack,30,fgruen.Track);
+       fgruen.Plan.counter = 0;
+       
+      
+       
+       CFzg fblau = prepare_FzgBlau();fblau.Setze_auf_Karte();
+       t = 0;
+       fblau.verfolge_Plan(fblau.Plan, fblau.firstSPD.Copy(), ref t_aufTrack,30,fblau.Track);
+       fblau.Plan.Map_Anzeige(Color.magenta,true);
+       fblau.verfolge_Plan(fblau.Plan, fblau.firstSPD.Copy(), ref t_aufTrack,30,fblau.Track);
+       fblau.Plan.counter = 0;  
+       
+       CFzg fEigenschiff = prepare_Eigenschiff();fEigenschiff.Setze_auf_Karte();
+       t = 0;
+       fEigenschiff.verfolge_Plan(fEigenschiff.Plan, fEigenschiff.firstSPD.Copy(), ref t_aufTrack,30,fEigenschiff.Track);
+       fEigenschiff.Plan.Map_Anzeige(Color.magenta,true);
+       fEigenschiff.Plan.counter = 0;       
+       fEigenschiff.ObjSC.Data.OnUserInteractionStopped +=  fEigenschiff.ES_simulate_track_update;
+       fEigenschiff.ES_simulate_track_update();
+   }
 
 
 
