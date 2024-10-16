@@ -81,9 +81,9 @@ public class AI_VTController : MonoBehaviour
        Prepare_Szenario();
        string answer = "";
        
-       void InputCallback(string input)
+       void InputCallback()
        {
-           answer = input;
+           answer = m_AI_VTChannelSO.ScenarioChoice.ToString();
            switch (answer)
            {
                case "1":
@@ -112,9 +112,10 @@ public class AI_VTController : MonoBehaviour
                    break; 
            }
        }
+
+       InputCallback();
        
-       
-       PopupManager.Instance.ShowInputPopup("1.Entgegenkommer\n"+ 
+       /**PopupManager.Instance.ShowInputPopup("1.Entgegenkommer\n"+ 
                                                 "2.Kreuzen\n"+
                                                 "3.Ueberholer\n"+
                                                 "4.Fischer\n"+
@@ -123,6 +124,7 @@ public class AI_VTController : MonoBehaviour
                                                 "7.Nahbereich Nacht\n"+
                                                 "8.Custom", 
                                              InputCallback);
+                                             */
        
        /*
        CFzg f4 = prepare_Fzg4();

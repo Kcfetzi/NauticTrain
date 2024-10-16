@@ -10,6 +10,8 @@ using Groupup;
    */ 
 public class AIInterface : InterfaceSOBase
 {
+    public int ScenarioChoice;
+    
     public UnityAction OnInit_Szenario;
     public UnityAction OnUserInteractionStopped; 
     

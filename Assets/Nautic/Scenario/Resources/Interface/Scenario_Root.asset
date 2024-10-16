@@ -19,17 +19,17 @@ MonoBehaviour:
   RootFolder: {fileID: 0}
   Notes: 
   IsActive: 1
-  TileSize: {x: 1150, y: 1200, z: 1150}
+  TileSize: {x: 1150, y: 1000, z: 1150}
   MapSize: {x: 73600, y: 0, z: 73600}
   MagneticNorth: {fileID: 0}
   PointsSpawnParent: {fileID: 0}
   ObjectSpawnParent: {fileID: 0}
-  UnityXInMeters: 0.9639979292264367
-  UnityZInMeters: 0.9152815433557627
-  UnityToRealworldRatio: 0.9250296
-  RealworldToUnityRatio: 1.0810466
+  UnityXInMeters: 0.9161712160363767
+  UnityZInMeters: 0.9160233269051109
+  UnityToRealworldRatio: 0.91574806
+  RealworldToUnityRatio: 1.0920033
   LatInMeters: 111194.92973883946
-  LonInMeters: 87387.47276611262
+  LonInMeters: 87387.63280466807
   ViewRange: 5000
-  weather: 3
-  time: 1
+  weather: 2
+  time: 3

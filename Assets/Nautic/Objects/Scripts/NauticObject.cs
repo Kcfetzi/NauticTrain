@@ -79,7 +79,7 @@ public class NauticObject : MonoBehaviour
         if (_aiFzg == null || _aiFzg.PresentationTrack(0).ListeSPD.Count == 0 || _wayPointIndex>=_aiFzg.PresentationTrack(0).ListeSPD.Count)
             return;
 
-        _timer += Time.deltaTime;
+        _timer = Time.timeSinceLevelLoad;
         CTrack track = _aiFzg.PresentationTrack(0);
         
         double lerpTime;
