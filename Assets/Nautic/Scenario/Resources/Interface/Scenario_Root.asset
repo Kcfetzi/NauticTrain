@@ -31,5 +31,5 @@ MonoBehaviour:
   LatInMeters: 111194.92973883946
   LonInMeters: 87387.63280466807
   ViewRange: 5000
-  weather: 0
+  weather: 2
   time: 3

@@ -186,34 +186,34 @@ public class ScenarioInterface : InterfaceSOBase
     
     [Title("Active Weather")]
     [EnumToggleButtons]
-    public Weather weather;
+    public Weather StartWeather = Weather.Klar;
     
     [Title("Time")]
     [EnumToggleButtons]
-    public SunSet time;
+    public SunSet StartTime = SunSet.Lunch;
     
     public enum Weather
     {
-        Klar, Regen, Schnee, Nebel
+        Klar = 0, Regen = 1, Schnee = 2, Nebel = 3, Rotation = 4
     }
     
     public enum SunSet
     {
-        Morning, Lunch, Evening, Night
+        Morning = 3, Lunch = 0, Evening = 4, Night = 1, Rotaton = 2
     }
     
     [PropertySpace(SpaceBefore = 30)]
     [Button(ButtonSizes.Large, Stretch = false), GUIColor(0, 1, 0)]
     public void SetWeather()
     {
-        switch (weather)
+        switch (StartWeather)
         {
             case Weather.Klar:
                 foreach (EnviroWeatherPreset weatherWeatherPreset in EnviroSkyMgr.instance.Weather.currentActiveZone.zoneWeatherPresets)
                 {
                     if (weatherWeatherPreset.Name == "Clear Sky")
                     {
-                        EnviroSkyMgr.instance.ChangeWeatherInstant(weatherWeatherPreset);
+                        EnviroSkyMgr.instance.Weather.startWeatherPreset = weatherWeatherPreset;
                         break;
                     }
                 }
@@ -222,7 +222,7 @@ public class ScenarioInterface : InterfaceSOBase
                 foreach (EnviroWeatherPreset weatherWeatherPreset in EnviroSkyMgr.instance.Weather.currentActiveZone.zoneWeatherPresets)
                 {
                     if (weatherWeatherPreset.Name == "Foggy 1") {
-                        EnviroSkyMgr.instance.ChangeWeatherInstant(weatherWeatherPreset);
+                        EnviroSkyMgr.instance.Weather.startWeatherPreset = weatherWeatherPreset;
                         break;
                     }
                 }
@@ -231,7 +231,7 @@ public class ScenarioInterface : InterfaceSOBase
                 foreach (EnviroWeatherPreset weatherWeatherPreset in EnviroSkyMgr.instance.Weather.currentActiveZone.zoneWeatherPresets)
                 {
                     if (weatherWeatherPreset.Name == "Heavy Rain"){
-                        EnviroSkyMgr.instance.ChangeWeatherInstant(weatherWeatherPreset);
+                        EnviroSkyMgr.instance.Weather.startWeatherPreset = weatherWeatherPreset;
                         break;
                     }
                 }
@@ -240,29 +240,27 @@ public class ScenarioInterface : InterfaceSOBase
                 foreach (EnviroWeatherPreset weatherWeatherPreset in EnviroSkyMgr.instance.Weather.currentActiveZone.zoneWeatherPresets)
                 {
                     if (weatherWeatherPreset.Name == "Heavy Snow") {
-                        EnviroSkyMgr.instance.ChangeWeatherInstant(weatherWeatherPreset);
+                        EnviroSkyMgr.instance.Weather.startWeatherPreset = weatherWeatherPreset;
                         break;
                     }
                 }
                 break;
         }
+        
+        EnviroSkyMgr.instance.SetAutoWeatherUpdates(StartWeather == Weather.Rotation);
 
-        switch (time)
+        switch (StartTime)
         {
-            case SunSet.Morning:
-                EnviroSkyMgr.instance.SetTime(2024, 1, 8, 0, 0);
-                break;
             case SunSet.Lunch:
                 EnviroSkyMgr.instance.SetTime(2024, 1, 13, 0, 0);
-                break;
-            case SunSet.Evening:
-                EnviroSkyMgr.instance.SetTime(2024, 1, 18, 30, 0);
                 break;
             case SunSet.Night:
                 EnviroSkyMgr.instance.SetTime(2024, 1, 23, 0, 0);
                 break;
         }
-        
+
+        EnviroSkyMgr.instance.Time.ProgressTime =
+            StartTime == SunSet.Rotaton ? EnviroTime.TimeProgressMode.Simulated : EnviroTime.TimeProgressMode.None;
     }
 
     #endregion

@@ -723,7 +723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d27aa7628f06ba42b3d8e8b0ca0b75a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPreset: {fileID: 11400000, guid: a3ef12e3a3a397d45a85c0637eb28972, type: 2}
+  startPreset: {fileID: 11400000, guid: b844779499b48aa4da853134fe98ca24, type: 2}
   startWithLoadingscreen: 1
   loadingCanvas: {fileID: 1441269991}
   progressImage: {fileID: 791484894}

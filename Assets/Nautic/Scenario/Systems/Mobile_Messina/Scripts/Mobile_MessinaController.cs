@@ -47,6 +47,12 @@ public class Mobile_MessinaController : MonoBehaviour
         // set magnetic north
         _scenariointerface.MagneticNorth = _magneticNorth;
         
+        // place tons and static objects
+        _objectPlacer.Init();
+        
+        // init weather
+        _scenariointerface.SetWeather();
+        
         // Setup ui
         UI_RootInterface uiInterface = ResourceManager.GetInterface<UI_RootInterface>();
         if (uiInterface)
@@ -69,17 +75,9 @@ public class Mobile_MessinaController : MonoBehaviour
         _mobile_Messinainterface.SceneLoaded();
 
         if (SceneLoader.Instance.PresetFullyLoaded)
-        {
-            _objectPlacer.Init();
-            PopupManager.Instance.ShowCommanderPopup("Beispieltext bla bla! \n" +
-                                                     "Klicken, um Szenario Messina zu starten!", true, _aiInterface.Init_Szenario);
-        }
+            _aiInterface.Init_Szenario();
         else
-        {
-            _objectPlacer.Init();
-            SceneLoader.Instance.OnActivePresetFullyLoaded += () => PopupManager.Instance.ShowCommanderPopup("Beispieltext bla bla! \n" +
-                "Klicken, um Szenario Messina zu starten!", true, _aiInterface.Init_Szenario);
-        }
+            SceneLoader.Instance.OnActivePresetFullyLoaded += _aiInterface.Init_Szenario;
     }
 
     void OnDestroy()

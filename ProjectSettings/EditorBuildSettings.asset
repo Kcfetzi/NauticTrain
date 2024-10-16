@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Nautic/AI/AI.unity
     guid: 4372cacd6bcaf0442936286b57af1d14
+  - enabled: 1
+    path: Assets/Nautic/MainMenu/MainMenu.unity
+    guid: 100d9b0a586d0534b853c64f5d187e13
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: e5484783901ee494988116bf6f1ee347, type: 2}
