@@ -22,7 +22,7 @@ public static class AIglobal
     
     public static double lon_to_m ; 
     public static double lat_to_m ;
-    public const bool bsuppressmapoutput=false;
+    public const bool bsuppressmapoutput=true;
     public const bool bsuppressMsgBox=true;
     public const double deletetrackoptionsafter = 20;
     public const int reactionsteps = 60;
