@@ -61,9 +61,9 @@ public class AI_VTController : MonoBehaviour
        //else
        //    SceneLoader.Instance.OnActivePresetFullyLoaded += All_Services_Loaded;
    }
+
    
-   
-   
+
    public void init_szenario()   //her gehts los, wenn alles gestartet st   //war mal All_Services_Loaded
    {
        if (!m_channel_map || !m_ObjSpawnerSO || !m_channel_ui)  return;
@@ -966,9 +966,12 @@ public class AI_VTController : MonoBehaviour
 
    private void OnDestroy()
    {   // Unsubscribe to channel
-       if (m_AI_VTChannelSO) {m_AI_VTChannelSO.IsActive = false;}
+       if (m_AI_VTChannelSO)
+       {
+           m_AI_VTChannelSO.Reset();
+           m_AI_VTChannelSO.IsActive = false;
+       }
    }
-
    
 
    public double last_t_update = 0d;

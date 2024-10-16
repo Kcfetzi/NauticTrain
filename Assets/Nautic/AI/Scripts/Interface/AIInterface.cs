@@ -13,7 +13,13 @@ public class AIInterface : InterfaceSOBase
     public int ScenarioChoice;
     
     public UnityAction OnInit_Szenario;
-    public UnityAction OnUserInteractionStopped; 
+    public UnityAction OnUserInteractionStopped;
+
+    public void Reset()
+    {
+        OnInit_Szenario = null;
+        OnUserInteractionStopped = null;
+    }
     
     public void Init_Szenario()
     {

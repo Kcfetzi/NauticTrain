@@ -47,9 +47,6 @@ public class Mobile_MessinaController : MonoBehaviour
         // set magnetic north
         _scenariointerface.MagneticNorth = _magneticNorth;
         
-        // place tons and static objects
-        _objectPlacer.Init();
-        
         // init weather
         _scenariointerface.SetWeather();
         
@@ -62,12 +59,15 @@ public class Mobile_MessinaController : MonoBehaviour
                 uiInterface.InitUI(_map);
                 _scenariointerface.SetSpawnParents(_pointsSpawnParent, _objectSpawnParent);
                 _scenariointerface.SceneLoaded();
+                // place tons and static objects
+                _objectPlacer.Init();
             }
             else
             {
                 uiInterface.OnSceneLoaded += () => uiInterface.InitUI(_map);
                 uiInterface.OnSceneLoaded += () => _scenariointerface.SetSpawnParents(_pointsSpawnParent, _objectSpawnParent);
                 uiInterface.OnSceneLoaded += () => _scenariointerface.SceneLoaded();
+                uiInterface.OnSceneLoaded += () => _objectPlacer.Init();
             }
         }
         
@@ -87,6 +87,7 @@ public class Mobile_MessinaController : MonoBehaviour
         {
             _mobile_Messinainterface.IsActive = false;
         }
+        SceneLoader.Instance.OnActivePresetFullyLoaded -= _aiInterface.Init_Szenario;
     }
     
     
