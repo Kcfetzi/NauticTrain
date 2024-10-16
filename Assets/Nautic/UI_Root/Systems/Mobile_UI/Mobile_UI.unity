@@ -24837,7 +24837,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -25949798, y: 12533641}
+  m_AnchoredPosition: {x: -25969652, y: 12542697}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1154882855
@@ -32886,7 +32886,7 @@ GameObject:
   - component: {fileID: 1537662058}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: Cockpit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

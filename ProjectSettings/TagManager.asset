@@ -9,6 +9,7 @@ TagManager:
   - Rightclickmenu
   - PlayerCamera
   - EcdisMap
+  - Cockpit
   layers:
   - Default
   - TransparentFX
