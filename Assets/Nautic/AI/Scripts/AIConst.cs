@@ -26,6 +26,7 @@ public static class AIConst
     public const int cSchiffstyp_Containerschiff = 1;
     public const int cSchiffstyp_Faehre = 2;
     public const int cSchiffstyp_Fischer = 3;
+    public const int cSchiffstyp_Lotse = 4;
     
     public const int cOrtung_Sicht=1;
     public const int cOrtung_Radar=2;

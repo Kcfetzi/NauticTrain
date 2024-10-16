@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
 using System;
+using System.ComponentModel.Composition;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Groupup;
@@ -136,6 +137,12 @@ public class CFzg
                    init_PhysikParameter(0.6, 1.0, 0.7, 0.7, 0.6, 0.8, 0.8, 0.8,
                        1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
                    break;
+               case AIConst.cSchiffstyp_Lotse:
+                   init_PhysikParameter(0.5, 1.4, 0.8, 1.5, 1, 1.4, 1.2, 1.4,
+                       0.8, 0.8, 0.8, 0.8, 0.8, 0.8);
+                   break;
+               
+               
                default: //zB Minenjäger
                    init_PhysikParameter(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
                        1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
@@ -1356,7 +1363,7 @@ public class CFzg
 
            }
 
-           iTrack.name += "||" + msg; //mindist.ToString("0.0");
+           iTrack.name += "||" + msg+"\n\n\n\n\n\n"; //mindist.ToString("0.0");
            
            return -penalty;
 
@@ -2124,8 +2131,8 @@ public class CFzg
                                            "\ndist:" + (nextCPA._cpa_dist / sm).ToString("0.00") + "sm" +
                                            "\nkrit Entf:" + (nextCPA._krit_dist / sm).ToString("0.00") + "sm" +
                                            "\nZeit:" + (nextCPA._cpa_zeit).ToString("0") + "s";
-                           AIMap.Punkt(nextCPA.cpa_SPD1.lat, nextCPA.cpa_SPD1.lon, 4, Color.green,msgCPA);
-                           AIMap.Punkt(nextCPA.cpa_SPD2.lat, nextCPA.cpa_SPD2.lon, 4, Color.green,msgCPA);
+                           AIMap.Punkt(nextCPA.cpa_SPD1.lat, nextCPA.cpa_SPD1.lon, 4d, Color.green,msgCPA);
+                           AIMap.Punkt(nextCPA.cpa_SPD2.lat, nextCPA.cpa_SPD2.lon, 4d, Color.green,msgCPA);
                        }
                    }
                }
@@ -2338,10 +2345,9 @@ public class CFzg
            }
            return false;
        }
-       
-       
 
 
+       private NauticObject tmpNO = null;
        public void display_Fahrzeug(double itime)
        {
            if (AIglobal.bsuppressmapoutput) return;
@@ -2372,16 +2378,14 @@ public class CFzg
            //this.ObjSC.Data.m_Position=new Position(iSPD.lat,iSPD.lon);                //Position
           /// this.ObjSC.Data.m_Direction = (float)90;          // (float) iSPD.KdW; //bearing
            
-           if (istManuell && this.ObjSC.Data.UserInteract==false)
+           if (istManuell)
            {
-               //ObjSC.Data.m_RuderValue = (float) iSPD.Ruderlage;
-               //ObjSC.Data.ActualCourse = (float)iSPD.KdW;//                   (float) inputkursvorgabe_alt;
-               //ObjSC.Data.m_ThrustValue = (float)iSPD.Fahrstufe;
-               
+               if (tmpNO) AIglobal.m_ObjSpawnerSO.DeleteNauticObject(tmpNO);
+               tmpNO=AIMap.Punkt(iSPD.lat, iSPD.lon, 5, Color.green);
            }
            
            ObjSC.Data.Debug2 = "R:" + iSPD.Ruderlage + "/F:" + iSPD.Fahrstufe.ToString("0.00")+ "/KdW:" + iSPD.KdW.ToString("0.00")+ "/FdW:" + (iSPD.FdW/kn).ToString("0.00")+"kn";
-           
+           ObjSC.Data.Debug3 = "i:"+index.ToString("N0")+"/t:" + iSPD.timestamp.ToString("0.0");
            //this.ObjSC.Data.m_Velocity.x =(float) iSPD.Ruderlage;
            //this.ObjSC.Data.m_Velocity.y =(float) iSPD.Fahrstufe;
            //this.ObjSC.Data.m_Velocity.z =(float) iSPD.FdW;

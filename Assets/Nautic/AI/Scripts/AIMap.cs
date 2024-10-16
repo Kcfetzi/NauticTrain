@@ -40,7 +40,7 @@ public static class AIMap
             if (txt.Contains("||")) txt = txt.Split("||")[0];
             iSymbol.NauticObject.Data.ObjectName = txt;
             iSymbol.NauticObject.Data.EcdisColor = color;
-            iSymbol.NauticObject.Data.EcdisSize=2*(float) strength;
+            iSymbol.NauticObject.Data.EcdisSize=(float) (strength/3);
 
             if (ListSPD != null)
             {
@@ -66,7 +66,7 @@ public static class AIMap
     {
         if (AIglobal.bsuppressmapoutput) return null;
         NauticObject Pt=AIglobal.m_ObjSpawnerSO.SpawnObjectLatLon(NauticType.Point, new double2(lat1,lon1), Vector3.zero);
-        Pt.Data.EcdisSize = (float) strength;
+        Pt.Data.EcdisSize = (float) (strength/80d);
         Pt.Data.EcdisColor = color;
         Pt.Data.Debug1 = "\n\n"+description;
         return Pt;
