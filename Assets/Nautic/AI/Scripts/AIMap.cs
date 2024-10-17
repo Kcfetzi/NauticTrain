@@ -21,7 +21,7 @@ public static class AIMap
         return Polyline2;
     }
 
-    public static PolyLine Polylinie(List<double2> ld2,double strength, Color color, string bezeichner="", List<Symbol> LS=null,List<CShipPhysicalData> ListSPD = null)
+    public static PolyLine Polylinie(List<double2> ld2,double strength, Color color, string bezeichner="",string beschreibung="", List<Symbol> LS=null,List<CShipPhysicalData> ListSPD = null)
     {
         int i = 0;
         CShipPhysicalData iSPD;
@@ -45,11 +45,12 @@ public static class AIMap
             if (ListSPD != null)
             {
                 iSPD = ListSPD[i];
-               
-                iSymbol.NauticObject.Data.Debug1 = bezeichner.Replace("/", "\n");
+
+                iSymbol.NauticObject.Data.Debug1 = beschreibung;
                 iSymbol.NauticObject.Data.Debug2="R:" + iSPD.Ruderlage + "/F:" + iSPD.Fahrstufe.ToString("0.0") + "/KdW:" 
                                                  + iSPD.KdW.ToString("0.00") + "/FdW:" + (iSPD.FdW / AIConst.kn).ToString("0.0");
-                
+                iSymbol.NauticObject.Data.Debug3 = iSPD.timestamp.ToString("N0") + "s";
+                iSymbol.NauticObject.Data.Debug4 = (i + 1.ToString()) + ".Punkt";
             }
 
             i++;

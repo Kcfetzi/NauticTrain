@@ -8,6 +8,7 @@ public class CTrack            //-----------------------------------------Klasse
    {
        public List<CShipPhysicalData> ListeSPD=new List<CShipPhysicalData>();
        public string name  ="";
+       public string beschreibung = "";
        private List<NauticObject> ListeNO = new List<NauticObject>();
        private List<Symbol> ListeSymbols = new List<Symbol>();
        private PolyLine PL;   
@@ -123,7 +124,7 @@ public class CTrack            //-----------------------------------------Klasse
 
            
            
-           if (linesinsteadofpoints) PL=AIMap.Polylinie(ld2, 2, col ?? Color.cyan,name,ListeSymbols,lSPD);
+           if (linesinsteadofpoints) PL=AIMap.Polylinie(ld2, 2, col ?? Color.cyan,name,beschreibung,ListeSymbols,lSPD);
        }
 
        public void Map_Entferne()
@@ -154,6 +155,7 @@ public class CTrack            //-----------------------------------------Klasse
            CTrack NTrack=new CTrack();
            NTrack.name = name;
            NTrack.expiry_time = expiry_time;
+           NTrack.beschreibung = beschreibung;
            foreach(CShipPhysicalData SPD in ListeSPD) NTrack.ListeSPD.Add(SPD.Copy());
            return NTrack;
        }
@@ -163,6 +165,8 @@ public class CTrack            //-----------------------------------------Klasse
            int i= 0;
            CTrack NTrack=new CTrack();
            NTrack.name = name;
+           NTrack.expiry_time = expiry_time;
+           NTrack.beschreibung = beschreibung;
            foreach (CShipPhysicalData SPD in ListeSPD)
            {
                NTrack.ListeSPD.Add(SPD);
@@ -179,6 +183,8 @@ public class CTrack            //-----------------------------------------Klasse
            ;
            CTrack NTrack=new CTrack();
            NTrack.name = name;
+           NTrack.expiry_time = expiry_time;
+           NTrack.beschreibung = beschreibung;
            foreach (CShipPhysicalData SPD in ListeSPD)
            {
                NTrack.ListeSPD.Add(SPD);

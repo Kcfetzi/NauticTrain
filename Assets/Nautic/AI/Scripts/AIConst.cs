@@ -34,8 +34,8 @@ public static class AIConst
     public const double penalty_Gegner_krit_Entf = 10d;
     public const double penalty_Gegner_Nahbereich = 100d;
     public const double penalty_Andere_krit_Entf = 5d;
-    public const double penalty_verlorene_Minute = 0.1d;
-    public const double penalty_zusaetzliche_sm = 0.2d;
+    public const double penalty_verlorene_Minute = 0.2d;
+    public const double penalty_zusaetzliche_sm = 1d;
     public const double penalty_fahrtaenderung = 5d;
     public const double penalty_VTG_Abweichung180_min = 3d;
     public const double penalty_NOGO = 999d;

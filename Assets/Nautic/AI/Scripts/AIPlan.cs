@@ -135,7 +135,7 @@ public class CPlan      //-----------------------------------------Klasse-------
                    ListeNO.Add(AIMap.Punkt(ListeWegpunkt[i].lat, ListeWegpunkt[i].lon, 6, col ?? Color.gray));
                }
            }
-           if (ld2.Count>1) PL=AIMap.Polylinie(ld2, 4, col??Color.gray,name,ListeSymbols );
+           if (ld2.Count>1) PL=AIMap.Polylinie(ld2, 4, col??Color.gray,name,"Plan",ListeSymbols );
        }
 
        public void Map_Entferne()
