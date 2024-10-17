@@ -949,7 +949,7 @@ public class AI_VTController : MonoBehaviour
    {
        //38.2484830571396,15.640053013126, 
        //old 38.1530496912989, 15.613732870394938
-       CFzg ff=new CFzg("Eigenschiff",true,new CShipPhysicalData(38.2484830571396,15.640053013126, 10,0,7*kn,222,0));
+       CFzg ff=new CFzg("Eigenschiff",true,new CShipPhysicalData(38.2484830571396,15.640053013126, 10,0,7*kn,290,0));
        // Debug.Log(ff.andrehpunkt_ermitteln2(10, 10, 10, 100));
        ff.DNCs_ermitteln();
        ff.AUFSTOPPSTECKEn_ermitteln();

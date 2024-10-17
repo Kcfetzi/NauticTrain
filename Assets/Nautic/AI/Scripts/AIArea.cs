@@ -36,7 +36,7 @@ public class CArea          //-----------------------------------------Klasse---
            List<double2> ld2 = new List<double2>(Punkte);
            if (Punkte[0].x!=Punkte[^1].x || Punkte[0].y!=Punkte[^1].y) ld2.Add(new double2(Punkte[0].x,Punkte[0].y));
 
-           listePL.Add  (AIMap.Polylinie(ld2,strength,bordercolor,name,ListeSymbols ));
+           listePL.Add  (AIMap.Polylinie(ld2,strength,bordercolor,name,typ.ToString(),ListeSymbols ));
                       
            //Pfeil
            if (typ == AIConst.cAreaTyp_VTG)

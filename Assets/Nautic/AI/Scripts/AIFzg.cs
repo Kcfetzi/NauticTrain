@@ -23,6 +23,7 @@ public class CFzg
        public NauticObject ObjSC;      //Map-Objekt, das das Schiff repräsentiert
        
        public string name = "";         //Schiffsname
+       public Color farbe = Color.grey;
        public int ich = -1;             //Index aus der Liste an fahrzeugen  
        
        public CShipPhysicalData firstSPD;  //Objekt mit den Schiffsdaten(lat/Lon,Bearing/Geschwindigkeit); Objekt, da auch in Track verwendet
@@ -1280,12 +1281,13 @@ public class CFzg
        
        
        //macht eine Gesamtbewertung vom Track inklsuive Arebewertung für den letzten Abschnitt
-       public double Bewertung_Track_Ende(CTrack iTrack, int gegnerindex,int indexManoeverbeginn, double tManoeverende)
+       public double Bewertung_Track_Ende(CTrack iTrack, int gegnerindex,int indexManoeverbeginn, double indexManoeverende)
        {
            string msg="";
            double penalty = 0d;
+           double tManoeverende = indexManoeverende * AIConst.delta_t;
            
-           if (tManoeverende <= AIglobal.sim_duration)
+           //if (tManoeverende <= AIglobal.sim_duration)
            {
                double delta_richtung = 0d;
                
@@ -1302,7 +1304,9 @@ public class CFzg
                }
                else
                {
-                   penalty = penalty + (dist / sm) * AIConst.penalty_zusaetzliche_sm;
+                   penalty += penalty + (dist / sm) * AIConst.penalty_zusaetzliche_sm;
+                   msg += "\nsm mehr"+(dist / sm).ToString("0.0");
+                   
                    if (iTrack.ListeSPD[^1].FdW > 0)
                    {
                        penalty +=  ((dist/sm) / (iTrack.ListeSPD[^1].FdW/60d)) * AIConst.penalty_verlorene_Minute;
@@ -1310,6 +1314,11 @@ public class CFzg
                    }
                }
 
+               if (tManoeverende > AIglobal.sim_duration)
+               {
+                   penalty += penalty;
+               }
+               
                if (indexManoeverbeginn >= 1 && indexManoeverbeginn+1<iTrack.ListeSPD.Count)
                {
                    if (iTrack.ListeSPD[indexManoeverbeginn+1].Fahrstufe!=iTrack.ListeSPD[indexManoeverbeginn - 1].Fahrstufe) penalty+=AIConst.penalty_fahrtaenderung;
@@ -1348,12 +1357,12 @@ public class CFzg
                            tmp2 *= tmp2;
                            penalty +=AIConst.penalty_Gegner_krit_Entf+ tmp2*(AIConst.penalty_Gegner_Nahbereich-AIConst.penalty_Gegner_krit_Entf);
                            
-                           msg += "\n!"+Gegner.name+(KS._cpa_dist).ToString("N0")+"m/"+KS._cpa_zeit.ToString("N0")+"s";
+                           msg += "\n!"+Gegner.name+(KS._cpa_dist).ToString("N0")+"m@"+KS._cpa_zeit.ToString("N0")+"s";
                        }
                        else
                        {
                            penalty += AIConst.penalty_Andere_krit_Entf;
-                           msg += "\n"+Gegner.name+(KS._cpa_dist).ToString("N0")+"m/"+KS._cpa_zeit.ToString("N0")+"s";
+                           msg += "\n"+Gegner.name+(KS._cpa_dist).ToString("N0")+"m@"+KS._cpa_zeit.ToString("N0")+"s";
                        }
                    }
 
@@ -1361,8 +1370,8 @@ public class CFzg
 
            }
 
-           iTrack.name += "||" + msg+"\n\n\n\n\n\n"; //mindist.ToString("0.0");
-           
+           //iTrack.name += "||" + msg;//+"\n\n\n\n\n\n"; //mindist.ToString("0.0");
+           iTrack.beschreibung += msg;
            return -penalty;
 
        }
@@ -1652,7 +1661,7 @@ public class CFzg
        public bool busy_tAusweichmanoever = false;
        public string tmp_msg="";
        private List<CTrack> Opt_Tracks = new List<CTrack>();
-       public double tAusweichmanoever(string manoeverregel,ref CTrack iTrack,int index_iTrack,CFzg Gegner)
+       public double tAusweichmanoever(string manoeverregel,ref CTrack iTrack,int index_iTrack,CFzg Gegner, double cpazeit)
        {
            busy_tAusweichmanoever = true;
            DateTime ti = DateTime.Now;
@@ -1669,8 +1678,12 @@ public class CFzg
           
            double max_t = 0;
            int indexManoeverstart =  index_iTrack + AIglobal.reactionsteps;
-           double max_bew = Bewertung_Track_Ende(Track, Gegner.ich, indexManoeverstart, AIglobal.sim_duration+1);
+           int indexManoeverende = indexManoeverstart + Math.Abs(((int)(1.5 * (cpazeit / AIConst.delta_t - indexManoeverstart))));
+           if (indexManoeverende >(int) (AIglobal.sim_duration / AIConst.delta_t) || indexManoeverende <= indexManoeverstart) 
+               indexManoeverende = (int) (AIglobal.sim_duration / AIConst.delta_t);
+           double max_bew = Bewertung_Track_Ende(Track, Gegner.ich, indexManoeverstart, indexManoeverende);
            CTrack max_Track=Track.copy();
+           this.ObjSC.Data.Debug1 += "ggw(*)=" + max_bew.ToString("0.0")+"\n";
            max_Track.expiry_time = curr_time + AIglobal.deletetrackoptionsafter;
            string msgstart = "§" + manoeverregel + ":" + name + "-" + Gegner.name+"/";
            max_Track.name = "[*]"+msgstart +"#orig *"+max_bew.ToString("0.00")+"|";
@@ -2045,14 +2058,15 @@ public class CFzg
                                        nSPD = nTrack.ListeSPD[^1].Copy(); nSPD.Ruderlage = 0; nSPD.Winkelv = 0;
                                       
                                        zaehler++;
-                                       if (zaehler == 41 || zaehler==41)
+                                       if (zaehler == 48 || zaehler==48)
                                        {
                                        }
                                        
                                        index_ende_rueckkehr =verfolge_Plan(Plan, nSPD, ref t_aufTrack, winkel_zurueck, nTrack); //Rest des GTracks
                                        msg +="/}"+ winkel_zurueck+"°";
 
-                                       nTrack.name = "[" + zaehler + "]" + msgstart+"#" + msgfahrtstufe + msgdrehen + msgentfernen + msgparallelkurs + msgparallel + "}" + winkel_zurueck + "°";
+                                       nTrack.name = "[" + zaehler + "]" + msgstart+"#" + msgfahrtstufe + msgdrehen + msgentfernen + msgparallelkurs + msgparallel + "/}" + winkel_zurueck + "°";
+                                       nTrack.beschreibung = nTrack.name.Replace("/", "\n");
                                        Plan.counter = plan_counter;
                                        Plan.warte_bis = plan_warte_bis;
                                        
@@ -2062,7 +2076,7 @@ public class CFzg
                                        bew = bew_entfernen+ bew_parallel+bewertungbonus;
                                        bew += Bewertung_Track_Ende(nTrack, Gegner.ich, index_beginn_manoever, index_ende_rueckkehr-1);
                                        
-                                       nTrack.name += "*" + bew.ToString("0.00");
+                                       nTrack.name += "(*)=" + bew.ToString("0.00");
                                        nTrack.itmp = index_iTrack;
                                        nTrack.expiry_time = curr_time + AIglobal.deletetrackoptionsafter;
                                        
@@ -2605,35 +2619,33 @@ public class CFzg
                    if (breagieren) //Ausweichmanöver fahren 
                    {
                        //if (Time.timeScale > 4f) Time.timeScale = 1f;
-                       if (name == "Fzg5")
+                       if (name == "FzgBlau")
                        {
                        }
-                       if (ausweichmanoever_ingang[g] == faktor_LetztesManoever) msg="Letztes Manöver";
-                       if (ausweichmanoever_ingang[g] == faktor_Korrektur) msg="Korrekturmanöver";
-                       if (ausweichmanoever_ingang[g] == 1.0d) msg = "Ausweichmanöver";
+                       if (ausweichmanoever_ingang[g] == faktor_LetztesManoever) msg="Letztes Man.:";
+                       if (ausweichmanoever_ingang[g] == faktor_Korrektur) msg="Korrekturma.:";
+                       if (ausweichmanoever_ingang[g] == 1.0d) msg = "Ausweichman.:";
 
-                       msg += name + (bausweichpflichtig[g] ? " muss " : " wird ") + Gegner.name +
-                              " ausweichen," +
-                              (bausweichpflichtig[g] ? "(§" + msgregel[g] + ")" : "") + ", dist = " +
-                              (int)dist;
+                       msg +=  Gegner.name + " , §" + (bausweichpflichtig[g] ? msgregel[g] : "--") + ", bei dist " + dist.ToString("N0");
 
-                       msg += "\n ["+itime+"]\n";
+                       
                        
                        //msg += " vs " + Gegner.name+"\n";
                        //if (bausweichpflichtig[g]) msg += " ,ausweichpfl.,"; else msg+=" ,nicht ausweichpfl.,";
-                       msg +=" §"+ msgregel[g];
+                       
                        ObjSC.Data.Debug1 += msg+"\n";
                        //NEUBERCHNEN DES TRACKS
                        //der TRack ist eine Lösung für alle Gegner, andere Lösungen müssen erstmal nicht mehr berechnet werden in diesem Schritt
                        AIglobal.reset_timescale = true;
                        Opt_Tracks.Remove(iTrack);
-                       tausweichen_bis[g] = tAusweichmanoever(msgmanoever[g], ref iTrack, i, Gegner); //!!! UPDATE iTrack , liefert den Zeitpunkt, wenn zurück auf Planroute !!!
+                       //iTrack.Map_Entferne();
+                       tausweichen_bis[g] = tAusweichmanoever(msgmanoever[g], ref iTrack, i, Gegner,KritischeSituation.cpa_zeit()); //!!! UPDATE iTrack , liefert den Zeitpunkt, wenn zurück auf Planroute !!!
                        //t_aufTrack[g]= Zeit wann ich beim ausweichen gegenüber Gegner g wieder auf Plan-Track bin
                        
                        //iTrack.Map_Anzeige(30, Color.yellow, 0, true);
                        try
                        {
-                           ObjSC.Data.Debug1 +="\n"+iTrack.name.Split('#')[1];
+                           ObjSC.Data.Debug1 +="Lsg:"+iTrack.name.Split('#')[1]+"\n";
                        }
                        catch (Exception e)
                        {
