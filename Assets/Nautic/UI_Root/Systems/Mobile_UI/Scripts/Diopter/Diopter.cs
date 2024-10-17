@@ -46,15 +46,11 @@ public class Diopter : MonoBehaviour
         if (_focusObject)
         {
             Vector3 directionToTarget = _focusObject.RotationObject.position - _selectedObject.RotationObject.position;
-            float angle = Vector3.SignedAngle(_selectedObject.RotationObject.forward, directionToTarget, Vector3.up);
-
-            Vector3 direction = _focusObject.transform.position - _selectedObject.transform.position;
-            _courseText.text = Mathf.Abs(angle).ToString("F1") + (angle > 0 ? "SB" : "BB");
-
-            _ruderKnob.SetRotation(direction.y);
-            
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
             _selectedObject.CameraController.SetRotation(targetRotation);
+            Vector3 directionWithOffset = _selectedObject.RotationObject.localRotation.eulerAngles - targetRotation.eulerAngles;
+            _courseText.text = Mathf.Abs(directionWithOffset.y).ToString("F1") + (directionWithOffset.y > 0 ? "SB" : "BB");
+            _ruderKnob.SetRotation(directionWithOffset.y);
             
             MeshRenderer renderer = _focusObject.Renderer;
             if (renderer != null)
@@ -105,7 +101,7 @@ public class Diopter : MonoBehaviour
 
     private void Rotate(int rotation)
     {
-        _selectedObject.CameraController.SetLocalRotationRotation(Quaternion.Euler(new Vector3(0, -rotation, 0)));
+        _selectedObject.CameraController.SetLocalRotationRotation(Quaternion.Euler(new Vector3(0, rotation, 0)));
         _courseText.text = Mathf.Abs(rotation).ToString("F1") + (rotation > 0 ? "SB" : "BB");
     }
 

@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,13 +14,13 @@ public class RuderKnob : MonoBehaviour
     [SerializeField] private float _maxDisplayedAngle;
     // the angle that points to the maxDisplayedAngle
     [SerializeField] private float _maximalRotatableAngle;
-    
-    private Vector3 _rotationVector = Vector3.zero;
 
     private Vector2 _rotationObjectScreenPosition;
     private bool isRotating = false;
 
     private UnityAction<int> _applyRotationCallback;
+
+    private int _snapingValue;
     
     
     // use this to get the real value, because the image rotation values are not real
@@ -60,7 +61,7 @@ public class RuderKnob : MonoBehaviour
         else if (Input.GetMouseButton(0) && isRotating)
         {
             CalcAndApplyRotation();
-            _applyRotationCallback?.Invoke((int)Rotation);
+            _applyRotationCallback?.Invoke((int)-Rotation);
         }
         else if (Input.GetMouseButtonUp(0))
         {
@@ -71,8 +72,7 @@ public class RuderKnob : MonoBehaviour
 
     public void SetRotation(float rotation)
     {
-        _rotationVector.z = Mathf.Round((105f / 50f) * rotation);
-        _rotationObject.rotation = Quaternion.Euler(_rotationVector);
+        _rotationObject.localRotation = Quaternion.Euler(new Vector3(0, 0, rotation));
         _rotationText.text = Mathf.Abs(Rotation) + "\u00B0";
     }
     
@@ -101,15 +101,50 @@ public class RuderKnob : MonoBehaviour
         // Rotate the object around the z-axis based on the movement direction
         float angle = Mathf.Atan2(localPoint.y, localPoint.x) * Mathf.Rad2Deg;
             
-        // adjust cause worldcoordinates and screencoordinates are nocht in the same reference system
-        _rotationVector.z = angle - 90;
+        // adjust cause worldcoordinates and screencoordinates are not in the same reference system
+        angle -=  90;
 
-        if (_rotationVector.z < 90 && _rotationVector.z > -180)
-            _rotationVector.z = Mathf.Clamp(_rotationVector.z, -_maximalRotatableAngle, _maximalRotatableAngle);
+        if (_snapingValue != 0)
+        {
+            int angleInGrafic = Mathf.RoundToInt(angle * (_maxDisplayedAngle / _maximalRotatableAngle));
+            
+            // snap to value
+            if (_snapingValue == 5)
+            {
+                if (angleInGrafic < 4 && angleInGrafic > -4)
+                    angleInGrafic = 0;
+                else if (angle > 0)
+                    angleInGrafic = Mathf.RoundToInt((angleInGrafic + 4) / _snapingValue) * _snapingValue;
+                else
+                    angleInGrafic = Mathf.RoundToInt((angleInGrafic - 4) / _snapingValue) * _snapingValue;
+            }
+
+            // snap to value    
+            if (_snapingValue == 10)
+            {
+                if (angleInGrafic < 9 && angleInGrafic > -9)
+                    angleInGrafic = 0;
+                else if (angleInGrafic >= 0)
+                    angleInGrafic = Mathf.RoundToInt((angleInGrafic + 9) / _snapingValue) * _snapingValue;
+                else
+                    angleInGrafic = Mathf.RoundToInt((angleInGrafic - 9) / _snapingValue) * _snapingValue;
+            }
+
+            angle = angleInGrafic * (_maximalRotatableAngle / _maxDisplayedAngle);
+        }
+
+        // clamp the rotation to the scale maximum
+        if (angle < 90 && angle > -180)
+            angle = Mathf.Clamp(angle, -_maximalRotatableAngle, _maximalRotatableAngle);
         else 
-            _rotationVector.z = Mathf.Clamp(_rotationVector.z + 360, -_maximalRotatableAngle, _maximalRotatableAngle);
+            angle = Mathf.Clamp(angle + 360, -_maximalRotatableAngle, _maximalRotatableAngle);
         // Apply rotation
-        _rotationObject.rotation = Quaternion.Euler(0, 0, _rotationVector.z);
-        _rotationText.text = Mathf.Abs(Rotation) + "\u00B0";
+        SetRotation(Mathf.Round(angle));
+    }
+
+    // set the knob to snap to eigther 5 or 10 deg. Used from the two toggels on the ruderknob
+    public void SetSnaping(int value)
+    {
+        _snapingValue = _snapingValue == value ? 0 : value;
     }
 }
