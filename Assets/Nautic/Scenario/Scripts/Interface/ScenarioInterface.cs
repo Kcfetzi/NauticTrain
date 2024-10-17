@@ -15,6 +15,9 @@ using Unity.Mathematics;
    */ 
 public class ScenarioInterface : InterfaceSOBase
 {
+    // count own time, because time.timesincelevelload is shared between all scenes. Because root scene is always active it will stack up time after restart.
+    public float ScenarioTime;
+    
     #region Map
     
     private Position LeftBottomPoint;

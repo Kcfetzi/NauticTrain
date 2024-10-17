@@ -1,11 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Groupup;
 using TMPro;
 using UnityEngine;
 
 public class SimNav : MonoBehaviour
 {
+    private ScenarioInterface _scenarioInterface;
+    
     [SerializeField] private Number _hourFirstDigit;
     [SerializeField] private Number _hourSecondDigit;
     
@@ -21,9 +24,14 @@ public class SimNav : MonoBehaviour
     
     private float _multiplayer = 1;
 
+    private void Awake()
+    {
+        _scenarioInterface = ResourceManager.GetInterface<ScenarioInterface>();
+    }
+
     private void Update()
     {
-        float time = Time.timeSinceLevelLoad;
+        float time = _scenarioInterface.ScenarioTime;
         
         int seconds = (int) time % 60;
         string secondsString = seconds.ToString();

@@ -11,7 +11,8 @@ using Groupup;
 
 
 public class CFzg
-{
+{      //time fix von martin
+       private ScenarioInterface _scenarioInterface;
        public const double grad = AIConst.grad; //RAD->GRAD
        public const double kn=AIConst.kn;  //0.514 kn->m/s
        public const double sm = AIConst.sm; //meter
@@ -169,6 +170,9 @@ public class CFzg
            //List<List<double>> Liste_fahrstufe_VMINUSRUDER=new List<List<double>>(){fahrstufe_VMINUSRUDER0,fahrstufe_VMINUSRUDER5,fahrstufe_VMINUSRUDER10,fahrstufe_VMINUSRUDER15,fahrstufe_VMINUSRUDER20,fahrstufe_VMINUSRUDER25,fahrstufe_VMINUSRUDER45};
            DNCs_ermitteln();
            AUFSTOPPSTECKEn_ermitteln();
+           
+           //time fix von martin
+           _scenarioInterface = ResourceManager.GetInterface<ScenarioInterface>();
        }
 
        public void init_PhysikParameter(double mod_v, double mod_minusv, double mod_a, double mod_winkela, double mod_winkelvmax, double mod_a_delta1, double mod_a_stop, double mod_a_back,
@@ -2121,7 +2125,8 @@ public class CFzg
            if (busy_tAusweichmanoever) return;
            if (Opt_Tracks.Count == 0) return;
            CTrack bestTrack=null;
-           double tt = Time.timeSinceLevelLoad;
+           //time fix von martin
+           double tt = _scenarioInterface.ScenarioTime;
            List<CTrack> todelete = new List<CTrack>();
            bool schonangezeigt = false;
            
@@ -2767,8 +2772,8 @@ public class CFzg
            if (inputfahrtstufe == inputfahrtstufe_alt && inputruderlage == inputruderlage_alt && inputkursvorgabe == inputkursvorgabe_alt) return; //TRack noch UptoDate
 
            Track?.Map_Entferne();
-
-           double itime = Time.timeSinceLevelLoad;
+           //time fix von martin
+           double itime = _scenarioInterface.ScenarioTime;
            
            int curr_index = get_current_trackindex(itime, Track);
 

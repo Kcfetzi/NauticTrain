@@ -995,7 +995,8 @@ public class AI_VTController : MonoBehaviour
        {
            try
            {
-               tt = Time.timeSinceLevelLoad;
+               //time fix von martin
+               tt = m_channel_map.ScenarioTime;
                
                //if (Fzg.istManuell) 
                 //   Fzg.ES_simulate_track_update(tt); 
@@ -1024,8 +1025,8 @@ public class AI_VTController : MonoBehaviour
        
            foreach (CFzg Fzg in AIglobal.Fahrzeuge)
            {
-               
-               double tt = Time.timeSinceLevelLoad;
+               //time fix von martin
+               double tt = m_channel_map.ScenarioTime;
                Fzg.simulate_track_update(Fzg.Track,tt);
            
            }
@@ -1038,7 +1039,8 @@ public class AI_VTController : MonoBehaviour
    private async void Update()
    {
        double dt=Time.deltaTime;
-       double tt = Time.timeSinceLevelLoad;
+       //time fix von martin
+       double tt = m_channel_map.ScenarioTime;
        double ts = Time.timeScale;
 
        if (tt - last_t_update < 0.5d) return;    //erst wenn neuer timestamp erreicht

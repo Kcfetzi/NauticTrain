@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Groupup;
 using StylizedWater2;
@@ -29,6 +30,9 @@ public class Mobile_MessinaController : MonoBehaviour
         _mobile_Messinainterface = ResourceManager.GetInterface<Mobile_MessinaInterface>();
         _aiInterface = ResourceManager.GetInterface<AIInterface>();
         _scenariointerface = ResourceManager.GetInterface<ScenarioInterface>();
+
+        //restart time of scenario
+        _scenariointerface.ScenarioTime = 0;
         
         if (_mobile_Messinainterface)
         {
@@ -78,6 +82,14 @@ public class Mobile_MessinaController : MonoBehaviour
             _aiInterface.Init_Szenario();
         else
             SceneLoader.Instance.OnActivePresetFullyLoaded += _aiInterface.Init_Szenario;
+    }
+
+    private void Update()
+    {
+        /**
+         * This script need to be the first or the last in script execution order, otherwise it can mess up timemanagement!
+         */
+        _scenariointerface.ScenarioTime += Time.deltaTime;
     }
 
     void OnDestroy()
