@@ -25,7 +25,7 @@ public static class AIglobal
     public const bool bsuppressmapoutput=false;
     public const bool bsuppressMsgBox=true;
     public const double deletetrackoptionsafter = 45;
-    public const int reactionsteps = 60;
+    public const int reactionsteps = 40;
     public const int ES_reactionsteps = 0;
     public const double sim_duration=3600;//in Sekunden
     public static double Windrichtung = 271;

@@ -106,6 +106,7 @@ public class CFzg
        
        public bool istManuell=false;      //nur für manuelle Spieler-Schiffe
        //Kategorien gem KVR
+       public int schiffstyp = AIConst.cSchiffstyp_Minenjaeger;
        public bool istMaschinenfzg=true;
        public bool istSegler = false;
        public bool istFischer=false;
@@ -114,14 +115,15 @@ public class CFzg
        public bool istBagger = false;
        public bool istUnterwasserkabelleger=false; 
        
-       public CFzg(string name, bool bistManuell, CShipPhysicalData SPD, int schiffstyp=0) //Konstruktor
+       public CFzg(string name, bool bistManuell, CShipPhysicalData SPD, int schiffstyp=AIConst.cSchiffstyp_Minenjaeger) //Konstruktor
        {
            this.name = name;
            this.istManuell = bistManuell;
            firstSPD = SPD;
            AIglobal.Fahrzeuge.Add(this);
            ich = index(); //setzt den eigenen Index
-
+           this.schiffstyp = schiffstyp;
+           
            switch (schiffstyp)
            {
                case AIConst.cSchiffstyp_Faehre:
@@ -140,8 +142,6 @@ public class CFzg
                    init_PhysikParameter(0.5, 1.4, 0.8, 1.5, 1, 1.4, 1.2, 1.4,
                        0.8, 0.8, 0.8, 0.8, 0.8, 0.8);
                    break;
-               
-               
                default: //zB Minenjäger
                    init_PhysikParameter(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
                        1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
@@ -1677,17 +1677,20 @@ public class CFzg
            double gegnerfahrstufe= Gegner.Track.SPD(index_iTrack+AIglobal.reactionsteps).Fahrstufe;
           
            double max_t = 0;
+           string msgstart = "§" + manoeverregel + ":" + name + "-" + Gegner.name+"/";
+           
+           //hier bewerten "kein Ausweichmanöver"------------------------
            int indexManoeverstart =  index_iTrack + AIglobal.reactionsteps;
            int indexManoeverende = indexManoeverstart + Math.Abs(((int)(1.5 * (cpazeit / AIConst.delta_t - indexManoeverstart))));
            if (indexManoeverende >(int) (AIglobal.sim_duration / AIConst.delta_t) || indexManoeverende <= indexManoeverstart) 
                indexManoeverende = (int) (AIglobal.sim_duration / AIConst.delta_t);
            double max_bew = Bewertung_Track_Ende(Track, Gegner.ich, indexManoeverstart, indexManoeverende);
            CTrack max_Track=Track.copy();
-           this.ObjSC.Data.Debug1 += "ggw(*)=" + max_bew.ToString("0.0")+"\n";
+           this.ObjSC.Data.Debug1 += "(*)=" + max_bew.ToString("0.0")+"\n";
            max_Track.expiry_time = curr_time + AIglobal.deletetrackoptionsafter;
-           string msgstart = "§" + manoeverregel + ":" + name + "-" + Gegner.name+"/";
            max_Track.name = "[*]"+msgstart +"#orig *"+max_bew.ToString("0.00")+"|";
            Opt_Tracks.Add(max_Track);
+           //-------------------------------------------------------
            
            double t_aufTrack = 0;
            string msg = "";
@@ -2390,14 +2393,17 @@ public class CFzg
            //this.ObjSC.Data.m_Position=new Position(iSPD.lat,iSPD.lon);                //Position
           /// this.ObjSC.Data.m_Direction = (float)90;          // (float) iSPD.KdW; //bearing
            
-           if (istManuell)
+           /*
+            * if (istManuell)
+           
            {
                if (tmpNO) AIglobal.m_ObjSpawnerSO.DeleteNauticObject(tmpNO);
                tmpNO=AIMap.Punkt(iSPD.lat, iSPD.lon, 5, Color.green);
            }
-           
-           ObjSC.Data.Debug2 = "R:" + iSPD.Ruderlage + "/F:" + iSPD.Fahrstufe.ToString("0.00")+ "/KdW:" + iSPD.KdW.ToString("0.00")+ "/FdW:" + (iSPD.FdW/kn).ToString("0.00")+"kn";
+            */
+           ObjSC.Data.Debug2 = "R:" + iSPD.Ruderlage + "/F:" + iSPD.Fahrstufe.ToString("0.0")+ "/KdW:" + iSPD.KdW.ToString("0.0")+ "/FdW:" + (iSPD.FdW/kn).ToString("0.0")+"kn";
            ObjSC.Data.Debug3 = "i:"+index.ToString("N0")+"/t:" + iSPD.timestamp.ToString("0.0");
+           ObjSC.Data.EcdisColor = farbe;
            //this.ObjSC.Data.m_Velocity.x =(float) iSPD.Ruderlage;
            //this.ObjSC.Data.m_Velocity.y =(float) iSPD.Fahrstufe;
            //this.ObjSC.Data.m_Velocity.z =(float) iSPD.FdW;
@@ -2501,19 +2507,11 @@ public class CFzg
                    kritSitES_updaten=-1;
                }
                
-
-               //if (i == i) //Spaeter: nicht in jedem Zeitschritt soll das ausweichen geprüft werden 
-               //{
                CShipPhysicalData iSPD = iTrack.SPD(i);
                if (iSPD == null) AIglobal.Fehler("iSPD == null");
 
-                   //Fahrzeug darstellen
-                   //AIMap.Display_Fzg(this, iSPD); // -> Setzt Fzg Position und Farbe (abh. von Ausweichpflicht)
-
-               //    {
-              
-
-               //zu prüfende Verkehrteilnehmer sortieren nach Zeitpunkt Auftreten kritische Situation
+          
+               
                //List<int, double> gefaehrliche_Gegner = new List<int, double>;
 
                // -> Notwendigkeit eines Ausweichmanövers mit allen anderen Verkehrsteilnehmern eruieren
@@ -2521,7 +2519,7 @@ public class CFzg
                if (name == "FzgBlau")
                {
                }
-
+                                                    //zu prüfende Verkehrteilnehmer sortiert nach Zeitpunkt Auftreten kritische Situation
                foreach (CCPA KritischeSituation in sortedlistKritischeSituationen)
                {
                    g = KritischeSituation.gegnerindex;
@@ -2532,8 +2530,9 @@ public class CFzg
                    double cpa;
                    bool breagieren = true;
                    double ausweichmanoever_ingang_jetzt = ausweichmanoever_ingang[g];
-                           
-                   if (KritischeSituation.cpa_zeit() < itime)   //CPA schon in der Vergangenheit,  nicht mehr gefährlich
+                    
+                   //CPA schon in der Vergangenheit,  (bis reagiert werden kann), nicht mehr gefährlich
+                   if (KritischeSituation.cpa_zeit() < (itime+AIglobal.reactionsteps*AIConst.delta_t))   
                    {
                        bkritischesituation_updaten = true;
                        continue; //  ----^^
@@ -2626,14 +2625,13 @@ public class CFzg
                        if (ausweichmanoever_ingang[g] == faktor_Korrektur) msg="Korrekturma.:";
                        if (ausweichmanoever_ingang[g] == 1.0d) msg = "Ausweichman.:";
 
-                       msg +=  Gegner.name + " , §" + (bausweichpflichtig[g] ? msgregel[g] : "--") + ", bei dist " + dist.ToString("N0");
+                       msg += Gegner.name + " , §" + (bausweichpflichtig[g] ? msgregel[g] : "--") + "\n";
+                       msg +="ggw dist=" + dist.ToString("N0")+"m, ";
 
                        
-                       
-                       //msg += " vs " + Gegner.name+"\n";
                        //if (bausweichpflichtig[g]) msg += " ,ausweichpfl.,"; else msg+=" ,nicht ausweichpfl.,";
-                       
-                       ObjSC.Data.Debug1 += msg+"\n";
+                       ObjSC.Data.Debug1 += "-------------------------\n";
+                       ObjSC.Data.Debug1 += msg; ///+"\n"kommt bei Bewertung orig Track
                        //NEUBERCHNEN DES TRACKS
                        //der TRack ist eine Lösung für alle Gegner, andere Lösungen müssen erstmal nicht mehr berechnet werden in diesem Schritt
                        AIglobal.reset_timescale = true;
