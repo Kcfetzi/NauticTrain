@@ -52,9 +52,9 @@ MonoBehaviour:
     particleLayer2Brightness: 0
     particleLayer2ColorPow: 2
     particleCloudsOverwrite: 0
-  fogStartDistance: 0
-  fogDistance: 1000
-  fogDensity: 0.08
+  fogStartDistance: 1
+  fogDistance: 1
+  fogDensity: 0.005
   weatherSkyMod:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 0}
@@ -148,12 +148,12 @@ MonoBehaviour:
   volumeLightIntensity: 0.95
   shadowIntensityMod: 0
   heightFogDensity: 0
-  SkyFogHeight: 2.13
-  skyFogStart: 0
-  SkyFogIntensity: 0.297
+  SkyFogHeight: 0.9
+  skyFogStart: 0.2
+  SkyFogIntensity: 1
   FogScatteringIntensity: 1
   fogSunBlocking: 0
-  moonIntensity: 0.028
+  moonIntensity: 0
   effectSystems: []
   WindStrenght: 0.274
   wetnessLevel: 0

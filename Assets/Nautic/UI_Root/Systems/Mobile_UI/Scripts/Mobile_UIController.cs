@@ -79,6 +79,7 @@ public class Mobile_UIController : MonoBehaviour
         if (_uiinterface)
         {
             _uiinterface.IsActive = false;
+            _uiinterface.Reset();
         }
     }
 
@@ -161,6 +162,13 @@ public class Mobile_UIController : MonoBehaviour
     {
        PopupManager.Instance.ShowSoundsSignalPopup();
     }
+
+
+    public void OnClick_Restart()
+    {
+        SceneLoader.Instance.LoadPresetByName("MainMenu", true);
+    }
+    
     
     private void Update()
     {

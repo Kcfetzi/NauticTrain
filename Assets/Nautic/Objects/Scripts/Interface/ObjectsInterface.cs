@@ -113,6 +113,7 @@ public class ObjectsInterface : InterfaceSOBase
     }
 
     #region observer
+    
     public UnityAction<NauticObject> OnNauticObjectSelected;
     public void SelectNauticObject(NauticObject obj)
     {

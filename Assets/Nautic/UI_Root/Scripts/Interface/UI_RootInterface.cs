@@ -90,6 +90,17 @@ public class UI_RootInterface : InterfaceSOBase
    public UnityAction<string> OnDeletePolyLine;
 
 
+   public void Reset()
+   {
+      OnInitUI = null;
+      OnInitShipValues = null;
+      OnRegisterNauticObject = null;
+      OnSpawnDynamicPolyline = null;
+      OnSpawnStaticPolyline = null;
+      OnDeletePolyLine = null;
+   }
+   
+   
    /**
     * Init the ui
     */

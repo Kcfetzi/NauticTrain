@@ -46,6 +46,8 @@ public class ObjectsController : MonoBehaviour
         if (_objectsinterface)
         {
             _objectsinterface.IsActive = false;
+            _objectsinterface.OnNauticObjectSelected = null;
+            _objectsinterface.OnDeleteNauticObject = null;
         }
     }
 

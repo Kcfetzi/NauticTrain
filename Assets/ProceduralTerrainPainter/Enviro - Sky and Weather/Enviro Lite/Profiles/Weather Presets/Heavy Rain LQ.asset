@@ -149,8 +149,8 @@ MonoBehaviour:
   shadowIntensityMod: 0
   heightFogDensity: 1.95
   SkyFogHeight: 0.31
-  skyFogStart: 0
-  SkyFogIntensity: 0.776
+  skyFogStart: 0.2
+  SkyFogIntensity: 0
   FogScatteringIntensity: 1.1
   fogSunBlocking: 0
   moonIntensity: 0
