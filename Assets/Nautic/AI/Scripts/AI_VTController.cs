@@ -540,7 +540,7 @@ public class AI_VTController : MonoBehaviour
        CFzg prepare_FzgRot()
        {
            CFzg ff=new CFzg("FzgRot",false,new CShipPhysicalData(38.2193148302931, 15.6198973498782,2,0,1.5*kn,260,0));
-          
+           ff.farbe = new Color(0.8f, 0.1f, 0.1f);
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2193148302931, 15.6198973498782,0,1.5*kn,-1,0));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2131187917741, 15.5829748523015,0,1.5*kn,-1,0));
            ff.Plan.name = ff.name+"(Plan)";
@@ -554,7 +554,7 @@ public class AI_VTController : MonoBehaviour
        CFzg prepare_FzgGelb()
        {
            CFzg ff=new CFzg("FzgGelb",false,new CShipPhysicalData(38.2243974826134, 15.6067251754921,3,0,2*kn,090,0));
-           
+           ff.farbe = new Color(.9f, 0.7f, 0.0f);
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2243974826134, 15.6067251754921,0,2*kn,-1,0));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2236123720098, 15.6286026960802,0,2*kn,-1,0));
            ff.Plan.name = ff.name+"(Plan)";
@@ -570,7 +570,7 @@ public class AI_VTController : MonoBehaviour
        {
            CFzg ff=new CFzg("FzgGruen",false,new CShipPhysicalData(38.2246219751248, 15.5984882398927,18,0,18*kn,135,0),
                        0     /*AIConst.cSchiffstyp_Containerschiff*/);
-          
+           ff.farbe = new Color(.1f, 0.5f, 0.1f);
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2246219751248, 15.5984882398927,0,18*kn,-1,0));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2098706991449, 15.6202937135065,0,18*kn,-1,0));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.1800974833952, 15.6184743905567,0,18*kn,-1,0));
@@ -584,6 +584,7 @@ public class AI_VTController : MonoBehaviour
        CFzg prepare_FzgBlau()
        {
            CFzg ff=new CFzg("FzgBlau", false,new CShipPhysicalData(38.2117543414636, 15.6102241487948,7,0,7*kn,010,0));
+           ff.farbe = new Color(0.1f, 0.1f, 0.7f);
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2117543414636, 15.6102241487948,0,8*kn,-1,0));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2329295238562, 15.614991292011,0,8*kn,-1,0));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2431664884421, 15.6402665580082,0,8*kn,-1,0));
