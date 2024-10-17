@@ -11,10 +11,6 @@ public class CockpitUIController : MonoBehaviour
     [Header("ShipValuesCanvas")]
     [SerializeField] private TMP_Text _velocityOverGroundText;
     [SerializeField] private TMP_Text _courseOverGroundText;
-    
-    [Header("ControllPanelCanvas")] 
-    [SerializeField] private RectTransform _panel;
-    [SerializeField] private RectTransform _rect;
 
     [SerializeField] private RuderKnob _ruderKnob;
     [SerializeField] private CourseChanger _courseChanger;
@@ -123,20 +119,6 @@ public class CockpitUIController : MonoBehaviour
         _setCourse = true;
         _wantedCourse = amount;
         _lastTimeUserTouched = Time.time;
-    }
-
-    public void ToggleControllPanel()
-    {
-        if (_panel.anchoredPosition.y > 100)
-        {
-            _panel.anchoredPosition = new Vector2(0, -60);
-            _rect.localRotation = Quaternion.Euler(Vector3.zero);
-        }
-        else
-        {
-            _panel.anchoredPosition = new Vector2(0, 175);
-            _rect.localRotation = Quaternion.Euler(new Vector3(0, 0, 180));
-        }
     }
     
     public void ToggleRuder(bool active)
