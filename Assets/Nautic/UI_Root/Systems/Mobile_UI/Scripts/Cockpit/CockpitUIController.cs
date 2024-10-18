@@ -63,11 +63,11 @@ public class CockpitUIController : MonoBehaviour
                 }
 
                 // check if user want to set a course or set the ruder
-                if (_setCourse)
+                if (_setCourse && _displayedData.WantedCourse != -_wantedCourse)
                 {
                     _displayedData.WantedCourse = _wantedCourse;
                     PopupManager.Instance.ShowCommunicationPopup("Wir haben Kurs auf " + _wantedCourse + " gesetzt!", true,true, 2);
-                } else
+                } else if (!_setCourse && _displayedData.RuderValue != -_wantedRuder)
                 {
                     _displayedData.RuderValue = _wantedRuder;
                     PopupManager.Instance.ShowCommunicationPopup("Wir haben Kurs auf " + _wantedRuder + (_wantedRuder < 0 ? " Backbord" : " Steuerbord" ) + " gesetzt!", true, true, 2);
