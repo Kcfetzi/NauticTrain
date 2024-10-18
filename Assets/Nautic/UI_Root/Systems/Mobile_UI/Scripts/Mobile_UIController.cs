@@ -153,40 +153,56 @@ public class Mobile_UIController : MonoBehaviour
             _navigationMenu.SetToDiopter();
     }
 
-    public void ToggleLightsSignals()
+    #region Clicklistener
+
+    public void OnClick_LightsSignals()
     {
         PopupManager.Instance.ShowLightsSignalsPopup();
     }
 
-    public void ToggleSoundsSignals()
+    public void OnClick_SoundsSignals()
     {
-       PopupManager.Instance.ShowSoundsSignalPopup();
+        PopupManager.Instance.ShowSoundsSignalPopup();
     }
 
-
-    public void OnClick_Restart()
+    public void OnClick_Settings()
     {
-        SceneLoader.Instance.LoadPresetByName("MainMenu", true);
+        PopupManager.Instance.ShowSettingsPopup();
     }
+
+    public void OnClickClosePopup()
+    {
+        PopupManager.Instance.Hide();
+    }
+
+    public void OnClick_Question()
+    {
+        Answer firstAnswer = new Answer("Falsche Antwort", false);
+        Answer secondAnswer = new Answer("Falsche Antwort", false);
+        Answer thirdAnswer = new Answer("Richtige Antwort", true);
+        Answer fourthAnswer = new Answer("Richtige Antwort", true);
+        
+        PopupManager.Instance.ShowQuestionPopup("Fragentitel", "Hier könnte ihre Frage stehen", new List<Answer>(){firstAnswer, secondAnswer, thirdAnswer,fourthAnswer}, null);
+    }
+
+    public void OnClick_Funk()
+    {
+        _uiinterface.SetFunkMessage("Nachricht im offenen Funkverkehr", true, false);
+        //_uiinterface.SetFunkMessage("Persönliche Nachricht vom Funk", false, true);
+        PopupManager.Instance.ShowCommunicationPopup("Persönliche Nachricht über Funk", false, false, 3, AnswerFunk);
+    }
+
+    public void AnswerFunk()
+    {
+        //_uiinterface.SetFunkMessage("Persönliche Antwort vom Funk", false, false);
+        PopupManager.Instance.ShowCommunicationPopup("Persönliche Antwort über Funk", false, true, 3);
+    }
+    
+    #endregion
     
     
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            Answer firstAnswer = new Answer("Falsche Antwort", false);
-            Answer secondAnswer = new Answer("Falsche Antwort", false);
-            Answer thirdAnswer = new Answer("Richtige Antwort", true);
-            Answer fourthAnswer = new Answer("Richtige Antwort", true);
-            
-            
-            PopupManager.Instance.ShowQuestionPopup("Fragentitel", "Hier könnte ihre Frage stehen", new List<Answer>(){firstAnswer, secondAnswer, thirdAnswer,fourthAnswer}, null);
-        }
-
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            _uiinterface.SetFunkMessage("Eine sehr lange Testmessage\n über zwei Zeilen");
-        }
         
     }
     

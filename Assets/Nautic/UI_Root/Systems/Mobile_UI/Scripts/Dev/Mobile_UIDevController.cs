@@ -35,15 +35,7 @@ public class Mobile_UIDevController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            PopupManager.Instance.ShowCommanderPopup("test left", true, null);
-        }
-        
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            PopupManager.Instance.ShowCommanderPopup("test right", false, null);
-        }
+
     }
 }
         

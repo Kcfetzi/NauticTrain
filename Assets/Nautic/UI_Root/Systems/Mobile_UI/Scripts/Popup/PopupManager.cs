@@ -123,24 +123,24 @@ public class PopupManager : MonoBehaviour
         Show();
     }
 
-    public void ShowCommanderPopup(string text, bool commanderleft = true, UnityAction submitaction = null)
+    public void ShowCommunicationPopup(string text, bool offizier, bool leftSide = true, float timeToHide = -1, UnityAction submitaction = null)
     {
         if (_activePopup)
         {
-             CommanderPopupCommand popupCommand = new CommanderPopupCommand(text, commanderleft, submitaction);
+            CommunicationPopupCommand popupCommand = new CommunicationPopupCommand(text, offizier, leftSide, timeToHide, submitaction);
             _popupCommands.Enqueue(popupCommand);
         }
         else
         {
-            InternalShowCommanderPopup(text, commanderleft, submitaction);
+            InternalShowCommunicationPopup(text, offizier, leftSide, timeToHide, submitaction);
         }
     }
 
-    public void InternalShowCommanderPopup(string text, bool commanderleft = true, UnityAction submitaction = null)
+    public void InternalShowCommunicationPopup(string text, bool offizier, bool leftSide = true, float timeToHide = -1, UnityAction submitaction = null)
     {
-        UIPopup popup = _popups["CommanderPopup"];
+        UIPopup popup = _popups["CommunicationPopup"];
         _activePopup = popup;
-        popup.GetComponent<UICommanderPopup>().Init(text, commanderleft, submitaction);
+        popup.GetComponent<UICommunicationPopup>().Init(text, offizier, leftSide, timeToHide, submitaction);
 
         Show();
     }
@@ -207,6 +207,27 @@ public class PopupManager : MonoBehaviour
         UIPopup popup = _popups["QuestionPopup"];
         _activePopup = popup;
         popup.GetComponent<UIQuestionPopup>().Init( title,  text, answers, submitAction);
+
+        Show();
+    }
+    
+    public void ShowSettingsPopup()
+    {
+        if (_activePopup)
+        {
+            SettingsPopupCommand popupCommand = new SettingsPopupCommand();
+            _popupCommands.Enqueue(popupCommand);
+        }
+        else
+        {
+            InternalShowSettingsPopup();
+        }
+    }
+
+    public void InternalShowSettingsPopup()
+    {
+        UIPopup popup = _popups["SettingsPopup"];
+        _activePopup = popup;
 
         Show();
     }

@@ -159,7 +159,7 @@ public class MapCuller : MonoBehaviour
         return new Vector3(x * _scenarioInterface.TileSize.x, -8, z * _scenarioInterface.TileSize.z);
     }
     
-    async void InstantiatePlayerTileAddressable(string tileName)
+    private void InstantiatePlayerTileAddressable(string tileName)
     {
         // tile is the allready activetile, maybe same object call this funktion again or another obj in same tile
         if (_terrainWithPlayer && _terrainWithPlayer.name == tileName)

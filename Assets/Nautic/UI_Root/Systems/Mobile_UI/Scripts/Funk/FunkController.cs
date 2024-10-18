@@ -21,12 +21,19 @@ public class FunkController : MonoBehaviour
         ResourceManager.GetInterface<UI_RootInterface>().OnSetFunkMessage += SetFunkMessage;
     }
 
-    public void SetFunkMessage(string msg)
+    public void SetFunkMessage(string msg, bool openChannel, bool incoming)
     {
-        _funkMessages.Add(msg);
+        if (openChannel)
+        {
+            _funkMessages.Add(msg);
         
-        if (_funkHolder.childCount == 0)
-            SpawnNextMessage();
+            if (_funkHolder.childCount == 0)
+                SpawnNextMessage();
+        }
+        else
+        {
+            PopupManager.Instance.ShowCommunicationPopup(msg, false, !incoming);
+        }
     }
 
     private void SpawnNextMessage()

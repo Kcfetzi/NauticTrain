@@ -56,14 +56,21 @@ public class CockpitUIController : MonoBehaviour
             // does user interact with cockpit in last 3 seconds?
             if (Time.time - _lastTimeUserTouched > 3)
             {
-                _displayedData.ThrustValue = _wantedTrust;
+                if (_displayedData.ThrustValue != _wantedTrust)
+                {
+                    _displayedData.ThrustValue = _wantedTrust;
+                    PopupManager.Instance.ShowCommunicationPopup("Geschwindigkeit auf " + _wantedTrust + " Knoten gesetzt!", true,true, 2);
+                }
+
                 // check if user want to set a course or set the ruder
                 if (_setCourse)
                 {
                     _displayedData.WantedCourse = _wantedCourse;
+                    PopupManager.Instance.ShowCommunicationPopup("Wir haben Kurs auf " + _wantedCourse + " gesetzt!", true,true, 2);
                 } else
                 {
                     _displayedData.RuderValue = _wantedRuder;
+                    PopupManager.Instance.ShowCommunicationPopup("Wir haben Kurs auf " + _wantedRuder + (_wantedRuder < 0 ? " Backbord" : " Steuerbord" ) + " gesetzt!", true, true, 2);
                 }
                 _setCourse = false;
                 

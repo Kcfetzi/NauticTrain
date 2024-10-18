@@ -147,11 +147,11 @@ public class UI_RootInterface : InterfaceSOBase
    
    #region Funk
 
-   public UnityAction<string> OnSetFunkMessage;
+   public UnityAction<string, bool, bool> OnSetFunkMessage;
     
-   public void SetFunkMessage(string msg)
+   public void SetFunkMessage(string msg, bool openChannel, bool incoming)
    {
-      OnSetFunkMessage?.Invoke(msg);
+      OnSetFunkMessage?.Invoke(msg, openChannel, incoming);
    }
 
    #endregion

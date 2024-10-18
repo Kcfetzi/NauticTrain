@@ -68,22 +68,26 @@ public class InputPopupCommand : PopupCommand
     }
 }
 
-public class CommanderPopupCommand : PopupCommand
+public class CommunicationPopupCommand : PopupCommand
 {
     private string _text;
-    private bool _commanderLeft;
+    private bool _leftSide;
     private UnityAction _submitCallback;
+    private float _timeToHide;
+    private bool _officer;
 
-    public CommanderPopupCommand(string text, bool commanderLeft, UnityAction submitCallback)
+    public CommunicationPopupCommand(string text, bool officier, bool leftSide, float timeToHide, UnityAction submitCallback)
     {
         _text = text;
-        _commanderLeft = commanderLeft;
+        _leftSide = leftSide;
         _submitCallback = submitCallback;
+        _timeToHide = timeToHide;
+        _officer = officier;
     }
 
     public override void Execute()
     {
-        PopupManager.Instance.InternalShowCommanderPopup(_text, _commanderLeft, _submitCallback);
+        PopupManager.Instance.InternalShowCommunicationPopup(_text, _officer, _leftSide, _timeToHide, _submitCallback);
     }
 }
 
@@ -134,5 +138,21 @@ public class QuestionPopupCommand : PopupCommand
     public override void Execute()
     {
         PopupManager.Instance.InternalShowQuestionPopup(_title, _text, _answers, _submitAction);
+    }
+}
+
+public class SettingsPopupCommand : PopupCommand
+{
+
+    
+    
+    public SettingsPopupCommand()
+    {
+
+    }
+
+    public override void Execute()
+    {
+        PopupManager.Instance.InternalShowSettingsPopup();
     }
 }
