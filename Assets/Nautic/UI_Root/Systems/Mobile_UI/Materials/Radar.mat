@@ -88,7 +88,7 @@ Material:
     - _AlphaRoundThreshold: 0.791
     - _BillboardY: 0
     - _BlurHD: 0
-    - _BlurIntensity: 10
+    - _BlurIntensity: 23.1
     - _Brightness: 0
     - _ChromAberrAlpha: 0.337
     - _ChromAberrAmount: 0.431
@@ -155,8 +155,8 @@ Material:
     - _HsvSaturation: 0.43
     - _HsvShift: 313
     - _InnerOutlineAlpha: 1
-    - _InnerOutlineGlow: 117
-    - _InnerOutlineThickness: 10
+    - _InnerOutlineGlow: 86
+    - _InnerOutlineThickness: 2.16
     - _MaxXUV: 1
     - _MaxYUV: 1
     - _MinXUV: 0
@@ -184,7 +184,7 @@ Material:
     - _OverlayTextureScrollXSpeed: 0.25
     - _OverlayTextureScrollYSpeed: 0.25
     - _PinchUvAmount: 0.35
-    - _PixelateSize: 737
+    - _PixelateSize: 512
     - _PosterizeGamma: 3.79
     - _PosterizeNumColors: 91.9
     - _PosterizeOutline: 0
@@ -203,8 +203,8 @@ Material:
     - _ShakeUvX: 1.5
     - _ShakeUvY: 1
     - _ShineGlow: 1
-    - _ShineLocation: 0.5
-    - _ShineRotate: 0
+    - _ShineLocation: 0.35
+    - _ShineRotate: 0.67
     - _ShineWidth: 0.1
     - _Stencil: 0
     - _StencilComp: 8
@@ -239,7 +239,7 @@ Material:
     - _ColorChangeTarget3: {r: 1, g: 0, b: 0, a: 1}
     - _ColorSwapBlue: {r: 1, g: 1, b: 1, a: 1}
     - _ColorSwapGreen: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorSwapRed: {r: 0.023153365, g: 0.023153365, b: 0.023153365, a: 1}
+    - _ColorSwapRed: {r: 0.00303527, g: 0.00303527, b: 0.00303527, a: 1}
     - _FadeBurnColor: {r: 1, g: 1, b: 0, a: 1}
     - _GlowColor: {r: 1, g: 1, b: 1, a: 1}
     - _GradBotLeftCol: {r: 0, g: 0, b: 1, a: 1}

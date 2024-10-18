@@ -67,7 +67,7 @@
 
 		_NegativeAmount("Negative Amount", Range(0, 1)) = 1 //49
 
-		_PixelateSize("Pixelate size", Range(4,2048)) = 32 //50
+		_PixelateSize("Pixelate size", Range(4,512)) = 32 //50
 
 		[NoScaleOffset] _ColorRampTex("Color ramp Texture", 2D) = "white" {} //51
 		_ColorRampLuminosity("Color ramp luminosity",  Range(-1,1)) = 0 //52
