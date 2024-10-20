@@ -60,7 +60,7 @@ public class UIQuestionPopup : UIPopup
         switch (_question.Context)
         {
             case 1:
-                kontextText = "Auditive Signale öffnen";
+                kontextText = "Visuelle Signale öffnen";
                 break;
             case 2:
                 kontextText = "Akustische Signale öffnen";
@@ -113,9 +113,10 @@ public class UIQuestionPopup : UIPopup
         switch (_question.Context)
         {
             case 1:
-                
+                PopupManager.Instance.ShowLightsSignalsPopup(_question, _submitAction);
                 break;
             case 2:
+                PopupManager.Instance.ShowSoundsSignalPopup(_question, _submitAction);
                 break;
             case 3:
                 ResourceManager.GetInterface<UI_RootInterface>().OnOpenDiopter(_question, _submitAction);

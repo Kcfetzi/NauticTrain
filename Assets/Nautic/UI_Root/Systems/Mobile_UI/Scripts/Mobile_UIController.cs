@@ -190,12 +190,12 @@ public class Mobile_UIController : MonoBehaviour
 
     public void OnClick_LightsSignals()
     {
-        PopupManager.Instance.ShowLightsSignalsPopup();
+        PopupManager.Instance.ShowLightsSignalsPopup(null, null);
     }
 
     public void OnClick_SoundsSignals()
     {
-        PopupManager.Instance.ShowSoundsSignalPopup();
+        PopupManager.Instance.ShowSoundsSignalPopup(null, null);
     }
 
     public void OnClick_Settings()

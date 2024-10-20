@@ -145,46 +145,46 @@ public class PopupManager : MonoBehaviour
         Show();
     }
     
-    public void ShowLightsSignalsPopup()
+    public void ShowLightsSignalsPopup(Question question, UnityAction submitCallback)
     {
         if (_activePopup)
         {
-            LightsSignalPopupCommand popupCommand = new LightsSignalPopupCommand();
+            LightsSignalPopupCommand popupCommand = new LightsSignalPopupCommand(question, submitCallback);
             _popupCommands.Enqueue(popupCommand);
         }
         else
         {
-            InternalShowLightsSignalPopup();
+            InternalShowLightsSignalPopup(question, submitCallback);
         }
     }
 
-    public void InternalShowLightsSignalPopup()
+    public void InternalShowLightsSignalPopup(Question question, UnityAction submitCallback)
     {
         UIPopup popup = _popups["LightsSignalPopup"];
         _activePopup = popup;
-        popup.GetComponent<UILightsSignalPopup>().Init();
+        popup.GetComponent<UILightsSignalPopup>().Init(question, submitCallback);
 
         Show();
     }
     
-    public void ShowSoundsSignalPopup()
+    public void ShowSoundsSignalPopup(Question question, UnityAction submitCallback)
     {
         if (_activePopup)
         {
-            SoundsSignalPopupCommand popupCommand = new SoundsSignalPopupCommand();
+            SoundsSignalPopupCommand popupCommand = new SoundsSignalPopupCommand(question, submitCallback);
             _popupCommands.Enqueue(popupCommand);
         }
         else
         {
-            InternalShowSoundsSignalPopup();
+            InternalShowSoundsSignalPopup(question, submitCallback);
         }
     }
 
-    public void InternalShowSoundsSignalPopup()
+    public void InternalShowSoundsSignalPopup(Question question, UnityAction submitCallback)
     {
         UIPopup popup = _popups["SoundsSignalPopup"];
         _activePopup = popup;
-        popup.GetComponent<UISoundsSignalPopup>().Init();
+        popup.GetComponent<UISoundsSignalPopup>().Init(question, submitCallback);
 
         Show();
     }

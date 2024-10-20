@@ -93,29 +93,34 @@ public class CommunicationPopupCommand : PopupCommand
 
 public class LightsSignalPopupCommand : PopupCommand
 {
+    private Question _question;
+    private UnityAction _submitCallback;
 
-    public LightsSignalPopupCommand()
+    public LightsSignalPopupCommand(Question question, UnityAction submitCallback)
     {
-        
+        _question = question;
+        _submitCallback = submitCallback;
     }
 
     public override void Execute()
     {
-        PopupManager.Instance.InternalShowLightsSignalPopup();
+        PopupManager.Instance.InternalShowLightsSignalPopup(_question, _submitCallback);
     }
 }
 
 public class SoundsSignalPopupCommand : PopupCommand
 {
-
-    public SoundsSignalPopupCommand()
+    private Question _question;
+    private UnityAction _submitCallback;
+    public SoundsSignalPopupCommand(Question question, UnityAction submitCallback)
     {
-        
+        _question = question;
+        _submitCallback = submitCallback;
     }
 
     public override void Execute()
     {
-        PopupManager.Instance.InternalShowLightsSignalPopup();
+        PopupManager.Instance.InternalShowSoundsSignalPopup(_question, _submitCallback);
     }
 }
 

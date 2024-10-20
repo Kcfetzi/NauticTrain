@@ -1,12 +1,16 @@
 using System.Collections.Generic;
 using Groupup;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class UILightsSignalPopup : UIPopup
 {
 
     [SerializeField] private ShipLights _lights;
     [SerializeField] private ShipSymbols _symbols;
+
+    private Question _contextQuestion;
+    private UnityAction _submitCallback;
     
     // does the user selected lights or symbols
     private bool _useLights;
@@ -18,8 +22,11 @@ public class UILightsSignalPopup : UIPopup
     }
 
 
-    public void Init()
+    // if this popup is opened by a question to get context answers question and unityaction is set.
+    public void Init(Question question, UnityAction submitCallback)
     {
+        _contextQuestion = question;
+        _submitCallback = submitCallback;
     }
     
     /**
@@ -46,13 +53,22 @@ public class UILightsSignalPopup : UIPopup
 
     public void OnCLick_Submit()
     {
-        NauticObject obj = ResourceManager.GetInterface<ObjectsInterface>().SelectedObject;
-        if (obj && obj.LightController)
+        // if no contextQuestion is set, this is used for normal gameplay
+        if (_contextQuestion == null)
         {
-            obj.Data.LightsOrSymbols = GetLightsAndSymbols();
-            obj.LightController.SetLightsAndSymbols(obj.Data.LightsOrSymbols);
+            NauticObject obj = ResourceManager.GetInterface<ObjectsInterface>().SelectedObject;
+            if (obj && obj.LightController)
+            {
+                obj.Data.LightsOrSymbols = GetLightsAndSymbols();
+                obj.LightController.SetLightsAndSymbols(obj.Data.LightsOrSymbols);
+            }
         }
-        
+        // otherwise it is used from a question to get context informations
+        else
+        {
+            PopupManager.Instance.ShowQuestionPopup(_contextQuestion, _submitCallback, "Antwort vom Lichtpopup");
+        }
+
         PopupManager.Instance.Hide();
     }
     

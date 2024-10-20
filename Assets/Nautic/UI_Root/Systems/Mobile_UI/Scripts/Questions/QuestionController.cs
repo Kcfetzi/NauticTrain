@@ -19,8 +19,7 @@ public class QuestionController : MonoBehaviour
 
     public Question GetRandomQuestion()
     {
-        //return _questions[Random.Range(0, _questions.Count - 1)];
-        return _questions[4];
+        return _questions[Random.Range(0, _questions.Count - 1)];
     }
 }
 

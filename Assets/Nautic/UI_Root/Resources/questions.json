@@ -76,10 +76,34 @@
     ]
   },
   {
-    "Title":"DipterFrage",
+    "Title":"Dipterfrage",
     "QuestionText":"Welches Fahrzeug is das?",
     "Precondition":"-keine-",
     "Context": 3,
+    "Answers":[
+      {
+        "AnswerText":"abc",
+        "ISCorrect":true
+      }
+    ]
+  },
+  {
+    "Title":"Soundfrage",
+    "QuestionText":"Welches Signal soll für Situation abc gewählt werden?",
+    "Precondition":"-keine-",
+    "Context": 2,
+    "Answers":[
+      {
+        "AnswerText":"abc",
+        "ISCorrect":true
+      }
+    ]
+  },
+  {
+    "Title":"Lichterfrage",
+    "QuestionText":"Welches Licht/Symbol soll für Situation abc gewählt werden?",
+    "Precondition":"-keine-",
+    "Context": 1,
     "Answers":[
       {
         "AnswerText":"abc",
