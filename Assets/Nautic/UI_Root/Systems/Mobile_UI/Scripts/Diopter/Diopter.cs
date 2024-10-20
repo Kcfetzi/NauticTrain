@@ -18,6 +18,8 @@ public class Diopter : MonoBehaviour
     [SerializeField] private DiopterEntry _diopterEntry;
     
     [SerializeField] private RectTransform _clickZone;
+
+    [SerializeField] private Button _markObjectButton;
     
     private NauticObject _selectedObject;
     private NauticObject _focusObject;
@@ -43,7 +45,7 @@ public class Diopter : MonoBehaviour
     {
         _kontextQuestion = question;
         _questionCallback = questionCallback;
-        gameObject.SetActive(question != null);
+        SetActive(question != null);
     }
     
     private void Update()
@@ -59,11 +61,13 @@ public class Diopter : MonoBehaviour
     {
         if (_focusObject)
         {
+            _markObjectButton.interactable = true;
+            
             Vector3 directionToTarget = _focusObject.RotationObject.position - _selectedObject.RotationObject.position;
             Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
             _selectedObject.CameraController.SetRotation(targetRotation);
             Vector3 directionWithOffset = _selectedObject.RotationObject.localRotation.eulerAngles - targetRotation.eulerAngles;
-            _courseText.text = Mathf.Abs(directionWithOffset.y).ToString("F1") + (directionWithOffset.y > 0 ? "SB" : "BB");
+            _courseText.text = Mathf.Abs(directionWithOffset.y).ToString("F0") + "\u00B0" + (directionWithOffset.y > 0 ? " SB" : " BB");
             _ruderKnob.SetRotation(directionWithOffset.y);
             
             MeshRenderer renderer = _focusObject.Renderer;
@@ -83,6 +87,7 @@ public class Diopter : MonoBehaviour
         else
         {
             _marker.sizeDelta = Vector3.zero;
+            _markObjectButton.interactable = false;
         }
     }
 
@@ -116,7 +121,6 @@ public class Diopter : MonoBehaviour
     private void Rotate(int rotation)
     {
         _selectedObject.CameraController.SetLocalRotationRotation(Quaternion.Euler(new Vector3(0, rotation, 0)));
-        _courseText.text = Mathf.Abs(rotation).ToString("F1") + (rotation > 0 ? "SB" : "BB");
     }
 
     // user clickt to mark a target, if a _markcallback is set, diopter was openend in kontext of a question. So return the choise. Otherwise set a markentry

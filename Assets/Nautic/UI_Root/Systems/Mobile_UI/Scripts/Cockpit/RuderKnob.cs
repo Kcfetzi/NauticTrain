@@ -45,6 +45,7 @@ public class RuderKnob : MonoBehaviour
     public void Init(UnityAction<int> applyRotationCallback)
     {
         _applyRotationCallback = applyRotationCallback;
+        SetRotation(0);
     }
     
     void Update()
@@ -73,7 +74,8 @@ public class RuderKnob : MonoBehaviour
     public void SetRotation(float rotation)
     {
         _rotationObject.localRotation = Quaternion.Euler(new Vector3(0, 0, rotation));
-        _rotationText.text = Mathf.Abs(Rotation) + "\u00B0";
+        float displayedRoation = Rotation;
+        _rotationText.text = Mathf.Abs(displayedRoation) + "\u00B0" + (displayedRoation > 0 ? " BB" : " SB");
     }
     
     // Method to check if the touch or click is inside the RectTransform
