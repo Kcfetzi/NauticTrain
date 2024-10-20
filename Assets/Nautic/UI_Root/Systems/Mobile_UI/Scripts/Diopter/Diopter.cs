@@ -1,6 +1,8 @@
 using System;
+using Groupup;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -20,6 +22,10 @@ public class Diopter : MonoBehaviour
     private NauticObject _selectedObject;
     private NauticObject _focusObject;
 
+    // this is only if diopter was openend in kontext of a question
+    private Question _kontextQuestion;
+    private UnityAction _questionCallback;
+    
     private Camera _mainCamera;
     
     private void Awake()
@@ -32,6 +38,14 @@ public class Diopter : MonoBehaviour
         _ruderKnob.Init(Rotate);
     }
 
+    // if a callback is given, diopter was opened from a questionkontext
+    public void Init(Question question, UnityAction questionCallback)
+    {
+        _kontextQuestion = question;
+        _questionCallback = questionCallback;
+        gameObject.SetActive(question != null);
+    }
+    
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -105,12 +119,22 @@ public class Diopter : MonoBehaviour
         _courseText.text = Mathf.Abs(rotation).ToString("F1") + (rotation > 0 ? "SB" : "BB");
     }
 
+    // user clickt to mark a target, if a _markcallback is set, diopter was openend in kontext of a question. So return the choise. Otherwise set a markentry
     public void SetEntry()
     {
         if (!_focusObject)
             return;
 
-        DiopterEntry entry = Instantiate(_diopterEntry, _entryHolder);
-        entry.Init(_focusObject.Data.ObjectName + " | " + _courseText.text);
+        // if entry set with contextQuestion, close diopter and show questionpopup again
+        if (_kontextQuestion != null)
+        {
+            PopupManager.Instance.ShowQuestionPopup(_kontextQuestion, _questionCallback, _focusObject.Data.ObjectName);
+            ResourceManager.GetInterface<UI_RootInterface>().CloseDiopter();
+        }
+        else
+        {
+            DiopterEntry entry = Instantiate(_diopterEntry, _entryHolder);
+            entry.Init(_focusObject.Data.ObjectName + " | " + _courseText.text);
+        }
     }
 }

@@ -89,6 +89,9 @@ public class UI_RootInterface : InterfaceSOBase
    public Func<List<double2>, PolyLine> OnSpawnStaticPolyline;
    public UnityAction<string> OnDeletePolyLine;
 
+   public UnityAction<Question, UnityAction> OnOpenDiopter;
+   public UnityAction OnCloseDiopter;
+
 
    public void Reset()
    {
@@ -98,6 +101,24 @@ public class UI_RootInterface : InterfaceSOBase
       OnSpawnDynamicPolyline = null;
       OnSpawnStaticPolyline = null;
       OnDeletePolyLine = null;
+      OnOpenDiopter = null;
+      OnCloseDiopter = null;
+   }
+
+   /**
+    * Open the diopter on active ship
+    */
+   public void OpenDiopter(Question question, UnityAction questionCallback)
+   {
+      OnOpenDiopter?.Invoke(question, questionCallback);
+   }
+   
+   /**
+    * Close the diopter on active ship
+    */
+   public void CloseDiopter()
+   {
+      OnCloseDiopter?.Invoke();
    }
    
    

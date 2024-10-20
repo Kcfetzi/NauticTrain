@@ -1,0 +1,90 @@
+[
+  {
+    "Title":"Kontextsensitive Frage",
+    "QuestionText":"Verkehrsteilnehmer A,B:\nWer ist wem gegenüber ausweichpflichtig?",
+    "Precondition":"2 VT A,B mit relevantem, die vor möglichem\nAusweichmanöver den Kurs nicht wechseln",
+    "Context": 0,
+    "Answers":[
+      {
+        "AnswerText":"Teilnehmer A (Wrong)",
+        "ISCorrect":false
+      },
+      {
+        "AnswerText":"Teilnehmer B (Correct)",
+        "ISCorrect":true
+      }
+    ]
+  },
+  {
+    "Title":"Wissensfrage",
+    "QuestionText":"Welches Maschinenfahrzeug darf statt Heck und\nTopplichtern alleine ein weißes Rundumlicht führen",
+    "Precondition":"-keine-",
+    "Context": 0,
+    "Answers":[
+      {
+        "AnswerText":"Maschfzg < 50m (Wrong)",
+        "ISCorrect":false
+      },
+      {
+        "AnswerText":"Maschfzg < 12m (Wrong)",
+        "ISCorrect":false
+      },
+      {
+        "AnswerText":"Segler (Correct)",
+        "ISCorrect":true
+      },
+      {
+        "AnswerText":"Fischereifzg ohne FdW (Wrong)",
+        "ISCorrect":true
+      },
+      {
+        "AnswerText":"Fischereifzg, das nicht trawlt (Wrong)",
+        "ISCorrect":false
+      }
+    ]
+  },
+  {
+    "Title":"Kontextsensitive Frage",
+    "QuestionText":"Welche Lichter würde ich von VT bei Nacht sehen (z.B. Fokus Lage: sehe ich noch Seitenlicht oderHecklicht)",
+    "Precondition":"Tag",
+    "Context": 0,
+    "Answers":[
+      {
+        "AnswerText":"4x4 Matrix mit Lichtern\nOOOO\nOOOO\nOOOO\nOOOO (Wrong)",
+        "ISCorrect":false
+      },
+      {
+        "AnswerText":"Kein Licht, wenn kein Sichtkontakt oder eindeutig zu weit weg.(Correct)",
+        "ISCorrect":true
+      }
+    ]
+  },
+  {
+    "Title":"Wissensfrage",
+    "QuestionText":"Ist ein fischendes Fahrzeug einem Segler in Fahrt ausweichpflichtig?",
+    "Precondition":"-keine-",
+    "Context": 0,
+    "Answers":[
+      {
+        "AnswerText":"Ja (Wrong)",
+        "ISCorrect":false
+      },
+      {
+        "AnswerText":"Nein (Correct)",
+        "ISCorrect":true
+      }
+    ]
+  },
+  {
+    "Title":"DipterFrage",
+    "QuestionText":"Welches Fahrzeug is das?",
+    "Precondition":"-keine-",
+    "Context": 3,
+    "Answers":[
+      {
+        "AnswerText":"abc",
+        "ISCorrect":true
+      }
+    ]
+  }
+]

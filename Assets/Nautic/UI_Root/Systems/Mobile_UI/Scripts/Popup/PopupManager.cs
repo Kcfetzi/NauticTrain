@@ -189,24 +189,24 @@ public class PopupManager : MonoBehaviour
         Show();
     }
     
-    public void ShowQuestionPopup(string title, string text, List<Answer> answers, UnityAction submitAction)
+    public void ShowQuestionPopup(Question question, UnityAction submitAction, string contextAnswer)
     {
         if (_activePopup)
         {
-            QuestionPopupCommand popupCommand = new QuestionPopupCommand(title, text, answers, submitAction);
+            QuestionPopupCommand popupCommand = new QuestionPopupCommand(question, submitAction, contextAnswer);
             _popupCommands.Enqueue(popupCommand);
         }
         else
         {
-            InternalShowQuestionPopup(title, text, answers, submitAction);
+            InternalShowQuestionPopup(question, submitAction, contextAnswer);
         }
     }
 
-    public void InternalShowQuestionPopup(string title, string text, List<Answer> answers, UnityAction submitAction)
+    public void InternalShowQuestionPopup(Question question, UnityAction submitAction, string contextAnswer)
     {
         UIPopup popup = _popups["QuestionPopup"];
         _activePopup = popup;
-        popup.GetComponent<UIQuestionPopup>().Init( title,  text, answers, submitAction);
+        popup.GetComponent<UIQuestionPopup>().Init(question, submitAction, contextAnswer);
 
         Show();
     }

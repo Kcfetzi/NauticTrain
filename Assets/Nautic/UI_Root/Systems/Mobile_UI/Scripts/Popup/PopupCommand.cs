@@ -121,23 +121,20 @@ public class SoundsSignalPopupCommand : PopupCommand
 
 public class QuestionPopupCommand : PopupCommand
 {
-    private string _title;
-    private string _text;
-    private List<Answer> _answers;
+    private Question _question;
     private UnityAction _submitAction;
+    private string _contextAnswer;
     
-    
-    public QuestionPopupCommand(string title, string text, List<Answer> answers, UnityAction submitAction)
+    public QuestionPopupCommand(Question question, UnityAction submitAction, string contextAnswer)
     {
-        _title = title;
-        _text = text;
-        _answers = answers;
+        _question = question;
         _submitAction = submitAction;
+        _contextAnswer = contextAnswer;
     }
 
     public override void Execute()
     {
-        PopupManager.Instance.InternalShowQuestionPopup(_title, _text, _answers, _submitAction);
+        PopupManager.Instance.InternalShowQuestionPopup(_question, _submitAction, _contextAnswer);
     }
 }
 

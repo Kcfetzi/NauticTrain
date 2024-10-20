@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Groupup;
+using Sirenix.Utilities;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,6 +18,9 @@ public class Mobile_UIController : MonoBehaviour
     [SerializeField] private CockpitController _cockpitController;
     
     [SerializeField] private Camera _overlayCamera;
+    
+    [SerializeField] private QuestionController _questionController;
+    
     private Camera _mainCamera;
     
     // take the root interface for ui and register yourself
@@ -32,6 +37,8 @@ public class Mobile_UIController : MonoBehaviour
         {
             // 
             _uiinterface.OnInitUI += InitUI;
+            _uiinterface.OnOpenDiopter += OpenDiopter;
+            _uiinterface.OnCloseDiopter += CloseDiopter;
         }
         else
         {
@@ -103,7 +110,7 @@ public class Mobile_UIController : MonoBehaviour
         _diopterView.SetSelectedNauticObject(_selectedObject);
     }
     
-    
+    // ui navigation klick radar
     public void ActivateRadar(bool closeUI)
     {
         _navigationMenu.gameObject.SetActive(!closeUI);
@@ -137,10 +144,11 @@ public class Mobile_UIController : MonoBehaviour
             _navigationMenu.SetToEcdis();
     }
 
+    // ui navigation klick diopter
     public void ActivateDiopter(bool closeUI)
     {
         _navigationMenu.gameObject.SetActive(!closeUI);
-        _diopterView.SetActive(!closeUI);
+        _diopterView.gameObject.SetActive(!closeUI);
         _ecdis.gameObject.SetActive(false);
         _radar.gameObject.SetActive(false);
         _controllPanel.SetActive(closeUI);
@@ -151,6 +159,31 @@ public class Mobile_UIController : MonoBehaviour
         // set checkbox in navigationmenu to radar
         if (!closeUI)
             _navigationMenu.SetToDiopter();
+    }
+
+    // this is the channel method. It is used by the questionpopup to get context
+    private void OpenDiopter(Question question, UnityAction submitAction)
+    {
+        _navigationMenu.gameObject.SetActive(false);
+        _diopterView.Init(question, submitAction);
+        _ecdis.gameObject.SetActive(false);
+        _radar.gameObject.SetActive(false);
+        _controllPanel.SetActive(false);
+        _cockpitController.SetActive(false);
+        _mainCamera.enabled = true;
+        _overlayCamera.enabled = false;
+    }
+
+    private void CloseDiopter()
+    {
+        _navigationMenu.gameObject.SetActive(false);
+        _diopterView.Init(null, null);
+        _ecdis.gameObject.SetActive(false);
+        _radar.gameObject.SetActive(false);
+        _controllPanel.SetActive(true);
+        _cockpitController.SetActive(true);
+        _mainCamera.enabled = true;
+        _overlayCamera.enabled = true;
     }
 
     #region Clicklistener
@@ -177,12 +210,7 @@ public class Mobile_UIController : MonoBehaviour
 
     public void OnClick_Question()
     {
-        Answer firstAnswer = new Answer("Falsche Antwort", false);
-        Answer secondAnswer = new Answer("Falsche Antwort", false);
-        Answer thirdAnswer = new Answer("Richtige Antwort", true);
-        Answer fourthAnswer = new Answer("Richtige Antwort", true);
-        
-        PopupManager.Instance.ShowQuestionPopup("Fragentitel", "Hier könnte ihre Frage stehen", new List<Answer>(){firstAnswer, secondAnswer, thirdAnswer,fourthAnswer}, null);
+        PopupManager.Instance.ShowQuestionPopup(_questionController.GetRandomQuestion(), null, "");
     }
 
     public void OnClick_Funk()
@@ -200,11 +228,6 @@ public class Mobile_UIController : MonoBehaviour
     
     #endregion
     
-    
-    private void Update()
-    {
-        
-    }
     
 }
         
