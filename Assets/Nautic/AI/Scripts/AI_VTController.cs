@@ -150,6 +150,8 @@ public class AI_VTController : MonoBehaviour
        {
            CFzg ff=new CFzg("FzgRot",false,new CShipPhysicalData(38.2934943451473, 15.682301291195,12,0,12*kn,315,0));
            
+           ff.farbe = new Color(0.8f, 0.1f, 0.1f);
+
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2934943451473, 15.682301291195,0,12*kn,-1,0));
            //ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.3179287917682, 15.6287592336986,0,12*kn,-1,0));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.349031474601, 15.5487362656778,0,12*kn,-1,0));
@@ -162,7 +164,10 @@ public class AI_VTController : MonoBehaviour
        CFzg prepare_FzgBlau()
        {
            CFzg ff=new CFzg("FzgBlau",false,new CShipPhysicalData(38.313091936936, 15.6441473198119,10,0,10*kn,135,0));
+          
+           ff.farbe = new Color(0.1f, 0.1f, 0.7f);
            
+
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.313091936936, 15.6441473198119,0,10*kn,-1,0));
            //ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2892412480872, 15.6918924843962,0,10*kn,-1,0));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2695355236315, 15.7483326750912,0,10*kn,-1,0));
@@ -200,6 +205,8 @@ public class AI_VTController : MonoBehaviour
        {
            CFzg ff=new CFzg("FzgRot",false,new CShipPhysicalData(38.2952676283522, 15.6673167642925,12,0,12*kn,290,0));//38.288126873536, 15.6816810413211
            
+           ff.farbe = new Color(0.8f, 0.1f, 0.1f);
+
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2952676283522, 15.6673167642925,0,12*kn,-1,0));//(38.288126873536, 15.6816810413211
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.3511992173149, 15.5612916267611,0,12*kn,-1,0));
           
@@ -213,6 +220,8 @@ public class AI_VTController : MonoBehaviour
        {
            CFzg ff=new CFzg("FzgBlau",false,new CShipPhysicalData(38.3220587524233, 15.6482559635724,10,0,10*kn,185,0));
            
+           ff.farbe = new Color(0.1f, 0.1f, 0.7f);
+          
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.3220587524233, 15.6482559635724,0,10*kn,-1,0));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2806089102047, 15.6433168950313,0,10*kn,-1,0));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2750231903865, 15.6705555128258,0,10*kn,-1,0));
@@ -252,6 +261,8 @@ public class AI_VTController : MonoBehaviour
        {
            CFzg ff=new CFzg("FzgRot",false,new CShipPhysicalData(38.288126873536, 15.6816810413211,12,0,12*kn,290,0));//38.288126873536, 15.6816810413211
            
+           ff.farbe = new Color(0.8f, 0.1f, 0.1f);
+
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.288126873536, 15.6816810413211,0,12*kn,-1,0));//38.288126873536, 15.6816810413211
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.3511992173149, 15.5612916267611,0,12*kn,-1,0));
           
@@ -264,6 +275,8 @@ public class AI_VTController : MonoBehaviour
        CFzg prepare_FzgBlau()
        {
            CFzg ff=new CFzg("FzgBlau",false,new CShipPhysicalData(38.3220587524233, 15.6482559635724,10,0,10*kn,185,0));
+           
+           ff.farbe = new Color(0.1f, 0.1f, 0.7f);
            
            //ff.Setze_auf_Karte(new Position(38.236651,15.607450));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.3220587524233, 15.6482559635724,0,10*kn,-1,0));
@@ -306,6 +319,8 @@ public class AI_VTController : MonoBehaviour
        {
            CFzg ff=new CFzg("FzgRot",false,new CShipPhysicalData(38.316722114485, 15.3765795853817,6,0,5*kn,70,0));
            
+           ff.farbe = new Color(0.8f, 0.1f, 0.1f);
+
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.316722114485, 15.3765795853817,0,5*kn,-1,0));
            //ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.3179287917682, 15.6287592336986,0,12*kn,-1,0));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.3579965055027, 15.5777309633173,0,5*kn,-1,0));
@@ -318,7 +333,9 @@ public class AI_VTController : MonoBehaviour
        CFzg prepare_FzgBlau()
        {
            CFzg ff=new CFzg("FzgBlau", false,new CShipPhysicalData(38.2915507662111, 15.2307042392491,18,0,20*kn,80,0));
-          
+           
+           ff.farbe = new Color(0.1f, 0.1f, 0.7f);
+           
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2915507662111, 15.2307042392491,0,20*kn,-1,0));
            //ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2892412480872, 15.6918924843962,0,10*kn,-1,0));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.367393075636, 15.6388720633089,0,20*kn,-1,0));
@@ -356,6 +373,8 @@ public class AI_VTController : MonoBehaviour
        {
            CFzg ff=new CFzg("FzgRot",false,new CShipPhysicalData(38.3496968275915, 15.3210115244842,7,0,7*kn,170,0));
            
+           ff.farbe = new Color(0.8f, 0.1f, 0.1f);
+
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.3496968275915, 15.3210115244842,0,7*kn,-1,0));
            //ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.3179287917682, 15.6287592336986,0,12*kn,-1,0));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2375822544345, 15.3886520286845,0,7*kn,-1,0));
@@ -369,6 +388,8 @@ public class AI_VTController : MonoBehaviour
        CFzg prepare_FzgBlau()
        {
            CFzg ff=new CFzg("FzgBlau",false,new CShipPhysicalData(38.293177250728, 15.249749700793,13,0,13*kn,80,0));
+           
+           ff.farbe = new Color(0.1f, 0.1f, 0.7f);
            
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.293177250728, 15.249749700793,0,13*kn,-1,0));
            //ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2892412480872, 15.6918924843962,0,10*kn,-1,0));
@@ -408,6 +429,9 @@ public class AI_VTController : MonoBehaviour
        {
            CFzg ff=new CFzg("FzgRot",false,new CShipPhysicalData(38.3496968275915, 15.3210115244842,7,0,7*kn,170,0));
            
+           ff.farbe = new Color(0.8f, 0.1f, 0.1f);
+
+           
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.3496968275915, 15.3210115244842,0,7*kn,-1,0));
            //ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.3179287917682, 15.6287592336986,0,12*kn,-1,0));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2375822544345, 15.3886520286845,0,7*kn,-1,0));
@@ -421,6 +445,8 @@ public class AI_VTController : MonoBehaviour
        CFzg prepare_FzgBlau()
        {
            CFzg ff=new CFzg("FzgBlau",false,new CShipPhysicalData(38.293177250728, 15.249749700793,13,0,13*kn,80,0));
+           
+           ff.farbe = new Color(0.1f, 0.1f, 0.7f);
            
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.293177250728, 15.249749700793,0,13*kn,-1,0));
            //ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2892412480872, 15.6918924843962,0,10*kn,-1,0));
@@ -457,7 +483,9 @@ public class AI_VTController : MonoBehaviour
        CFzg prepare_FzgRot()
        {
            CFzg ff=new CFzg("FzgRot",false,new CShipPhysicalData(38.2221219929785, 15.6293774369567,15,0,15*kn,255,0));
-          
+           
+           ff.farbe = new Color(0.8f, 0.1f, 0.1f);
+
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2221219929785, 15.6293774369567,0,7*kn,-1,0));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2131187917741, 15.5829748523015,0,7*kn,-1,0));
            ff.Plan.name = ff.name+"(Plan)";
@@ -472,6 +500,9 @@ public class AI_VTController : MonoBehaviour
        {
            CFzg ff=new CFzg("FzgGelb",false,new CShipPhysicalData(38.2166626152097, 15.5923360727212,13,0,12*kn,070,0));
            
+           ff.farbe = new Color(.9f, 0.7f, 0.0f);
+           
+
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2166626152097, 15.5923360727212,0,7*kn,-1,0));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2270067011425, 15.6330493162101,0,7*kn,-1,0));
            ff.Plan.name = ff.name+"(Plan)";
@@ -487,6 +518,9 @@ public class AI_VTController : MonoBehaviour
            CFzg ff=new CFzg("FzgGruen",false,new CShipPhysicalData(38.2110755073805, 15.6171110246025,15,0,15*kn,010,0),
                        0     /*AIConst.cSchiffstyp_Containerschiff*/);
           
+           ff.farbe = new Color(.1f, 0.5f, 0.1f);
+           
+           
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2110755073805, 15.6171110246025,0,15*kn,-1,0));
            ff.Plan.ListeWegpunkt.Add(new CWegpunkt(38.2372230900626, 15.6268354148979,0,15*kn,-1,0));
            ff.Plan.name = ff.name+"(Plan)";
