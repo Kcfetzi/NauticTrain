@@ -17,8 +17,11 @@ public class CArea          //-----------------------------------------Klasse---
        public double richtung = double.NaN;
        public double strength;
        
+       
+       
        public const double grad = AIConst.grad; //RAD->GRAD
        public const double kn=AIConst.kn;  //0.514 kn->m/s
+       public const double sm = AIConst.sm; //meter
        
        public CArea(string name, int typ, List<double2> Punkte, Color bordercolor, double strength, double richtung= double.NaN)
        {
