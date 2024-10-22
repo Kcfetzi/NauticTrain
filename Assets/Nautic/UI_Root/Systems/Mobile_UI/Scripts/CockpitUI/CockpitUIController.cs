@@ -95,7 +95,6 @@ public class CockpitUIController : MonoBehaviour
              _displayedData.OnUserInteractionStarted?.Invoke();
          }
          
-        
          _wantedTrust = amount;
          _lastTimeUserTouched = Time.time;
     }

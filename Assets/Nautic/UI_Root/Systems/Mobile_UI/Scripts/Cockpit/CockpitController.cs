@@ -8,6 +8,7 @@ public class CockpitController : MonoBehaviour
     
     [SerializeField] private CockpitModel _minesweeperCockpit;
     [SerializeField] private CockpitModel _cargoCockpit;
+    [SerializeField] private CockpitModel _empty;
 
     private CockpitModel _activeCockpitModel;
     private NauticObject _selectedObject;
@@ -40,7 +41,7 @@ public class CockpitController : MonoBehaviour
                 _activeCockpitModel = _minesweeperCockpit;
                 break;
             default:
-                _activeCockpitModel = null;
+                _activeCockpitModel = _empty;
                 break;
         }
 
@@ -81,7 +82,6 @@ public class CockpitController : MonoBehaviour
         {
             return;
         }
-        
         CockpitCameraPosition pos = _activeCockpitModel.MoveRight(_selectedObject);
         _uiController.FreeLook(pos != CockpitCameraPosition.Front);
     }

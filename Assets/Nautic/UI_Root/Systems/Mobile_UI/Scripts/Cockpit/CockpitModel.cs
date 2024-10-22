@@ -19,34 +19,46 @@ public class CockpitModel : MonoBehaviour
 
     public void SetActive(bool active)
     {
+        if (!_frontCamera)
+            return;
         _uiCamera.position = _frontCamera.position;
         _uiCamera.rotation = _frontCamera.rotation;
     }
     
     public CockpitCameraPosition MoveLeft(NauticObject obj)
     {
-        _activePosition = (CockpitCameraPosition)Mathf.Clamp((int)--_activePosition, 0, 4);
+        --_activePosition;
+        if (_activePosition < 0)
+            _activePosition += 5;
+        _activePosition = (CockpitCameraPosition)((int)(_activePosition) % 5);
 
+        
         // tell main camera to move
         obj.NauticCameraController.MoveTo(_activePosition);
-        MoveTo(_activePosition);
+        // point and ton have no cockpit
+        if (_frontCamera != null)
+            MoveTo(_activePosition);
 
         return _activePosition;
     }
 
     public CockpitCameraPosition MoveRight(NauticObject obj)
     {
-        _activePosition = (CockpitCameraPosition)Mathf.Clamp((int)++_activePosition, 0, 4);
+        _activePosition = (CockpitCameraPosition)((int)(++_activePosition) % 5);
         
         // tell main camera to move
         obj.NauticCameraController.MoveTo(_activePosition);
-        MoveTo(_activePosition);
+        // point and ton have no cockpit
+        if (_frontCamera != null)
+            MoveTo(_activePosition);
         
         return _activePosition;
     }
 
     private void MoveTo(CockpitCameraPosition position)
     {
+        if (_frontCamera == null)
+            return;
         switch (position)
         {
             case CockpitCameraPosition.Front:

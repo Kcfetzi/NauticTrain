@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
 using System;
-using System.Net.Configuration;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Groupup;
-using Unity.Android.Types;
 
 //TODO CPA: check, ob dazwischen eine NOGO-Area liegt, dann kein CPA: Schnitt_Gerade1XZ_Gerade2XZ
 
