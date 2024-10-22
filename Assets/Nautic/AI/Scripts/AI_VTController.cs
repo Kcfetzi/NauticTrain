@@ -827,8 +827,6 @@ public class AI_VTController : MonoBehaviour
        ld2.Add(new double2(38d+10.457/60+ey,015d+ 36.040/60+ex)); //Fahrwassermitte beleuchtet		38° 10.457‘ N	015° 36,040’ E
        ld2.Add(new double2(38d+11.835/60+ey,015d+ 36.241/60+ex)); //Fahrwassermitte beleuchtet		38° 11.835‘ N	015° 36,241’ E
        
-       
-       
        CArea VTCMessinaSouth = new CArea("VTCMessinaSouth",AIConst.cAreaTyp_VTG,ld2,Color.gray,1.5f,205);
        VTCMessinaSouth.Map_Anzeige();
        

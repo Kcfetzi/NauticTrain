@@ -14,6 +14,8 @@ public static class AIglobal
     public static ScenarioInterface m_channel_map; 
     public static UI_RootInterface m_channel_ui;
     
+    
+    
     public static List<CArea> Gebiete = new List<CArea>();
     public static List<CFzg> Fahrzeuge = new List<CFzg>();
 
@@ -22,7 +24,7 @@ public static class AIglobal
     
     public static double lon_to_m ; 
     public static double lat_to_m ;
-    public const bool bsuppressmapoutput=true;
+    public const bool bsuppressmapoutput=false;
     public const bool bsuppressMsgBox=true;
     public const double deletetrackoptionsafter = 45;
     public const int reactionsteps = 40;
