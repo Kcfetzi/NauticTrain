@@ -6,8 +6,6 @@ using System;
 using System.Threading.Tasks;
 using Groupup;
 
-//TODO CPA: check, ob dazwischen eine NOGO-Area liegt, dann kein CPA: Schnitt_Gerade1XZ_Gerade2XZ
-
 
 
 public class CFzg
@@ -16,9 +14,6 @@ public class CFzg
        public const double grad = AIConst.grad; //RAD->GRAD
        public const double kn=AIConst.kn;  //0.514 kn->m/s
        public const double sm = AIConst.sm; //meter
-       
-       
-       public double t_lastupdate = -1; //not set yet
        
        
        public NauticObject ObjSC;      //Map-Objekt, das das Schiff repräsentiert
@@ -35,7 +30,7 @@ public class CFzg
        public CTrack DarstellungTrack= new CTrack(); //Track Liste mit CShipPhysicalData und Repräsentation auf der Map
        
        //Verhalten
-       public double Nahbereich=0.7*sm; //(Meter) ab wann wird das Notfallausweichmanöver durchgeführt, wenn überhaupt bei Gegnerschiffen(?) bzw nur Gegner vs Gegner(?)
+       //public double Nahbereich=0.7*sm; //(Meter) ab wann wird das Notfallausweichmanöver durchgeführt, wenn überhaupt bei Gegnerschiffen(?) bzw nur Gegner vs Gegner(?)
        public double Entf_Ausweichen = 1.5d * sm;               //(Meter) spätestens bei #Entf_Ausweichen Abstand > Beginn des Ausweichmanövers  ...     bei Sichtbedingungen und bestehender Ausweichpflicht:
        public double faktor_Korrektur = 0.5;      //(Meter) spätestens bei faktor_Korrektur*krit_Entf Abstand > zweites Ausweichmanöver  
        public double faktor_LetztesManoever= 0.25;//(Meter) spätestens bei faktor_LetztesManoever*krit_Entf  > aufstoppen und warten
@@ -998,9 +993,13 @@ public class CFzg
                    if (SPD.FdW < 0.1 && SPD.Fahrstufe == -5)
                    {
                        SPD.FdW = 0d;
-                       if (iTrack != null) iTrack.ListeSPD[^1].FdW = 0d;
                        SPD.Fahrstufe = 0d;
-                       if (iTrack != null) iTrack.ListeSPD[^1].Fahrstufe = 0d;
+                       if (iTrack != null)
+                       {
+                           iTrack.ListeSPD[^1].FdW = 0d;
+                           iTrack.ListeSPD[^1].Fahrstufe = 0d;
+                       }
+                       
                        bZielerreicht = true;
                    }
                   
@@ -1022,10 +1021,13 @@ public class CFzg
                        SPD.KdW = zk;
                        SPD.Ruderlage = 0d;
                        SPD.Winkelv = 0d;
-                       if (iTrack != null) iTrack.ListeSPD[^1].KdW = zk;
-                       if (iTrack != null) iTrack.ListeSPD[^1].Ruderlage = 0;
-                       if (iTrack != null) iTrack.ListeSPD[^1].Winkelv = 0;
-                       bZielerreicht = true;
+                       if (iTrack != null)
+                       {
+                           iTrack.ListeSPD[^1].KdW = zk;
+                           iTrack.ListeSPD[^1].Ruderlage = 0;
+                           iTrack.ListeSPD[^1].Winkelv = 0;
+                       }
+                      bZielerreicht = true;
                    }
                }
                
@@ -1207,8 +1209,20 @@ public class CFzg
            */
        }
 
+
+       private CArea cache_inArea = null;//speichert die letzte Area, in der das Fzg war
        public CArea in_Area(int areatyp, double lat, double lon)
        {
+           if (cache_inArea != null)
+           {
+               if (cache_inArea.Pos_enthalten(lat, lon))
+               {
+                   if (cache_inArea.typ == areatyp) return cache_inArea;
+                   return null;
+               }
+           }
+           
+           
            foreach (CArea A in AIglobal.Gebiete)
            {
                if (A.typ == areatyp && A.Pos_enthalten(lat, lon))
@@ -1333,7 +1347,8 @@ public class CFzg
                
            }
 
-           listKritischeSituationen = null;
+           //listKritischeSituationen = null;
+           for (int i = 0; i < AIglobal.Fahrzeuge.Count;i++) buptodate_listKritischeSituationen[i] = false;
            Berechne_listKritischeSituationen2(iTrack, current_Track_index, ref listKritischeSituationen);//alle
            
            double timenow = iTrack.ListeSPD[current_Track_index].timestamp;
@@ -1415,7 +1430,7 @@ public class CFzg
                                            //(2) Gegner Ausweichmanöver fährt, dann Neubewertung Ausweichpflicht etc
                                            //(3) Spieler Kurs/Fahrt ändert
                                            //und bedeutet, daß keine Neuberwertung der Situation mit dem Gegner stattfindet
-       public bool[] bletzterAugenblick;
+       public bool[] buptodate_listKritischeSituationen;
                                            
                                            //public double[] t_aufTrack; //Zeit, wann die Unit nach Ausweichmanoever wieder auf dem Track des Planes ist
 
@@ -1425,8 +1440,6 @@ public class CFzg
            {
                CFzg Fzg = AIglobal.Fahrzeuge[g];
                
-               //Debug.Log(name+"-"+current_Track_index+" Init");
-              
                Fzg.idist_old= new double[AIglobal.Fahrzeuge.Count];
                Fzg.bam_ausweichen= new bool[AIglobal.Fahrzeuge.Count];
                Fzg.ausweichmanoever_ingang = new double[AIglobal.Fahrzeuge.Count];
@@ -1435,12 +1448,12 @@ public class CFzg
                Fzg.msgmanoever= new string[AIglobal.Fahrzeuge.Count];
                Fzg.bkurshaltepflichtig= new bool[AIglobal.Fahrzeuge.Count];
                Fzg.bausweichpflichtig=  new bool[AIglobal.Fahrzeuge.Count];
-               Fzg.bletzterAugenblick=new bool[AIglobal.Fahrzeuge.Count];
+               Fzg.buptodate_listKritischeSituationen=new bool[AIglobal.Fahrzeuge.Count];    //false mby default
            }
           
-           foreach(CFzg Fzg in AIglobal.Fahrzeuge)
-               if (Fzg.istManuell == false && Fzg.listKritischeSituationen!=null)
-                   Fzg.listKritischeSituationen[ich] = null; //Fzg.update_meine_listKritischeSituationen();//alle null setzen
+           //foreach(CFzg Fzg in AIglobal.Fahrzeuge)
+           //    if (Fzg.istManuell == false )
+           //        Fzg.buptodate_listKritischeSituationen[Fzg.ich] = false; //Fzg.update_meine_listKritischeSituationen();//alle null setzen
        }
 
        
@@ -1694,6 +1707,7 @@ public class CFzg
            double max_bew = Bewertung_Track_Ende(Track, Gegner.ich, indexManoeverstart, indexManoeverende);
            CTrack max_Track=Track.copy();
            this.ObjSC.Data.Debug1 += "(*)=" + max_bew.ToString("0.0")+"\n";
+           this.ObjSC.Data.Debug1 += "(Mvr. gem. "+manoeverregel+")\n";
            max_Track.expiry_time = curr_time + AIglobal.deletetrackoptionsafter;
            max_Track.name = "[*]"+msgstart +"#orig *"+max_bew.ToString("0.00")+"|";
            Opt_Tracks.Add(max_Track);
@@ -2297,7 +2311,10 @@ public class CFzg
 
        public void Berechne_listKritischeSituationen2(CTrack iTrack, int ab_index, ref List<CCPA>[] ilistKritischeSituationen, int gegnerindex=-1)
        {
-           
+           if (buptodate_listKritischeSituationen == null)
+           {
+           }
+
            double dist=-1;
            double dist_min = 999999.9;
            double krit_Entf = -1;
@@ -2318,7 +2335,7 @@ public class CFzg
                
                CFzg Gegner = AIglobal.Fahrzeuge[g];
                if (Gegner.name == name) continue;
-               if (ilistKritischeSituationen[g] != null) continue;   //Null setzen um update zu erzwingen
+               if (buptodate_listKritischeSituationen[g]==true) continue;   //Null setzen um update zu erzwingen
                bnahbereichslage = false;
                
                ilistKritischeSituationen[g] = new List<CCPA>();
@@ -2378,6 +2395,8 @@ public class CFzg
                    }
                    
                }
+
+               buptodate_listKritischeSituationen[g] = true;
                if (gegnerindex >= 0) break; //nur der eine Index
            }
           
@@ -2524,27 +2543,21 @@ public class CFzg
          string ausgabe="";
          private int cc = 0;
          private double maxzeit = 0;
-         public int kritSitES_updaten=-1;  //Fahrzeugindex, zu dem kritische Situation geupdated werden muss
          //ende static Variablen
        
-       //  public void simulate_track_update(CTrack iTrack, double itime)
-       
-       
+      
        public async Task simulate_track_update(CTrack iTrack, double itime)
        {
-           
-               //StartMagic();
-               AIglobal.FzgUpdate.Add(ich+"#"+name+"#"+itime);
-               //Debug.Log(ich + "#" + name + "#" + itime);
                AIglobal.busy = true;
                this.busy = true;
+               
+               AIglobal.FzgUpdate.Add(ich+"#"+name+"#"+itime);
+              
+               
                CMsgBox MsgBox;
                string msg = "";
                int g = -1; //gegnerindex, wenn immernoch -1, dann kein Gegner
                bool btrack_updated = false;
-               bool bkritischesituation_updaten = false;
-
-               Berechne_listKritischeSituationen2(iTrack, current_Track_index, ref listKritischeSituationen);//alle
                
                //Track erstellen, nur beim ersten Mal
                if (/*bam_ausweichen*/ ausweichmanoever_ingang == null)
@@ -2552,7 +2565,8 @@ public class CFzg
                    simulate_track_initialization(iTrack); //nur 1x beim 1.Fzg für alle Fzge
                    //MsgBox = new CMsgBox("AI erste Trackberechnung");
                }
-
+               Berechne_listKritischeSituationen2(iTrack, current_Track_index, ref listKritischeSituationen);//alle
+               
                //zum Index im Track vorrücken, dr dem aktuellen Zeit itime entspricht
                int i; // = iTrack.index(itime);     //index, der dem Zeitstep=itime
                for (i = current_Track_index; i < iTrack.ListeSPD.Count; i++) //rücke vor zum nächsten zur Zeit passenden Index
@@ -2563,8 +2577,6 @@ public class CFzg
                        break;
                    }
                }
-
-
                if (i == 0) goto ende;
 
                /*
@@ -2603,8 +2615,7 @@ public class CFzg
                    //CPA schon in der Vergangenheit,  (bis reagiert werden kann), nicht mehr gefährlich
                    if (KritischeSituation.cpa_zeit() < (itime+AIglobal.reactionsteps*AIConst.delta_t))
                    {
-                       listKritischeSituationen[g] = null;
-                       bkritischesituation_updaten = true;
+                       buptodate_listKritischeSituationen[g] = false;
                        continue; //  ----^^
                    }
                                
@@ -2634,7 +2645,6 @@ public class CFzg
                    
                    //if (KritischeSituation._krit_dist != krit_Entf)  //kritische Entfernung hat sich geändert, zB weil Gegner Fahrt aufgenommen hat
                    //{
-                   //    bkritischesituation_updaten = true;
                    //    continue;
                    //}
 
@@ -2703,7 +2713,7 @@ public class CFzg
                        
                        //if (bausweichpflichtig[g]) msg += " ,ausweichpfl.,"; else msg+=" ,nicht ausweichpfl.,";
                        ObjSC.Data.Debug1 += "-------------------------\n";
-                       ObjSC.Data.Debug1 += msg+"\n(Man. gem. "+msgmanoever[g]+")"; ///+"\n"kommt bei Bewertung orig Track
+                       ObjSC.Data.Debug1 += msg; ///+"\n"kommt bei Bewertung orig Track
                        //NEUBERCHNEN DES TRACKS
                        //der TRack ist eine Lösung für alle Gegner, andere Lösungen müssen erstmal nicht mehr berechnet werden in diesem Schritt
                        AIglobal.reset_timescale = true;
@@ -2760,7 +2770,6 @@ public class CFzg
                        {
                            msg += name + "Ausweichmanöver mit " + Gegner.name + "beendet" + " Step=" + i + "\n";
                            ausweichmanoever_ingang[g] = 0;
-                           bletzterAugenblick[g] = false;
                            bkurshaltepflichtig[g] = false;
                            Gegner.bausweichpflichtig[ich] = false;
                            bausweichpflichtig[g] = false;
@@ -2772,23 +2781,14 @@ public class CFzg
                        break; //der neue Track ist eine Lösung für alle Gegner, andere Lösungen nicht mehr nötig in diesem Schritt
                } //next foreach (CCPA KritischeSituation in sortedlistKritischeSituationen)
 
-               if (bkritischesituation_updaten)
-               {
-                   //update_meine_listKritischeSituationen();//alle updaten, weil CPA schon in Vergangenheit, oben Null setzen reicht
-                   bkritischesituation_updaten = false;
-               }
-                   
-                       
-                       
+               
                if (btrack_updated)
                {
-                   //wenn ich ausweiche, verändere ih meinen Track, daher NEUBRECHNUNGEN
-                   //update_meine_listKritischeSituationen(); //                           (neu) ... alle auf null setzeb
-                   listKritischeSituationen = null;
                    
                    for (int ag = 0; ag < AIglobal.Fahrzeuge.Count; ag++) //ausweichpflichtige Gegner sollen ihren Track neu bewerten
                    {
                        if (ag == g) continue;
+                       buptodate_listKritischeSituationen[ag]=false;//wenn ich ausweiche, verändere ih meinen Track, daher NEUBRECHNUNGEN
                        CFzg aGegner = AIglobal.Fahrzeuge[ag];
                        if (aGegner == this) continue;
                        if (aGegner.istManuell) continue;
@@ -2797,7 +2797,7 @@ public class CFzg
                        aGegner.tausweichen_bis[ich] = -1;
                        //aGegner.update_meine_listKritischeSituationen(ich); // andere müssen kritische Situationen mir gegenüber neu berechnen
                                                                            //null setzen reicht    //alle auf null setzen
-                       aGegner.listKritischeSituationen[ich] = null;
+                       aGegner.buptodate_listKritischeSituationen[ich] = false;
                    }
                }
                
@@ -2927,7 +2927,8 @@ public class CFzg
            //Änderung von Kurs oder Fahrt-neuer Track-neue kritische SItuationen
            foreach (CFzg aFzg in AIglobal.Fahrzeuge)
            {
-               aFzg.kritSitES_updaten = ich;
+               if (aFzg.buptodate_listKritischeSituationen!=null)
+                    aFzg.buptodate_listKritischeSituationen[ich] = false;  //aFzg.listKritischeSituationen[ich] =null ;
            }
            
            //aGegner.update_meine_listKritischeSituationen(ich);

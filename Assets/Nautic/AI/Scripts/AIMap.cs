@@ -50,7 +50,7 @@ public static class AIMap
                 iSymbol.NauticObject.Data.Debug2="R:" + iSPD.Ruderlage + "/F:" + iSPD.Fahrstufe.ToString("0.0") + "/KdW:" 
                                                  + iSPD.KdW.ToString("0.00") + "/FdW:" + (iSPD.FdW / AIConst.kn).ToString("0.0");
                 iSymbol.NauticObject.Data.Debug3 = iSPD.timestamp.ToString("N0") + "s";
-                iSymbol.NauticObject.Data.Debug4 = (i + 1.ToString()) + ".Punkt";
+                iSymbol.NauticObject.Data.Debug4 = (i.ToString()) + ".Punkt";
             }
 
             i++;

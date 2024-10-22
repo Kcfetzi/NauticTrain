@@ -37,9 +37,15 @@ public class CArea          //-----------------------------------------Klasse---
        public void Map_Anzeige()
        {
            List<double2> ld2 = new List<double2>(Punkte);
+           List<CShipPhysicalData> lSPD = new List<CShipPhysicalData>();
+           foreach (double2 pt in ld2) { lSPD.Add(new CShipPhysicalData(pt.y,pt.x,0,0,0,0,0)); }
+           foreach (double2 pt in ld2) { lSPD.Add(new CShipPhysicalData(pt.y,pt.x,0,0,0,0,0));break; }//ersterPunkt=letzter Punkt
+           
+           
+           
            if (Punkte[0].x!=Punkte[^1].x || Punkte[0].y!=Punkte[^1].y) ld2.Add(new double2(Punkte[0].x,Punkte[0].y));
 
-           listePL.Add  (AIMap.Polylinie(ld2,strength,bordercolor,name,typ.ToString(),ListeSymbols ));
+           listePL.Add  (AIMap.Polylinie(ld2,strength,bordercolor,name,typ.ToString(),ListeSymbols,lSPD ));
                       
            //Pfeil
            if (typ == AIConst.cAreaTyp_VTG)

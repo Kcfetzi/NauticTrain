@@ -78,7 +78,7 @@ public class AI_VTController : MonoBehaviour
        double t = 0, t_aufTrack=0;
        DateTime ti = DateTime.Now;
        TimeSpan tastru = (DateTime.Now-ti);
-       Prepare_Szenario();
+       Prepare_Map();
        string answer = "";
        
        void InputCallback()
@@ -797,19 +797,20 @@ public class AI_VTController : MonoBehaviour
    }
 
    
-   private void Prepare_Szenario()
+   private void Prepare_Map()
    {
        double ex = -0.025/60;
        double ey = -0.001; //-0.000/60;
        ;
        //38.2648208752946,15.710277008473
        //38.2647794822174,15.71013555316
+       /*
        List<double2> tt2 = new List<double2>();
        tt2.Add(new double2(38.2648208752946+ey,15.710277008473+ex)); //S
        tt2.Add(new double2(38.2647794822174+ey+ey,15.71013555316+ex)); //
        CArea tt = new CArea("tt",AIConst.cAreaTyp_VTG,tt2,Color.green,14.5f,205);
        tt.Map_Anzeige();
-       
+       */
        /*
         Bbd Fahrwasser	Messina 12	38° 11.754‘ N	015° 37,450‘ E
         Bbd Fahrwasser beleuchtet	Messina 14	38° 10.840‘ N	015° 37,450’ E
@@ -817,6 +818,7 @@ public class AI_VTController : MonoBehaviour
         Bbd Fahrwasser beleuchtet	Messina 18	38° 08.940‘ N	015° 38,350’ E         
        */
 
+       /*
        List<double2> ld2 = new List<double2>();
        ld2.Add(new double2(38d+11.842/60+ey,015d+ 35.099/60+ex)); //Stbd Fahrwasser beleuchtet	Messina 11	38° 11.842‘ N	015° 35,099’ E
        ld2.Add(new double2(38d+10.840/60+ey,015d+ 34.796/60+ex)); //Stbd Fahrwasser beleuchtet	Messina 13	38° 10.840‘ N	015° 34,796’ E
@@ -827,28 +829,87 @@ public class AI_VTController : MonoBehaviour
        ld2.Add(new double2(38d+10.457/60+ey,015d+ 36.040/60+ex)); //Fahrwassermitte beleuchtet		38° 10.457‘ N	015° 36,040’ E
        ld2.Add(new double2(38d+11.835/60+ey,015d+ 36.241/60+ex)); //Fahrwassermitte beleuchtet		38° 11.835‘ N	015° 36,241’ E
        
-       CArea VTCMessinaSouth = new CArea("VTCMessinaSouth",AIConst.cAreaTyp_VTG,ld2,Color.gray,1.5f,205);
+       CArea VTCMessinaSouth = new CArea("VTCMessinaSouth",AIConst.cAreaTyp_VTG,ld2,Color.gray,2.5f,205);
        VTCMessinaSouth.Map_Anzeige();
+       **/
+       List<double2> ld2 = new List<double2>();
+       ld2.Add(new double2(38.1972475797618, 15.6022764396463)); //Stbd Fahrwasser beleuchtet	Messina 11	38° 11.842‘ N	015° 35,099’ E
+       ld2.Add(new double2(38.148983316993, 15.5946603940218)); //Stbd Fahrwasser beleuchtet	Messina 13	38° 10.840‘ N	015° 34,796’ E
+       ld2.Add(new double2(38.1489999887532, 15.5556200118465)); //Stbd Fahrwasser 	Messina 15	38° 09.890‘ N	015° 34,067’ E
+       ld2.Add(new double2(38.180669992559, 15.579930020015)); //Stbd Fahrwasser beleuchtet	Messina 17	38° 08.940‘ N	015° 33,337’ E
        
+       ld2.Add(new double2(38.1973700109886, 15.5849799905683)); //Fahrwassermitte beleuchtet	VTC Messina South	38° 08.942‘ N	015° 35,803’ 
+       
+       CArea VTCMessinaSouthWest = new CArea("VTCMessinaSouthWest",AIConst.cAreaTyp_VTG,ld2,Color.blue,2.5f,205);
+       VTCMessinaSouthWest.Map_Anzeige();
+
+     
+       List<double2> ld3 = new List<double2>();
+       ld3.Add(new double2(38.1972485453078, 15.6057632782549)); 
+       ld3.Add(new double2(38.1491038493128, 15.5981464137008)); 
+       ld3.Add(new double2(38.1489999887532, 15.6381700027983)); 
+       ld3.Add(new double2(38.1807558617791, 15.6240375293195)); 
+       ld3.Add(new double2(38.2101500094045, 15.6241699911883)); 
+       
+       CArea VTCMessinaSouthEast = new CArea("VTCMessinaSouthEast",AIConst.cAreaTyp_VTG,ld3,Color.blue,2.5f,0);
+       VTCMessinaSouthEast.Map_Anzeige();
        
        List<double2> tg3 = new List<double2>();//Fahrwassermitte Nogo
-       tg3.Add(new double2(38.2284997050024+ey,15.623413115493+ex));
-       tg3.Add(new double2(38.223517159442+ey,15.6105811703142+ex)); //X
-       tg3.Add(new double2(38.2335824271765+ey,15.6118771160727+ex)); //X //, 
-       CArea VTCMessinaEastNorth0 = new CArea("VTCMessinaEastNorth0",AIConst.cAreaTyp_VTG,tg3,Color.gray,1.5f,15);
+       tg3.Add(new double2(38.2254786629174, 15.6107327889713));
+       tg3.Add(new double2(38.2306699851022, 15.6241699911883)); //X
+       tg3.Add(new double2(38.2356955874167, 15.6124202344349)); //X //, 
+       CArea VTCMessinaEastNorth0 = new CArea("VTCMessinaEastNorth0",AIConst.cAreaTyp_VTG,tg3,Color.blue,2.5f,15);
        VTCMessinaEastNorth0.Map_Anzeige();
 
-       List<double2> tg4 = new List<double2>();//Fahrwassermitte Nogo
-       tg4.Add(new double2(38.2335824271765+ey,15.6118771160727+ex)); //X //, 
-       tg4.Add(new double2(38.2596765860551+ey,15.6801692112304+ex));
-       tg4.Add(new double2(38.2572358346698+ey,15.6972315270109+ex)); //X
-       tg4.Add(new double2(38.2284997050024+ey,15.623413115493+ex)); //X
-       //15.6801692112304, 38.2596765860551
-       ///15.6972315270109, 38.2572358346698
-       //15.623413115493, 38.2284997050024
-
-       CArea VTCMessinaEastNorth1 = new CArea("VTCMessinaEastNorth1",AIConst.cAreaTyp_VTG,tg4,Color.gray,1.5f,67);
+       
+      
+       List<double2> tg4 = new List<double2>();
+       tg4.Add(new double2(38.2306699851022, 15.6241699911883)); //X //, 
+       tg4.Add(new double2(38.2591301279427, 15.6998309413008));
+       tg4.Add(new double2(38.2618350727445, 15.6830877610856)); //X
+       tg4.Add(new double2(38.2356955874167, 15.6124202344349)); //X
+       
+       CArea VTCMessinaEastNorth1 = new CArea("VTCMessinaEastNorth1",AIConst.cAreaTyp_VTG,tg4,Color.blue,2.5f,67);
        VTCMessinaEastNorth1.Map_Anzeige();
+
+       List<double2> tg5 = new List<double2>();
+       tg5.Add(new double2(38.2618350727445, 15.6830877610856)); //X //, 
+       tg5.Add(new double2(38.2591301279427, 15.6998309413008));
+       tg5.Add(new double2(38.2707000076159, 15.7132800179975)); //X
+       tg5.Add(new double2(38.2771139040862, 15.6898852455914)); //X
+       
+       CArea VTCMessinaEastNorth2 = new CArea("VTCMessinaEastNorth2",AIConst.cAreaTyp_VTG,tg5,Color.blue,2.5f,50);
+       VTCMessinaEastNorth2.Map_Anzeige();
+
+       
+       List<double2> tg6 = new List<double2>();
+       tg6.Add(new double2(38.242457788497, 15.5990925640569)); //X //, 
+       tg6.Add(new double2(38.2373957207304, 15.6091381691821));
+       tg6.Add(new double2(38.2241435059739, 15.6071377288112)); //X
+       tg6.Add(new double2(38.2190199972997, 15.5925299895175)); //X
+       
+       CArea VTCMessinaWestNorth0 = new CArea("VTCMessinaWestNorth0",AIConst.cAreaTyp_VTG,tg6,Color.blue,2.5f,195);
+       VTCMessinaWestNorth0.Map_Anzeige();
+
+       
+       List<double2> tg7 = new List<double2>();
+       tg7.Add(new double2(38.242457788497, 15.5990925640569)); //X //, 
+       tg7.Add(new double2(38.2373957207304, 15.6091381691821));
+       tg7.Add(new double2(38.2634878621216, 15.6794682968223)); //X
+       tg7.Add(new double2(38.2656699959749, 15.6642199907666)); //X
+       
+       CArea VTCMessinaWestNorth1 = new CArea("VTCMessinaWestNorth1",AIConst.cAreaTyp_VTG,tg7,Color.blue,2.5f,247);
+       VTCMessinaWestNorth1.Map_Anzeige();
+       
+       List<double2> tg8 = new List<double2>();
+       tg8.Add(new double2(38.2634878621216, 15.6794682968223)); //X //, 
+       tg8.Add(new double2(38.2656699959749, 15.6642199907666));
+       tg8.Add(new double2(38.283979997911, 15.6642000088834)); //X
+       tg8.Add(new double2(38.27807085668, 15.6864733390446)); //X
+       
+       CArea VTCMessinaWestNorth2 = new CArea("VTCMessinaWestNorth2",AIConst.cAreaTyp_VTG,tg8,Color.blue,2.5f,210);
+       VTCMessinaWestNorth2.Map_Anzeige();
+       
        
        
        
@@ -900,36 +961,6 @@ public class AI_VTController : MonoBehaviour
        VTCMmitteKreisel.Map_Anzeige();
        
        
-       
-       
-       //38.2140724875273, 15.6067668856453
-      //38.2137241959082, 15.6086744568231
-      //38.2120407368442, 15.6098482953723
-      //38.2103572447323, 15.6088945306672
-      //38.2096853813093, 15.6067697676144
-      //38.2104980948017, 15.604568778567
-      //38.2120654566593, 15.6042019331366
-      //38.2135747864377, 15.6048622382043
-       
-       
-       /*
-        38.1184216143057, 15.644445407688
-        38.1398618249062, 15.6489390825957
-        38.1681636338183, 15.6376344991331
-        38.183450345183, 15.6315828857638
-        38.2166335569224, 15.6285587390767
-        38.2251195521708, 15.6250305679417
-        38.230679337566, 15.6338870033807 x
-        38.2574294583738, 15.7115538221083
-        38.2580732272067, 15.7392752077277
-        38.2887377316991, 15.7943113820306
-        38.3382585930977, 15.8217188436648
-        38.3647633528284, 15.8286312375033
-        38.4260150056122, 15.8667931471087
-        38.4570182516434, 15.8934345096167
-        38.1171507505326, 15.8398750363635
-
-        */
        List<double2> ng1 = new List<double2>();
        ng1.Add(new double2(38.1184216143057, 15.644445407688));
        ng1.Add(new double2(38.1367335387104, 15.65591765757 ));
