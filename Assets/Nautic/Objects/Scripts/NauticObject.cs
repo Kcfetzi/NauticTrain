@@ -9,7 +9,7 @@ using UnityEngine;
  */
 public class NauticObject : MonoBehaviour
 {
-    [SerializeField] private CameraController _cameraController;
+    [SerializeField] private NauticCameraController _nauticCameraController;
     [SerializeField] private LightController _lightController;
     [SerializeField] private SoundController _soundController;
 
@@ -30,7 +30,7 @@ public class NauticObject : MonoBehaviour
     public MeshRenderer Renderer => _renderer;
     public LightController LightController => _lightController;
     public SoundController SoundController => _soundController;
-    public CameraController CameraController => _cameraController;
+    public NauticCameraController NauticCameraController => _nauticCameraController;
     public Transform RotationObject => _rotationsObject;
 
     public Symbol Symbol
@@ -63,7 +63,7 @@ public class NauticObject : MonoBehaviour
     
     public void SetSelected(bool active)
     {
-        _cameraController.SetSelected(active);
+        NauticCameraController.SetSelected(active);
         FindObjectOfType<WaterGrid>().followTarget =  active ? transform : null;
         if (_rotationsObject.childCount > 1)
             _rotationsObject.GetChild(0).gameObject.SetActive(!active);

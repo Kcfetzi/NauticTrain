@@ -1,11 +1,6 @@
-using System.Collections.Generic;
 using Groupup;
-using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Rendering.Universal;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class Mobile_UIController : MonoBehaviour
 {
@@ -13,6 +8,7 @@ public class Mobile_UIController : MonoBehaviour
     [SerializeField] private Ecdis _ecdis;
     [SerializeField] private CockpitUIController _cockpitUIController;
     [SerializeField] private GameObject _controllPanel;
+    [SerializeField] private GameObject _cockpitNavigation;
     [SerializeField] private Diopter _diopterView;
     [SerializeField] private UINavigationController _navigationMenu;
     [SerializeField] private CockpitController _cockpitController;
@@ -20,8 +16,6 @@ public class Mobile_UIController : MonoBehaviour
     [SerializeField] private Camera _overlayCamera;
     
     [SerializeField] private QuestionController _questionController;
-    
-    private Camera _mainCamera;
     
     // take the root interface for ui and register yourself
     private UI_RootInterface _uiinterface;
@@ -52,15 +46,13 @@ public class Mobile_UIController : MonoBehaviour
         
         if (scenarioInterface.IsActive)
         {
-            _mainCamera = Camera.main;
-            _mainCamera.GetUniversalAdditionalCameraData().cameraStack.Add(_overlayCamera);
+            CameraController.Instance.SetOverlayCamera(_overlayCamera);
         }
         else
         {
             scenarioInterface.OnSceneLoaded += () =>
             {
-                _mainCamera = Camera.main;
-                _mainCamera.GetUniversalAdditionalCameraData().cameraStack.Add(_overlayCamera);
+                CameraController.Instance.SetOverlayCamera(_overlayCamera);
             };
         }
     }
@@ -102,12 +94,18 @@ public class Mobile_UIController : MonoBehaviour
         
         _cockpitUIController.gameObject.SetActive(_selectedObject);
         _controllPanel.SetActive(_selectedObject);
+        _cockpitNavigation.gameObject.SetActive(_selectedObject);
         
         _ecdis.SetSelectedNauticObject(_selectedObject);
         _radar.SetSelectedNauticObject(_selectedObject);
         _cockpitUIController.SetSelectedNauticObject(_selectedObject);
-        _cockpitController.SetCockpitLayout(obj.Data.ShipType);
+        _cockpitController.SetCockpitLayout(_selectedObject);
         _diopterView.SetSelectedNauticObject(_selectedObject);
+    }
+
+    public void FreeLook(bool active)
+    {
+        _controllPanel.SetActive(!active);
     }
     
     // ui navigation klick radar
@@ -118,8 +116,9 @@ public class Mobile_UIController : MonoBehaviour
         _diopterView.SetActive(false);
         _ecdis.gameObject.SetActive(false);
         _controllPanel.SetActive(closeUI);
+        _cockpitNavigation.gameObject.SetActive(closeUI);
         _cockpitController.SetActive(closeUI);
-        _mainCamera.enabled = closeUI;
+        CameraController.Instance.SetActive(closeUI);
         _overlayCamera.enabled = closeUI;
         
         // set checkbox in navigationmenu to radar
@@ -135,8 +134,9 @@ public class Mobile_UIController : MonoBehaviour
         _diopterView.SetActive(false);
         _radar.gameObject.SetActive(false);
         _controllPanel.SetActive(closeUI);
+        _cockpitNavigation.gameObject.SetActive(closeUI);
         _cockpitController.SetActive(closeUI);
-        _mainCamera.enabled = closeUI;
+        CameraController.Instance.SetActive(closeUI);
         _overlayCamera.enabled = closeUI;
         
         // set checkbox in navigationmenu to radar
@@ -152,8 +152,9 @@ public class Mobile_UIController : MonoBehaviour
         _ecdis.gameObject.SetActive(false);
         _radar.gameObject.SetActive(false);
         _controllPanel.SetActive(closeUI);
+        _cockpitNavigation.gameObject.SetActive(closeUI);
         _cockpitController.SetActive(closeUI);
-        _mainCamera.enabled = true;
+        CameraController.Instance.SetActive(true);
         _overlayCamera.enabled = closeUI;
         
         // set checkbox in navigationmenu to radar
@@ -169,8 +170,9 @@ public class Mobile_UIController : MonoBehaviour
         _ecdis.gameObject.SetActive(false);
         _radar.gameObject.SetActive(false);
         _controllPanel.SetActive(false);
+        _cockpitNavigation.gameObject.SetActive(false);
         _cockpitController.SetActive(false);
-        _mainCamera.enabled = true;
+        CameraController.Instance.SetActive(true);
         _overlayCamera.enabled = false;
     }
 
@@ -181,8 +183,9 @@ public class Mobile_UIController : MonoBehaviour
         _ecdis.gameObject.SetActive(false);
         _radar.gameObject.SetActive(false);
         _controllPanel.SetActive(true);
+        _cockpitNavigation.gameObject.SetActive(true);
         _cockpitController.SetActive(true);
-        _mainCamera.enabled = true;
+        CameraController.Instance.SetActive(true);
         _overlayCamera.enabled = true;
     }
 

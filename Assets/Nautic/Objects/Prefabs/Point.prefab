@@ -45,7 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccb36ecd74010f44c9ae56dcbcd088f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cockpitCamera: {fileID: 4082021975805811663}
+  _frontCamera: {fileID: 6680724597471894718}
+  _leftCamera: {fileID: 6680724597471894718}
+  _leftBackCamera: {fileID: 6680724597471894718}
+  _rightCamera: {fileID: 6680724597471894718}
+  _rightBackCamera: {fileID: 6680724597471894718}
 --- !u!1 &1491889547553748877
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,10 +128,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26a4372055b949c42a008cdabe29267a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraController: {fileID: 5515796605571617290}
+  _nauticCameraController: {fileID: 5515796605571617290}
   _lightController: {fileID: 0}
   _soundController: {fileID: 0}
   _rotationsObject: {fileID: 9097423321579894227}
+  _renderer: {fileID: 0}
   Data: {fileID: 0}
 --- !u!114 &4351805835936615493
 MonoBehaviour:
@@ -165,7 +170,7 @@ GameObject:
   - component: {fileID: 6680724597471894718}
   - component: {fileID: 4082021975805811663}
   m_Layer: 0
-  m_Name: Virtual Camera
+  m_Name: Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

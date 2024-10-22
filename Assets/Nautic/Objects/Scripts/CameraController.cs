@@ -1,58 +1,58 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
-using ResourceManager = Groupup.ResourceManager;
+using UnityEngine.Rendering.Universal;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private Cinemachine.CinemachineVirtualCamera _cockpitCamera;
+    [SerializeField] private Camera _mainCamera;
 
-    private ScenarioInterface _scenarioInterface;
-    
+    private static CameraController _instance;
+
+    public static CameraController Instance => _instance;
 
     private void Awake()
     {
-        _scenarioInterface = ResourceManager.GetInterface<ScenarioInterface>();
+        // Verhindere, dass mehrere Instanzen dieses Objekts erstellt werden
+        if (_instance == null)
+        {
+            _instance = this;
+        }
+        else if (_instance != this)
+        {
+            Destroy(gameObject); // Zerstöre doppelte Instanzen
+        }
     }
 
-    private void Start()
+    public void AlignCameraTo(Transform transform, bool instant = false)
     {
-        _cockpitCamera.m_Lens.FarClipPlane = _scenarioInterface.ViewRange;
+        _mainCamera.transform.parent = transform;
+
+        if (instant)
+        {
+            _mainCamera.transform.localPosition = Vector3.zero;
+            _mainCamera.transform.rotation = Quaternion.identity;
+        }
+        else
+        {
+            _mainCamera.transform.DOLocalMove(Vector3.zero, 1f);
+            _mainCamera.transform.DOLocalRotateQuaternion(Quaternion.identity, 1f);
+        }
+    }
+
+    public void SetFieldOfView(int level)
+    {
+        _mainCamera.fieldOfView = level;
     }
     
-
-    public void SetSelected(bool active)
+    public void SetOverlayCamera(Camera overlayCamera)
     {
-        _cockpitCamera.Priority = active ? 5 : 0;
+        _mainCamera.GetUniversalAdditionalCameraData().cameraStack.Add(overlayCamera);
     }
 
-    public void SetZoom(int level)
+    public void SetActive(bool active)
     {
-        _cockpitCamera.m_Lens.FieldOfView = level;
-    }
-
-    public void SetLocalRotationRotation(Quaternion rotation)
-    {
-        _cockpitCamera.transform.localRotation = rotation;
-    }
-
-    public void SetRotation(Quaternion rotation)
-    {
-        _cockpitCamera.transform.rotation = rotation;
-    }
-
-    public NauticObject RaycastIntoSzene(Vector2 touchpos)
-    {
-        Ray ray = Camera.main.ScreenPointToRay(touchpos);
-        RaycastHit hit;
-        NauticObject hitObject = null;
-
-        if (Physics.Raycast(ray, out hit))
-        {
-            if (hit.collider.transform.parent && hit.collider.transform.parent.parent)
-                hitObject = hit.collider.transform.parent.parent.GetComponent<NauticObject>();
-        }
-
-        return hitObject;
+        _mainCamera.enabled = active;
     }
 }

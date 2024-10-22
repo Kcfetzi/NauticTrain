@@ -53,7 +53,7 @@ public class Diopter : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             if (RectTransformUtility.RectangleContainsScreenPoint(_clickZone, Input.mousePosition))
-                _focusObject = _selectedObject.CameraController.RaycastIntoSzene(Input.mousePosition);
+                _focusObject = _selectedObject.NauticCameraController.RaycastIntoSzene(Input.mousePosition);
         }
     }
 
@@ -65,7 +65,7 @@ public class Diopter : MonoBehaviour
             
             Vector3 directionToTarget = _focusObject.RotationObject.position - _selectedObject.RotationObject.position;
             Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-            _selectedObject.CameraController.SetRotation(targetRotation);
+            _selectedObject.NauticCameraController.SetRotation(targetRotation);
             Vector3 directionWithOffset = _selectedObject.RotationObject.localRotation.eulerAngles - targetRotation.eulerAngles;
             _courseText.text = Mathf.Abs(directionWithOffset.y).ToString("F0") + "\u00B0" + (directionWithOffset.y > 0 ? " SB" : " BB");
             _ruderKnob.SetRotation(directionWithOffset.y);
@@ -104,23 +104,23 @@ public class Diopter : MonoBehaviour
         if (active)
         {
             Rotate(Mathf.RoundToInt(_ruderKnob.Rotation));
-            _selectedObject.CameraController.SetZoom(Mathf.RoundToInt(_zoomSlider.value));
+            CameraController.Instance.SetFieldOfView(Mathf.RoundToInt(_zoomSlider.value));
         }
         else
         {
-            _selectedObject.CameraController.SetZoom(60);
+            CameraController.Instance.SetFieldOfView(60);
             Rotate(0);
         }
     }
 
     private void Zoom(float level)
     {
-        _selectedObject.CameraController.SetZoom(Mathf.RoundToInt(level));
+        CameraController.Instance.SetFieldOfView(Mathf.RoundToInt(level));
     }
 
     private void Rotate(int rotation)
     {
-        _selectedObject.CameraController.SetLocalRotationRotation(Quaternion.Euler(new Vector3(0, rotation, 0)));
+        _selectedObject.NauticCameraController.SetLocalRotation(Quaternion.Euler(new Vector3(0, rotation, 0)));
     }
 
     // user clickt to mark a target, if a _markcallback is set, diopter was openend in kontext of a question. So return the choise. Otherwise set a markentry

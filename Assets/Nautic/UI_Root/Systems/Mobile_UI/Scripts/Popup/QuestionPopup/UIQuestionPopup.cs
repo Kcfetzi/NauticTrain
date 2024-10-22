@@ -35,7 +35,7 @@ public class UIQuestionPopup : UIPopup
     public void Init(Question question, UnityAction submitAction, string kontextAnswer)
     {
         // show the question
-        _title.text = question.Title  + "\n" + question.Precondition;
+        _title.text = question.Title  + "\nVorbedingung: " + question.Precondition;
         _text.text = question.QuestionText;
 
         _question = question;
