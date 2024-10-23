@@ -75,9 +75,9 @@ public class AI_VTController : MonoBehaviour
        
        //string test;
        //ServiceManager.Instance.GetChannel<PopupChannelSO>().InputTextPopup("eingabe", dummy);
-       double t = 0, t_aufTrack=0;
-       DateTime ti = DateTime.Now;
-       TimeSpan tastru = (DateTime.Now-ti);
+       
+       //DateTime ti = DateTime.Now;
+       //TimeSpan tastru = (DateTime.Now-ti);
        Prepare_Map();
        string answer = "";
        
@@ -177,7 +177,7 @@ public class AI_VTController : MonoBehaviour
            return ff;
        }
       
-       double t = 0, t_aufTrack=0;   
+       double t_aufTrack=0;   
        
        CFzg frot = prepare_FzgRot();frot.Setze_auf_Karte();    
        frot.Plan.Map_Anzeige(Color.magenta,true);
@@ -189,8 +189,8 @@ public class AI_VTController : MonoBehaviour
        fblau.verfolge_Plan(fblau.Plan, fblau.firstSPD.Copy(), ref t_aufTrack,30,fblau.Track);
        fblau.Plan.counter = 0;
        
-       CFzg fEigenschiff = prepare_Eigenschiff();fEigenschiff.Setze_auf_Karte();
-       t = 0;
+       CFzg fEigenschiff = prepare_Eigenschiff(); if (fEigenschiff == null) return;
+       fEigenschiff.Setze_auf_Karte();
        fEigenschiff.verfolge_Plan(fEigenschiff.Plan, fEigenschiff.firstSPD.Copy(), ref t_aufTrack,30,fEigenschiff.Track);
        fEigenschiff.Plan.Map_Anzeige(Color.magenta,true);
        fEigenschiff.Plan.counter = 0;       
@@ -233,7 +233,7 @@ public class AI_VTController : MonoBehaviour
            return ff;
        }
       
-       double t = 0, t_aufTrack=0;   
+       double t_aufTrack=0;   
        
        CFzg frot = prepare_FzgRot();frot.Setze_auf_Karte();    
        frot.Plan.Map_Anzeige(Color.magenta,true);
@@ -245,8 +245,9 @@ public class AI_VTController : MonoBehaviour
        fblau.verfolge_Plan(fblau.Plan, fblau.firstSPD.Copy(), ref t_aufTrack,30,fblau.Track);
        fblau.Plan.counter = 0;
        
-       CFzg fEigenschiff = prepare_Eigenschiff();fEigenschiff.Setze_auf_Karte();
-       t = 0;
+       CFzg fEigenschiff = prepare_Eigenschiff();if (fEigenschiff == null) return;
+       
+       fEigenschiff.Setze_auf_Karte();
        fEigenschiff.verfolge_Plan(fEigenschiff.Plan, fEigenschiff.firstSPD.Copy(), ref t_aufTrack,30,fEigenschiff.Track);
        fEigenschiff.Plan.Map_Anzeige(Color.magenta,true);
        fEigenschiff.Plan.counter = 0;       
@@ -290,7 +291,7 @@ public class AI_VTController : MonoBehaviour
            return ff;
        }
       
-       double t = 0, t_aufTrack=0;   
+       double t_aufTrack=0;   
        
        CFzg frot = prepare_FzgRot();frot.Setze_auf_Karte();    
        frot.Plan.Map_Anzeige(Color.magenta,true);
@@ -302,8 +303,9 @@ public class AI_VTController : MonoBehaviour
        fblau.verfolge_Plan(fblau.Plan, fblau.firstSPD.Copy(), ref t_aufTrack,30,fblau.Track);
        fblau.Plan.counter = 0;
        
-       CFzg fEigenschiff = prepare_Eigenschiff();fEigenschiff.Setze_auf_Karte();
-       t = 0;
+       CFzg fEigenschiff = prepare_Eigenschiff();if (fEigenschiff == null) return;
+       
+       fEigenschiff.Setze_auf_Karte();
        fEigenschiff.verfolge_Plan(fEigenschiff.Plan, fEigenschiff.firstSPD.Copy(), ref t_aufTrack,30,fEigenschiff.Track);
        fEigenschiff.Plan.Map_Anzeige(Color.magenta,true);
        fEigenschiff.Plan.counter = 0;       
@@ -358,8 +360,9 @@ public class AI_VTController : MonoBehaviour
        fblau.Plan.counter = 0;
        
        
-       CFzg fEigenschiff = prepare_Eigenschiff();fEigenschiff.Setze_auf_Karte();
-       t = 0;
+       CFzg fEigenschiff = prepare_Eigenschiff();if (fEigenschiff == null) return;
+       
+       fEigenschiff.Setze_auf_Karte();
        fEigenschiff.verfolge_Plan(fEigenschiff.Plan, fEigenschiff.firstSPD.Copy(), ref t_aufTrack,30,fEigenschiff.Track);
        fEigenschiff.Plan.Map_Anzeige(Color.magenta,true);
        fEigenschiff.Plan.counter = 0;       
@@ -400,7 +403,7 @@ public class AI_VTController : MonoBehaviour
            return ff;
        }
       
-       double t = 0, t_aufTrack=0;   
+       double t_aufTrack=0;   
        
        CFzg frot = prepare_FzgRot();frot.Setze_auf_Karte();    
        frot.Plan.Map_Anzeige(Color.magenta,true);
@@ -412,8 +415,9 @@ public class AI_VTController : MonoBehaviour
        fblau.verfolge_Plan(fblau.Plan, fblau.firstSPD.Copy(), ref t_aufTrack,30,fblau.Track);
        fblau.Plan.counter = 0;
        
-       CFzg fEigenschiff = prepare_Eigenschiff();fEigenschiff.Setze_auf_Karte();
-       t = 0;
+       CFzg fEigenschiff = prepare_Eigenschiff();if (fEigenschiff == null) return;
+       
+       fEigenschiff.Setze_auf_Karte();
        fEigenschiff.verfolge_Plan(fEigenschiff.Plan, fEigenschiff.firstSPD.Copy(), ref t_aufTrack,30,fEigenschiff.Track);
        fEigenschiff.Plan.Map_Anzeige(Color.magenta,true);
        fEigenschiff.Plan.counter = 0;       
@@ -457,7 +461,7 @@ public class AI_VTController : MonoBehaviour
            return ff;
        }
       
-       double t = 0, t_aufTrack=0;   
+       double t_aufTrack=0;   
        
        CFzg frot = prepare_FzgRot();frot.Setze_auf_Karte();    
        frot.Plan.Map_Anzeige(Color.magenta,true);
@@ -469,8 +473,8 @@ public class AI_VTController : MonoBehaviour
        fblau.verfolge_Plan(fblau.Plan, fblau.firstSPD.Copy(), ref t_aufTrack,30,fblau.Track);
        fblau.Plan.counter = 0;
        
-       CFzg fEigenschiff = prepare_Eigenschiff();fEigenschiff.Setze_auf_Karte();
-       t = 0;
+       CFzg fEigenschiff = prepare_Eigenschiff();if (fEigenschiff == null) return;
+       fEigenschiff.Setze_auf_Karte();
        fEigenschiff.verfolge_Plan(fEigenschiff.Plan, fEigenschiff.firstSPD.Copy(), ref t_aufTrack,30,fEigenschiff.Track);
        fEigenschiff.Plan.Map_Anzeige(Color.magenta,true);
        fEigenschiff.Plan.counter = 0;       
@@ -540,7 +544,7 @@ public class AI_VTController : MonoBehaviour
            return ff;
        }
       
-       double t = 0, t_aufTrack=0;   
+       double t_aufTrack=0;   
        
        CFzg frot = prepare_FzgRot();frot.Setze_auf_Karte();    
        frot.Plan.Map_Anzeige(Color.magenta,true);
@@ -557,10 +561,7 @@ public class AI_VTController : MonoBehaviour
        fgruen.verfolge_Plan(fgruen.Plan, fgruen.firstSPD.Copy(), ref t_aufTrack,30,fgruen.Track);
        fgruen.Plan.counter = 0;
        
-      
-       
        CFzg fEigenschiff = prepare_FzgBlau();fEigenschiff.Setze_auf_Karte();
-       t = 0;
        fEigenschiff.verfolge_Plan(fEigenschiff.Plan, fEigenschiff.firstSPD.Copy(), ref t_aufTrack,30,fEigenschiff.Track);
        fEigenschiff.Plan.Map_Anzeige(Color.magenta,true);
        fEigenschiff.Plan.counter = 0;       
@@ -628,7 +629,7 @@ public class AI_VTController : MonoBehaviour
            return ff;
        }
       
-       double t = 0, t_aufTrack=0;   
+       double t_aufTrack=0;   
        
        CFzg frot = prepare_FzgRot();frot.Setze_auf_Karte();    
        frot.Plan.Map_Anzeige(Color.magenta,true);
@@ -645,17 +646,15 @@ public class AI_VTController : MonoBehaviour
        fgruen.verfolge_Plan(fgruen.Plan, fgruen.firstSPD.Copy(), ref t_aufTrack,30,fgruen.Track);
        fgruen.Plan.counter = 0;
        
-      
        
        CFzg fblau = prepare_FzgBlau();fblau.Setze_auf_Karte();
-       t = 0;
        fblau.verfolge_Plan(fblau.Plan, fblau.firstSPD.Copy(), ref t_aufTrack,30,fblau.Track);
        fblau.Plan.Map_Anzeige(Color.magenta,true);
        fblau.verfolge_Plan(fblau.Plan, fblau.firstSPD.Copy(), ref t_aufTrack,30,fblau.Track);
        fblau.Plan.counter = 0;  
        
-       CFzg fEigenschiff = prepare_Eigenschiff();fEigenschiff.Setze_auf_Karte();
-       t = 0;
+       CFzg fEigenschiff = prepare_Eigenschiff();if (fEigenschiff == null) return;
+       fEigenschiff.Setze_auf_Karte();
        fEigenschiff.verfolge_Plan(fEigenschiff.Plan, fEigenschiff.firstSPD.Copy(), ref t_aufTrack,30,fEigenschiff.Track);
        fEigenschiff.Plan.Map_Anzeige(Color.magenta,true);
        fEigenschiff.Plan.counter = 0;       
@@ -802,36 +801,7 @@ public class AI_VTController : MonoBehaviour
        double ex = -0.025/60;
        double ey = -0.001; //-0.000/60;
        ;
-       //38.2648208752946,15.710277008473
-       //38.2647794822174,15.71013555316
-       /*
-       List<double2> tt2 = new List<double2>();
-       tt2.Add(new double2(38.2648208752946+ey,15.710277008473+ex)); //S
-       tt2.Add(new double2(38.2647794822174+ey+ey,15.71013555316+ex)); //
-       CArea tt = new CArea("tt",AIConst.cAreaTyp_VTG,tt2,Color.green,14.5f,205);
-       tt.Map_Anzeige();
-       */
-       /*
-        Bbd Fahrwasser	Messina 12	38° 11.754‘ N	015° 37,450‘ E
-        Bbd Fahrwasser beleuchtet	Messina 14	38° 10.840‘ N	015° 37,450’ E
-        Bbd Fahrwasser	Messina 16	38° 09.890‘ N	015° 37,900’ E
-        Bbd Fahrwasser beleuchtet	Messina 18	38° 08.940‘ N	015° 38,350’ E         
-       */
-
-       /*
-       List<double2> ld2 = new List<double2>();
-       ld2.Add(new double2(38d+11.842/60+ey,015d+ 35.099/60+ex)); //Stbd Fahrwasser beleuchtet	Messina 11	38° 11.842‘ N	015° 35,099’ E
-       ld2.Add(new double2(38d+10.840/60+ey,015d+ 34.796/60+ex)); //Stbd Fahrwasser beleuchtet	Messina 13	38° 10.840‘ N	015° 34,796’ E
-       ld2.Add(new double2(38d+09.890/60+ey,015d+ 34.067/60+ex)); //Stbd Fahrwasser 	Messina 15	38° 09.890‘ N	015° 34,067’ E
-       ld2.Add(new double2(38d+08.940/60+ey,015d+ 33.337/60+ex)); //Stbd Fahrwasser beleuchtet	Messina 17	38° 08.940‘ N	015° 33,337’ E
        
-       ld2.Add(new double2(38d+08.942/60+ey,015d+ 35.803/60+ex)); //Fahrwassermitte beleuchtet	VTC Messina South	38° 08.942‘ N	015° 35,803’ E
-       ld2.Add(new double2(38d+10.457/60+ey,015d+ 36.040/60+ex)); //Fahrwassermitte beleuchtet		38° 10.457‘ N	015° 36,040’ E
-       ld2.Add(new double2(38d+11.835/60+ey,015d+ 36.241/60+ex)); //Fahrwassermitte beleuchtet		38° 11.835‘ N	015° 36,241’ E
-       
-       CArea VTCMessinaSouth = new CArea("VTCMessinaSouth",AIConst.cAreaTyp_VTG,ld2,Color.gray,2.5f,205);
-       VTCMessinaSouth.Map_Anzeige();
-       **/
        List<double2> ld2 = new List<double2>();
        ld2.Add(new double2(38.1972475797618, 15.6022764396463)); //Stbd Fahrwasser beleuchtet	Messina 11	38° 11.842‘ N	015° 35,099’ E
        ld2.Add(new double2(38.148983316993, 15.5946603940218)); //Stbd Fahrwasser beleuchtet	Messina 13	38° 10.840‘ N	015° 34,796’ E
@@ -912,12 +882,6 @@ public class AI_VTController : MonoBehaviour
        
        
        
-       
-       
-       //15.5948495577723, 38.1455322143443
-       //15.5980894221685, 38.1457662818158
-       //15.6054331694501, 38.194629615505
-       //15.6020492746473, 38.1946881490302
        List<double2> tg1 = new List<double2>();//Fahrwassermitte Nogo
        tg1.Add(new double2(38.1455322143443+ey,15.5948495577723 +ex)); 
        tg1.Add(new double2(38.1457662818158+ey,15.5980894221685+ex )); 
@@ -926,16 +890,7 @@ public class AI_VTController : MonoBehaviour
        CArea VTCMmitte = new CArea("VTCMitteS",AIConst.cAreaTyp_NOGO,tg1,Color.red,1.5f,0);
        VTCMmitte.Map_Anzeige();
        
-       /*
-        15.6071973164989, 38.2222297550341
-        15.6105811703142, 38.223517159442
-15.6118771160727, 38.2335824271765
-15.6801692112304, 38.2596765860551
-15.6872249386864, 38.2757107742001
-15.6842010789125, 38.2764715434543
-15.6772893408755, 38.2618417934528
-15.6089593731805, 38.2354955106595
-        */
+      
        List<double2> tg2 = new List<double2>();//Fahrwassermitte Nogo
        tg2.Add(new double2(38.2251434946531+ey, 15.6075544150306+ex));//38.2251434946531, 15.6075544150306
        tg2.Add(new double2(38.226478662098+ey, 15.6111494417744+ex)); //38.226478662098, 15.6111494417744
@@ -1011,8 +966,9 @@ public class AI_VTController : MonoBehaviour
    
    private CFzg prepare_Eigenschiff()
    {
-       //38.2484830571396,15.640053013126, 
-       //old 38.1530496912989, 15.613732870394938
+       //nur erstellen falls noch kein anderes Fahrzeug manuell ist
+       foreach (CFzg aFzg in AIglobal.Fahrzeuge)  if (aFzg.istManuell) { return null;}
+       
        CFzg ff=new CFzg("Eigenschiff",true,new CShipPhysicalData(38.2484830571396,15.640053013126, 10,0,7*kn,290,0));
        // Debug.Log(ff.andrehpunkt_ermitteln2(10, 10, 10, 100));
        ff.DNCs_ermitteln();

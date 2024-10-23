@@ -15,6 +15,10 @@ public class CCPA
     public double exit_zeit=-1d;
     public int gegnerindex = -1;
     public string gegnername;
+    public bool ausweichpflichtig;
+    public string msgregel;
+    public string msgmanoever;
+    public int index_Erstellung;
     public bool gehe_achter_durch = false;
       
     public CShipPhysicalData cpa_SPD1;
